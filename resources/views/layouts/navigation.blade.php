@@ -15,8 +15,8 @@
             <ul class="font-medium flex space-x-8">
                 <li><a href="#" class="text-fg-brand">Beranda</a></li>
                 <li><a href="#" class="text-heading hover:text-fg-brand">Profil</a></li>
-                <li><a href="#" class="text-heading hover:text-fg-brand">Sistem Digital</a></li>
-                <li><a href="#" class="text-heading hover:text-fg-brand">Berita</a></li>
+                <li><a href="#" class="text-heading hover:text-fg-brand">Organisasi Otonom</a></li>
+                <li><a href="#" class="text-heading hover:text-fg-brand">Artikel</a></li>
                 <li><a href="#" class="text-heading hover:text-fg-brand">Program</a></li>
                 <li><a href="#" class="text-heading hover:text-fg-brand">Kontak</a></li>
             </ul>
