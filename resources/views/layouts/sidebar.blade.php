@@ -37,7 +37,7 @@
             <span class="nav-label">Dashboard</span>
         </a>
 
-        <a href="#" class="nav-item {{ request()->routeIs('profil') ? 'active' : '' }}" data-label="Profil">
+        <a href="/admin/profile-organisasi" class="nav-item {{ request()->routeIs('profil') ? 'active' : '' }}" data-label="Profil">
             <div class="nav-icon">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.4"/>
