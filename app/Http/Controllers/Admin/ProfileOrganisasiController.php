@@ -3,18 +3,32 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Profile;
+// use App\Models\Profile;
+use App\Models\ProfileOrganisasi;
 use Illuminate\Http\Request;
 
 class ProfileOrganisasiController extends Controller
 {
     public function index()
     {
-        $profile = Profile::latest()->get();
+        $profile = ProfileOrganisasi::latest()->get();
 
-        return view('pages.admin.profile-organisasi', [
-            'profile' => $profile
-        ]);
+        $columns = [
+            ['key' => 'nama',    'label' => 'Nama',    'sortable' => true],
+            ['key' => 'visi',    'label' => 'Visi',    'sortable' => false],
+            ['key' => 'misi',    'label' => 'Misi',    'sortable' => false],
+            ['key' => 'tagline', 'label' => 'Tagline', 'sortable' => false],
+        ];
+
+        $rows = $profile->map(fn($p) => [
+            'nama'    => $p->nama,
+            'visi'    => $p->visi,
+            'misi'    => $p->misi,
+            'tagline' => $p->tagline,
+            'email'   => (string) $p->id, // dipakai sebagai row key unik
+        ])->toArray();
+
+        return view('pages.admin.profile-organisasi', compact('profile', 'columns', 'rows'));
     }
 
     public function create() {}
@@ -34,14 +48,14 @@ class ProfileOrganisasiController extends Controller
             $validated['image'] = $path;
         }
 
-        Profile::create($validated);
+        ProfileOrganisasi::create($validated);
 
         return redirect()->route('admin.profile-organisasi')->with('success', 'Data profile berhasil dibuat');
     }
 
     public function update(Request $request, string $id)
     {
-        $profile = Profile::findOrFail($id);
+        $profile = ProfileOrganisasi::findOrFail($id);
 
         $validated = $request->validate([
             'nama' => 'required|string|max:200',
@@ -64,7 +78,7 @@ class ProfileOrganisasiController extends Controller
 
     public function destroy($id)
     {
-        $profile = Profile::findOrFail($id);
+        $profile = ProfileOrganisasi::findOrFail($id);
         $profile->delete();
     }
 }

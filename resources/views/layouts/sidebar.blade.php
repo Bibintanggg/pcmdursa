@@ -1,4 +1,4 @@
-<aside class="sidebar font-sans" id="sidebar" >
+<aside class="sidebar font-sans min-h-screen" id="sidebar" >
     <div class="toggle-btn" onclick="toggleSidebar()">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -25,7 +25,7 @@
     <nav>
         <div class="section-label">Menu</div>
 
-        <a href="#" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}" data-label="Dashboard">
+        <a href="/admin/dashboard" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}" data-label="Dashboard">
             <div class="nav-icon">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor" stroke-width="1.4"/>

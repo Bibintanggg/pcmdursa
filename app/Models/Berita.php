@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\StatusEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Berita extends Model
@@ -21,4 +22,8 @@ class Berita extends Model
     {
         return 'slug';
     }
+
+    protected $casts = [
+        'status' => StatusEnum::class
+    ];
 }
