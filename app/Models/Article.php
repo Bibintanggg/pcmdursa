@@ -12,5 +12,11 @@ class Article extends Model
         'author',
         'content',
         'thumbnail',
+        'status',
     ];
+
+    public  function getRouteKeyName()
+    {
+        return 'slug';
+    }
 }

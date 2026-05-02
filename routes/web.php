@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\ProfileOrganisasiController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\ProfileController;
@@ -18,6 +19,10 @@ Route::prefix('admin')->group(function () {
     Route::get('/profile-organisasi', [ProfileOrganisasiController::class, 'index'])->name('admin.profile-organisasi');
     Route::get('/profile-organisasi/create', [ProfileOrganisasiController::class, 'create'])->name('admin.profile-organisasi.create');
     Route::post('/profile-organisasi', [ProfileOrganisasiController::class, 'store'])->name('admin.profile-organisasi.store');
+
+    Route::get('/articles', [ArtikelController::class, 'index'])->name('admin.articles');
+    Route::get('/articles/create', [ArtikelController::class, 'create'])->name('admin.articles.create');
+    Route::post('/articles', [ArtikelController::class, 'store'])->name('admin.articles.store');
 });
 
 Route::middleware('auth')->group(function () {

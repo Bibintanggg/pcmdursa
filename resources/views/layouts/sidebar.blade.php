@@ -50,14 +50,14 @@
             @endif
         </a>
 
-        <a href="#" class="nav-item {{ request()->routeIs('sistem-digital') ? 'active' : '' }}" data-label="Sistem Digital">
+        <a href="/admin/articles" class="nav-item {{ request()->routeIs('admin.articles') ? 'active' : '' }}" data-label="Artikel">
             <div class="nav-icon">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4"/>
                     <path d="M8 1.5V3M8 13V14.5M14.5 8H13M3 8H1.5M12.95 3.05L11.89 4.11M4.11 11.89L3.05 12.95M12.95 12.95L11.89 11.89M4.11 4.11L3.05 3.05" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
                 </svg>
             </div>
-            <span class="nav-label">Sistem Digital</span>
+            <span class="nav-label">Artikel</span>
         </a>
 
         <div class="divider"></div>

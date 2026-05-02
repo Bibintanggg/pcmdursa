@@ -11,7 +11,7 @@ class ProfileOrganisasiController extends Controller
 {
     public function index()
     {
-        $profile = ProfileOrganisasi::latest()->get();
+        $profile = ProfileOrganisasi::latest('created_at')->get();
 
         $hero = $profile->first();
 

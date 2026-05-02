@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('author')->nullable();
             $table->text('content');
             $table->string('thumbnail')->nullable();
+            $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();
         });
     }
