@@ -12,7 +12,7 @@
     @stack('styles')
 </head>
 
-<body class="font-sans antialiased bg-gray-100">
+<body class="font-sans antialiased bg-gray-100 min-h-screen">
 
     {{-- Wrapper flex: sidebar kiri, konten kanan --}}
     <div class="flex min-h-screen">

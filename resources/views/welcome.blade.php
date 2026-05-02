@@ -81,10 +81,10 @@
 
     <section id="profil" class="py-20 bg-gray-50">
         @include('partials.profile-section')
-        @include('partials.amal-usaha-section')
+        {{-- @include('partials.amal-usaha-section') --}}
         @include('partials.article-section')
+        @include('partials.berita-section')
         @include('partials.program-unggulan-section')
-
 
         @include('partials.layanan-section')
 

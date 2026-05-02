@@ -1,4 +1,4 @@
-<aside class="sidebar font-sans min-h-screen" id="sidebar" >
+<aside class="sidebar font-sans min-h-screen sticky" id="sidebar" >
     <div class="toggle-btn" onclick="toggleSidebar()">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -110,8 +110,8 @@
         flex-direction: column;
         transition: width 0.3s cubic-bezier(.4,0,.2,1), min-width 0.3s cubic-bezier(.4,0,.2,1);
         overflow: hidden;
-        position: relative;
-        height: 100vh;
+        position: sticky;
+        /* height: 100vh; */
     }
 
     .sidebar.collapsed {

@@ -13,11 +13,14 @@ class ProfileOrganisasiController extends Controller
     {
         $profile = ProfileOrganisasi::latest()->get();
 
+        $hero = $profile->first();
+
         $columns = [
             ['key' => 'nama',    'label' => 'Nama',    'sortable' => true],
             ['key' => 'visi',    'label' => 'Visi',    'sortable' => false],
             ['key' => 'misi',    'label' => 'Misi',    'sortable' => false],
             ['key' => 'tagline', 'label' => 'Tagline', 'sortable' => false],
+            ['key' => 'image',   'label' => 'Image',   'sortable' => false],
         ];
 
         $rows = $profile->map(fn($p) => [
@@ -25,13 +28,17 @@ class ProfileOrganisasiController extends Controller
             'visi'    => $p->visi,
             'misi'    => $p->misi,
             'tagline' => $p->tagline,
-            'email'   => (string) $p->id, // dipakai sebagai row key unik
+            'image'   => asset('storage/' . $p->image),
+            'email'   => (string) $p->id,
         ])->toArray();
 
-        return view('pages.admin.profile-organisasi', compact('profile', 'columns', 'rows'));
+        return view('pages.admin.profile-organisasi', compact('profile', 'columns', 'rows', 'hero'));
     }
 
-    public function create() {}
+    public function create()
+    {
+        return view('pages.admin.profile-organisasi-create');
+    }
 
     public function store(Request $request)
     {
