@@ -77,12 +77,14 @@ class LandingController extends Controller
         return view('pages.berita.berita-show', compact('berita'));
     }
 
-    public function showBerita($slug)
+    public function showBerita($berita)
     {
-        $berita = Berita::where('slug', $slug)
+        $berita = Berita::where('slug', $berita)
             ->where('status', 'published')
             ->firstOrFail();
 
-        return view('berita.show', compact('berita'));
+        $berita->gambar = $berita->gambar ? asset('storage/' . $berita->gambar) : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop';
+
+        return view('pages.berita.berita-detail', compact('berita'));
     }
 }

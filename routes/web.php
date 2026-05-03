@@ -14,6 +14,7 @@ Route::get('/articles/all', [LandingController::class, 'showAllArticles'])->name
 Route::get('/articles/{slug}', [LandingController::class, 'showArticle'])->name('articles.show');
 Route::get('/struktur-organisasi', [LandingController::class, 'showStrukturOrganisasi'])->name('struktur-organisasi');
 Route::get('/berita/show-all', [LandingController::class, 'showAllBerita'])->name('berita.all');
+Route::get('/berita/detail/{berita}', [LandingController::class, 'showBerita'])->name('berita.show');
 
 
 Route::prefix('admin')->group(function () {

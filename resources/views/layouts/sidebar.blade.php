@@ -81,7 +81,6 @@
                 </svg>
             </div>
             <span class="nav-label">Berita</span>
-            <span class="badge">3 baru</span>
         </a>
 
         <a href="#" class="nav-item {{ request()->routeIs('program') ? 'active' : '' }}" data-label="Program">
