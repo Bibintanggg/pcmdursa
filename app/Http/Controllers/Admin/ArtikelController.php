@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArtikelController extends Controller
 {
@@ -24,6 +25,7 @@ class ArtikelController extends Controller
             ->map(function ($article) {
                 return [
                     'id' => $article->id,
+                    'email' => (string) $article->id,
                     'title' => $article->title,
                     'author' => $article->author ?? 'Unknown',
                     'content' => \Illuminate\Support\Str::limit(strip_tags($article->content), 50),
@@ -72,5 +74,59 @@ class ArtikelController extends Controller
     {
         $article = Article::where('slug', $slug)->firstOrFail();
         return view('pages.admin.articles.detail', compact('article'));
+    }
+
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        return view('pages.admin.articles.edit', compact('article'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $article = Article::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'nullable|string|max:255',
+            'content' => 'required|string',
+            'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'status' => 'required|in:draft,published',
+        ]);
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails', 'public');
+            $validated['thumbnail'] = $path;
+        }
+
+        $validated['slug'] = \Illuminate\Support\Str::slug($validated['title']);
+
+        $article->update($validated);
+
+        return redirect()->route('admin.articles')->with('success', 'Artikel berhasil diperbarui');
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $article = Article::findOrFail($id);
+
+            // Hapus thumbnail jika ada
+            if ($article->thumbnail && Storage::disk('public')->exists($article->thumbnail)) {
+                Storage::disk('public')->delete($article->thumbnail);
+            }
+
+            $article->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Artikel berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus artikel: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

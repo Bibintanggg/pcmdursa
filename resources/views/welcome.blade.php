@@ -92,30 +92,17 @@
 
         <script>
             function toggleAcc(id) {
-                const el = document.getElementById(id);
+                const content = document.getElementById(id);
                 const icon = document.getElementById('icon-' + id);
 
-                const isOpen = el.classList.contains('max-h-[500px]');
-
-                // close semua dulu (biar accordion rapi)
-                document.querySelectorAll('[id]').forEach(item => {
-                    if (item.id === 'visi' || item.id === 'misi' || item.id === 'pengurus') {
-                        item.classList.remove('max-h-[500px]', 'opacity-100');
-                        item.classList.add('max-h-0', 'opacity-0');
-                    }
-                });
-
-                document.querySelectorAll('[id^="icon-"]').forEach(ic => {
-                    ic.classList.remove('rotate-45');
-                    ic.innerText = '+';
-                });
-
-                if (!isOpen) {
-                    el.classList.remove('max-h-0', 'opacity-0');
-                    el.classList.add('max-h-[500px]', 'opacity-100');
-
-                    icon.classList.add('rotate-45');
-                    icon.innerText = '×';
+                if (content.classList.contains('max-h-0')) {
+                    content.classList.remove('max-h-0', 'opacity-0');
+                    content.classList.add('max-h-[500px]', 'opacity-100');
+                    if (icon) icon.style.transform = 'rotate(45deg)';
+                } else {
+                    content.classList.remove('max-h-[500px]', 'opacity-100');
+                    content.classList.add('max-h-0', 'opacity-0');
+                    if (icon) icon.style.transform = 'rotate(0deg)';
                 }
             }
 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\KelolaOrganisasi;
+use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ProfileOrganisasiController;
 use App\Http\Controllers\Admin\StrukturOrganisasiController;
 use App\Http\Controllers\LandingController;
@@ -35,6 +36,13 @@ Route::prefix('admin')->group(function () {
     Route::get('/articles', [ArtikelController::class, 'index'])->name('admin.articles');
     Route::get('/articles/create', [ArtikelController::class, 'create'])->name('admin.articles.create');
     Route::post('/articles', [ArtikelController::class, 'store'])->name('admin.articles.store');
+    Route::get('/articles/{id}/edit', [ArtikelController::class, 'edit'])->name('admin.articles.edit');
+    Route::put('/articles/{id}', [ArtikelController::class, 'update'])->name('admin.articles.update');
+    Route::delete('/articles/{id}', [ArtikelController::class, 'destroy'])->name('admin.articles.destroy');
+
+    Route::resource('berita', NewsController::class)->parameters([
+        'berita' => 'berita'
+    ]);
 });
 
 Route::middleware('auth')->group(function () {

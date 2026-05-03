@@ -69,6 +69,7 @@
                  </div>
 
                  <!-- item 2 -->
+                 <!-- item 2 - Misi -->
                  <div class="border rounded-2xl overflow-hidden bg-white shadow-sm">
                      <button onclick="toggleAcc('misi')"
                          class="w-full flex items-center justify-between px-5 py-4 font-semibold text-gray-800">
@@ -87,9 +88,23 @@
 
                      <div id="misi"
                          class="max-h-0 opacity-0 overflow-hidden px-5 text-gray-600 transition-all duration-500 ease-in-out">
-                         <p class="text-black text-lg mb-8 max-w-xl mx-auto lg:mx-0">
-                             {{ $hero->misi ?? 'Misi organisasi' }}
-                         </p>
+                         <div class="pb-5 space-y-2">
+                             @if (!empty($hero->misi ?? null))
+                                 @php
+                                     $misiPoints = explode("\n", $hero->misi);
+                                 @endphp
+                                 @foreach ($misiPoints as $point)
+                                     @if (trim($point))
+                                         <div class="flex items-start gap-2">
+                                             <span class="text-emerald-500 text-sm mt-0.5">•</span>
+                                             <p class="text-gray-700 text-sm leading-relaxed">{{ trim($point) }}</p>
+                                         </div>
+                                     @endif
+                                 @endforeach
+                             @else
+                                 <p class="text-gray-400 italic text-sm">Misi organisasi akan ditampilkan di sini...</p>
+                             @endif
+                         </div>
                      </div>
                  </div>
 
@@ -116,7 +131,8 @@
                              Roda pergerakan PCM Duren Sawit 1 digerakkan secara kolektif oleh Pimpinan Cabang
                              Muhammadiyah beserta
                              Majelis dan Lembaga.
-                             <a href="/struktur-organisasi" class="block mt-3 text-emerald-600 font-semibold hover:underline">
+                             <a href="/struktur-organisasi"
+                                 class="block mt-3 text-emerald-600 font-semibold hover:underline">
                                  Lihat Struktur Organisasi →
                              </a>
                          </div>

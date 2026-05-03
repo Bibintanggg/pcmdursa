@@ -71,10 +71,9 @@
             <span class="nav-label">Artikel</span>
         </a>
 
-        <div class="divider"></div>
-        <div class="section-label">Konten</div>
 
-        <a href="#" class="nav-item {{ request()->routeIs('berita') ? 'active' : '' }}" data-label="Berita">
+
+        <a href="/admin/berita" class="nav-item {{ request()->routeIs('admin.berita') ? 'active' : '' }}" data-label="Berita">
             <div class="nav-icon">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
