@@ -13,6 +13,7 @@ Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/articles/all', [LandingController::class, 'showAllArticles'])->name('articles.show-all');
 Route::get('/articles/{slug}', [LandingController::class, 'showArticle'])->name('articles.show');
 Route::get('/struktur-organisasi', [LandingController::class, 'showStrukturOrganisasi'])->name('struktur-organisasi');
+Route::get('/berita/show-all', [LandingController::class, 'showAllBerita'])->name('berita.all');
 
 
 Route::prefix('admin')->group(function () {

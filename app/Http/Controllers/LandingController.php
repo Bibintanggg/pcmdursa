@@ -7,6 +7,7 @@ use App\Models\Berita;
 use App\Models\ProfileOrganisasi;
 use App\Models\StrukturOrganisasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LandingController extends Controller
 {
@@ -57,10 +58,23 @@ class LandingController extends Controller
     public function showAllBerita()
     {
         $berita = Berita::where('status', 'published')
-            ->latest('created_at')
-            ->paginate(9);
+            ->latest()
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'judul' => $item->judul,
+                    'slug' => $item->slug,
+                    'isi' => $item->isi,
+                    'excerpt' => Str::limit(strip_tags($item->isi), 140),
+                    'gambar' => $item->gambar ? asset('storage/' . $item->gambar) : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop',
+                    'kategori' => $item->kategori,
+                    'status' => $item->status,
+                    'created_at' => $item->created_at,
+                ];
+            });
 
-        return view('berita.all', compact('berita'));
+        return view('pages.berita.berita-show', compact('berita'));
     }
 
     public function showBerita($slug)

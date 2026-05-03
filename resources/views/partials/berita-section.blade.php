@@ -10,7 +10,7 @@
                     Berita & Kegiatan Terbaru
                 </h2>
             </div>
-            <a href="{{ route('berita.index') }}"
+            <a href="{{ route('berita.all') }}"
                 class="hidden md:inline-block border border-emerald-600 text-emerald-600 px-5 py-2 rounded-full hover:bg-emerald-600 hover:text-white transition">
                 Lihat Semua
             </a>
@@ -120,7 +120,7 @@
 
         <!-- LOAD MORE BUTTON -->
         <div class="mt-12 text-center">
-            <a href="{{ route('berita.index') }}"
+            <a href="/berita/show-all"
                 class="inline-block bg-emerald-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 md:hidden">
                 Lihat Semua Berita
             </a>
