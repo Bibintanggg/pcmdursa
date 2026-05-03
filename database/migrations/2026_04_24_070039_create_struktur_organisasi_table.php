@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('struktur_organisasi', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('peran');
-            $table->string('image');
+            $table->string('nama')->nullable();       // nullable karena slot bisa kosong dulu
+            $table->string('peran');                  // jabatan: Ketua, Sekretaris, dll
+            $table->unsignedTinyInteger('peran_level')->default(1); // 1=top, 2=mid, 3=bawah
+            $table->unsignedTinyInteger('urutan')->default(1);      // urutan dalam satu level
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

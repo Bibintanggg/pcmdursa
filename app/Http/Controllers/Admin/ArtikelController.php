@@ -19,8 +19,7 @@ class ArtikelController extends Controller
             ['key' => 'created_at', 'label' => 'Tanggal'],
         ];
 
-        $rows = Article::where('status', 'published')
-            ->latest('created_at')
+        $rows = Article::latest('created_at')
             ->get()
             ->map(function ($article) {
                 return [
@@ -67,5 +66,11 @@ class ArtikelController extends Controller
         Article::create($validated);
 
         return redirect()->route('admin.articles')->with('success', 'Artikel berhasil dibuat');
+    }
+
+    public function show($slug)
+    {
+        $article = Article::where('slug', $slug)->firstOrFail();
+        return view('pages.admin.articles.detail', compact('article'));
     }
 }

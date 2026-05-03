@@ -71,7 +71,7 @@
 
             <!-- BUTTON -->
             <div class="mt-16">
-                <a href="/articles/all"
+                <a href="{{ route('articles.show-all') }}"
                     class="inline-flex items-center gap-2 border border-neutral-900 px-8 py-3 rounded-full hover:bg-neutral-900 hover:text-white transition">
                     Lihat Semua Artikel →
                 </a>

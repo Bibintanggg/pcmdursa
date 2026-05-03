@@ -150,7 +150,6 @@
                             <div class="au d5">
                                 <div class="flex items-center justify-between mb-2 px-1">
                                     <label class="text-sm font-semibold text-gray-700">Logo / Gambar</label>
-                                    <span class="text-xs text-gray-400">Opsional</span>
                                 </div>
                                 @if(!empty($profile->image ?? null))
                                     <div class="relative group rounded-2xl overflow-hidden border border-black aspect-video mb-2">

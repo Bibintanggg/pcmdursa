@@ -116,7 +116,7 @@
                              Roda pergerakan PCM Duren Sawit 1 digerakkan secara kolektif oleh Pimpinan Cabang
                              Muhammadiyah beserta
                              Majelis dan Lembaga.
-                             <a href="#" class="block mt-3 text-emerald-600 font-semibold hover:underline">
+                             <a href="/struktur-organisasi" class="block mt-3 text-emerald-600 font-semibold hover:underline">
                                  Lihat Struktur Organisasi →
                              </a>
                          </div>

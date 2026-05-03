@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 // use App\Models\Profile;
 use App\Models\ProfileOrganisasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileOrganisasiController extends Controller
 {
@@ -32,12 +33,12 @@ class ProfileOrganisasiController extends Controller
             'email'   => (string) $p->id,
         ])->toArray();
 
-        return view('pages.admin.profile-organisasi', compact('profile', 'columns', 'rows', 'hero'));
+        return view('pages.admin.profile-org.profile-organisasi', compact('profile', 'columns', 'rows', 'hero'));
     }
 
     public function create()
     {
-        return view('pages.admin.profile-organisasi-create');
+        return view('pages.admin.profile-org.profile-organisasi-create');
     }
 
     public function store(Request $request)
@@ -60,6 +61,12 @@ class ProfileOrganisasiController extends Controller
         return redirect()->route('admin.profile-organisasi')->with('success', 'Data profile berhasil dibuat');
     }
 
+    public function edit($id)
+    {
+        $profile = ProfileOrganisasi::findOrFail($id);
+        return view('pages.admin.profile-org.profile-organisasi-edit', compact('profile'));
+    }
+
     public function update(Request $request, string $id)
     {
         $profile = ProfileOrganisasi::findOrFail($id);
@@ -68,7 +75,7 @@ class ProfileOrganisasiController extends Controller
             'nama' => 'required|string|max:200',
             'visi' => 'required|string|max:200',
             'misi' => 'required|string|max:200',
-            'image' => 'required|mimes:png,jpg|max:2048',
+            'image' => 'nullable|mimes:png,jpg|max:2048',
             'tagline' => 'required|string',
         ]);
 
@@ -80,12 +87,30 @@ class ProfileOrganisasiController extends Controller
         }
 
         $profile->update($validated);
-        return redirect()->route('admin.profile-organisasi')->with('success', 'Data profile berhasil dibuat');
+        return redirect()->route('admin.profile-organisasi')->with('success', 'Data profile berhasil diperbarui');
     }
 
     public function destroy($id)
     {
-        $profile = ProfileOrganisasi::findOrFail($id);
-        $profile->delete();
+        try {
+            $profile = ProfileOrganisasi::findOrFail($id);
+
+            // Hapus file image kalo ada
+            if ($profile->image && Storage::disk('public')->exists($profile->image)) {
+                Storage::disk('public')->delete($profile->image);
+            }
+
+            $profile->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Data berhasil dihapus'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus data'
+            ], 500);
+        }
     }
 }

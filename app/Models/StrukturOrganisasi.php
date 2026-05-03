@@ -8,9 +8,5 @@ class StrukturOrganisasi extends Model
 {
     protected $table = 'struktur_organisasi';
 
-    protected $fillable = [
-        'nama',
-        'peran',
-        'image'
-    ];
+    protected $fillable = ['nama', 'peran', 'peran_level', 'urutan', 'image'];
 }

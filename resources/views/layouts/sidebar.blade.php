@@ -37,18 +37,29 @@
             <span class="nav-label">Dashboard</span>
         </a>
 
-        <a href="/admin/profile-organisasi" class="nav-item {{ request()->routeIs('profil') ? 'active' : '' }}" data-label="Profil">
-            <div class="nav-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.4"/>
-                    <path d="M2.5 13.5C2.5 11.015 5.015 9 8 9C10.985 9 13.5 11.015 13.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        {{-- DROPDOWN PROFILE --}}
+        <div class="dropdown" x-data="{ open: {{ request()->routeIs('admin.profile-organisasi*') || request()->routeIs('admin.kelola-organisasi*') ? 'true' : 'false' }} }">
+            <div class="dropdown-toggle nav-item" @click="open = !open" :class="{ 'active': open }" data-label="Profile">
+                <div class="nav-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.4"/>
+                        <path d="M2.5 13.5C2.5 11.015 5.015 9 8 9C10.985 9 13.5 11.015 13.5 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <span class="nav-label">Profile</span>
+                <svg class="dropdown-arrow" :class="{ 'rotate': open }" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </div>
-            <span class="nav-label">Profil</span>
-            @if(request()->routeIs('profil'))
-                <span class="dot"></span>
-            @endif
-        </a>
+            <div class="dropdown-menu" x-show="open" x-collapse>
+                <a href="/admin/profile-organisasi" class="dropdown-item {{ request()->routeIs('admin.profile-organisasi') ? 'active' : '' }}">
+                    <span>Profile Organisasi</span>
+                </a>
+                <a href="/admin/struktur-organisasi" class="dropdown-item {{ request()->routeIs('admin.struktur-organisasi') ? 'active' : '' }}">
+                    <span>Struktur Organisasi</span>
+                </a>
+            </div>
+        </div>
 
         <a href="/admin/articles" class="nav-item {{ request()->routeIs('admin.articles') ? 'active' : '' }}" data-label="Artikel">
             <div class="nav-icon">
@@ -99,7 +110,6 @@
 {{-- OVERLAY (mobile) --}}
 <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
 
-
 <style>
     .sidebar {
         width: 240px;
@@ -111,7 +121,6 @@
         transition: width 0.3s cubic-bezier(.4,0,.2,1), min-width 0.3s cubic-bezier(.4,0,.2,1);
         overflow: hidden;
         position: sticky;
-        /* height: 100vh; */
     }
 
     .sidebar.collapsed {
@@ -273,6 +282,83 @@
         overflow: hidden;
         flex: 1;
         transition: opacity 0.2s, color 0.15s;
+    }
+
+    /* DROPDOWN STYLES */
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-toggle {
+        justify-content: space-between;
+    }
+
+    .dropdown-arrow {
+        transition: transform 0.2s ease;
+        color: #94a3b8;
+        flex-shrink: 0;
+    }
+
+    .dropdown-arrow.rotate {
+        transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+        overflow: hidden;
+        padding-left: 28px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 8px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 12px;
+        color: #64748b;
+        transition: background 0.15s, color 0.15s;
+        white-space: nowrap;
+    }
+
+    .dropdown-item:hover {
+        background: #f8fafc;
+        color: #0f172a;
+    }
+
+    .dropdown-item.active {
+        background: #ecfdf5;
+        color: #059669;
+        font-weight: 500;
+    }
+
+    .sidebar.collapsed .dropdown {
+        position: relative;
+    }
+
+    .sidebar.collapsed .dropdown-toggle .nav-label,
+    .sidebar.collapsed .dropdown-arrow {
+        display: none;
+    }
+
+    .sidebar.collapsed .dropdown-menu {
+        position: absolute;
+        left: 50px;
+        top: 0;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 4px;
+        min-width: 160px;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+    }
+
+    .sidebar.collapsed .dropdown-menu .dropdown-item {
+        white-space: nowrap;
+        padding: 8px 12px;
     }
 
     .nav-item.active .nav-label {
@@ -439,7 +525,6 @@
         }
     }
 </style>
-
 
 <script>
     function toggleSidebar() {
