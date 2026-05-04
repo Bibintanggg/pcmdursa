@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProfileOrganisasiController;
 use App\Http\Controllers\Admin\StrukturOrganisasiController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Admin\OrganisasiController;
+use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,7 +40,13 @@ Route::prefix('admin')->group(function () {
     Route::get('/organisasi-otonom/{id}/edit', [OrganisasiController::class, 'edit'])->name('admin.organisasi-otonom.edit');
     Route::put('/organisasi-otonom/{id}', [OrganisasiController::class, 'update'])->name('admin.organisasi-otonom.update');
     Route::delete('/organisasi-otonom/{id}', [OrganisasiController::class, 'destroy'])->name('admin.organisasi-otonom.destroy');
-    // Route
+
+    Route::get('/pengurus', [PengurusController::class, 'index'])->name('admin.pengurus.index');
+    Route::get('/pengurus/create', [PengurusController::class, 'create'])->name('admin.pengurus.create');
+    Route::post('/pengurus', [PengurusController::class, 'store'])->name('admin.pengurus.store');
+    Route::get('/pengurus/{id}/edit', [PengurusController::class, 'edit'])->name('admin.pengurus.edit');
+    Route::put('/pengurus/{id}', [PengurusController::class, 'update'])->name('admin.pengurus.update');
+    Route::delete('/pengurus/{id}', [PengurusController::class, 'destroy'])->name('admin.pengurus.destroy');
 
     Route::get('/struktur-organisasi',              [StrukturOrganisasiController::class, 'index'])->name('admin.struktur-organisasi');
     Route::post('/struktur-organisasi',             [StrukturOrganisasiController::class, 'store'])->name('admin.struktur-organisasi.store');

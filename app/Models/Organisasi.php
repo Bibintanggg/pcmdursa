@@ -36,40 +36,48 @@ class Organisasi extends Model
     {
         return $this->pengurus()
             ->where('jabatan', 'like', 'Ketua%')
-            ->where('bidang', null)
+            ->where('level', 'inti')
+            ->where('is_active', true)
             ->value('nama');
     }
 
+    // Helper untuk mendapatkan sekretaris
     public function getSekretarisAttribute(): ?string
     {
         return $this->pengurus()
             ->where('jabatan', 'like', 'Sekretaris%')
-            ->where('bidang', null)
+            ->where('level', 'inti')
+            ->where('is_active', true)
             ->value('nama');
     }
 
+    // Helper untuk mendapatkan bendahara
     public function getBendaharaAttribute(): ?string
     {
         return $this->pengurus()
             ->where('jabatan', 'like', 'Bendahara%')
+            ->where('is_active', true)
             ->value('nama');
     }
 
-    // Scope filter tipe
+    // Scope filter
+    public function scopeAktif($query)
+    {
+        return $query->where('is_active', true);
+    }
+
     public function scopeOtonom($query)
     {
         return $query->where('tipe', 'otonom');
     }
+
     public function scopeLembaga($query)
     {
         return $query->where('tipe', 'lembaga');
     }
+
     public function scopeMajelis($query)
     {
         return $query->where('tipe', 'majelis');
-    }
-    public function scopeAktif($query)
-    {
-        return $query->where('is_active', true);
     }
 }

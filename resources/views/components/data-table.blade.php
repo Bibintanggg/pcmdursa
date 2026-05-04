@@ -198,19 +198,32 @@
 
                         <template x-for="col in columns" :key="col.key">
                             <td class="px-4 py-3">
-                                <!-- Kondisi untuk image/thumbnail -->
-                                <template x-if="col.key === 'image' || col.key === 'thumbnail' || col.key === 'gambar'">
+                                <!-- Kondisi untuk FOTO/GAMBAR -->
+                                <template
+                                    x-if="col.key === 'image' || col.key === 'thumbnail' || col.key === 'gambar' || col.key === 'logo' || col.key === 'foto'">
                                     <img :src="row[col.key]" alt="image"
                                         class="w-10 h-10 object-cover rounded-md border border-zinc-200"
-                                        onerror="this.src='https://picsum.photos/100/100?grayscale'" />
+                                        onerror="this.src='https://ui-avatars.com/api/?name='+encodeURIComponent(row.nama || 'User')+'&background=0D8ABC&color=fff'">
                                 </template>
 
-                                <!-- Kondisi untuk teks biasa (BUKAN image) -->
-                                <template x-if="col.key !== 'image' && col.key !== 'thumbnail' && col.key !== 'gambar'">
+                                <!-- Kondisi khusus untuk urutan dengan badge -->
+                                <template x-if="col.key === 'urutan'">
+                                    <span
+                                        class="inline-flex items-center justify-center w-6 h-6 text-xs font-bold bg-slate-100 text-slate-600 rounded-full">
+                                        <span x-text="row[col.key] ?? 0"></span>
+                                    </span>
+                                </template>
+
+                                <!-- Kondisi untuk teks BIASA (BUKAN foto, BUKAN urutan) -->
+                                <template
+                                    x-if="col.key !== 'image' && col.key !== 'thumbnail' && col.key !== 'gambar' && col.key !== 'logo' && col.key !== 'foto' && col.key !== 'urutan'">
                                     <span class="text-zinc-700"
-                                        x-text="col.key === 'tanggal'
-            ? formatTanggal(row[col.key])
-            : truncate(row[col.key], 80)">
+                                        x-text="
+                    col.key === 'tanggal' ? formatTanggal(row[col.key]) :
+                    col.key === 'is_active' ? (row[col.key] ? 'Aktif' : 'Tidak Aktif') :
+                    (col.key === 'periode_mulai' || col.key === 'periode_selesai') ? (row[col.key] || '-') :
+                    truncate(row[col.key], 80)
+                ">
                                     </span>
                                 </template>
                             </td>

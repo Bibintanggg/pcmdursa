@@ -40,12 +40,39 @@ class LandingController extends Controller
             ->get();
 
         $organisasis = Organisasi::aktif()
-            ->with(['pengurus' => fn($q) => $q->where('level', 'inti')->orderBy('urutan')])
+            ->with(['pengurus' => function ($q) {
+                $q->where('level', 'inti')
+                    ->orderBy('urutan', 'asc')
+                    ->orderBy('jabatan', 'asc');
+            }])
             ->orderBy('tipe')
+            ->orderBy('nama')
             ->get();
-        // 🔥 Tambahkan ini
-        $currentYear = now()->year;
 
+        $totalAnggota = Pengurus::where('is_active', true)->count();
+
+        $tahunMulai = Organisasi::min('periode_mulai') ?? date('Y');
+        $tahunSelesai = Organisasi::max('periode_selesai') ?? date('Y') + 5;
+        $periode = $tahunMulai . '–' . $tahunSelesai;
+
+        foreach ($organisasis as $org) {
+            // Cari ketua
+            $org->ketua = $org->pengurus->first(function ($p) {
+                return strtolower(trim($p->jabatan)) === 'ketua';
+            })?->nama ?? null;
+
+            // Cari sekretaris - PASTIKAN pakai trim()
+            $org->sekretaris = $org->pengurus->first(function ($p) {
+                return strtolower(trim($p->jabatan)) === 'sekretaris';
+            })?->nama ?? null;
+
+            // Cari bendahara
+            $org->bendahara = $org->pengurus->first(function ($p) {
+                return strtolower(trim($p->jabatan)) === 'bendahara';
+            })?->nama ?? null;
+        }
+
+        $currentYear = now()->year;
         $kajianPerTahun = Jadwal::whereYear('tanggal', $currentYear)->count();
 
         return view('welcome', [
@@ -61,9 +88,11 @@ class LandingController extends Controller
                 'deskripsi'     => $j->deskripsi,
             ])->values(),
             'jadwalCount'     => $allJadwalsRaw->count(),
-            'kajianPerTahun'  => $kajianPerTahun, // ⬅ kirim ke view
+            'kajianPerTahun'  => $kajianPerTahun,
             'currentYear'     => $currentYear,
             'organisasis'     => $organisasis,
+            'totalAnggota'    => $totalAnggota,
+            'periode'         => $periode,
         ]);
     }
 

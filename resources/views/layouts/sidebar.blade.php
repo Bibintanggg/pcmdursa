@@ -170,7 +170,7 @@
                 </a>
 
                 {{-- Data Pengurus --}}
-                <a href="{{ route('admin.organisasi-otonom') }}"
+                <a href="{{ route('admin.pengurus.index') }}"
                     class="dropdown-item {{ request()->routeIs('admin.pengurus*') ? 'active' : '' }}">
                     <span>Data Pengurus</span>
                 </a>

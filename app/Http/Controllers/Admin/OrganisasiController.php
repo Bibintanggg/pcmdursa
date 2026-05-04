@@ -18,6 +18,7 @@ class OrganisasiController extends Controller
             ['key' => 'nama',      'label' => 'Nama Organisasi', 'sortable' => true],
             ['key' => 'singkatan', 'label' => 'Singkatan',       'sortable' => false],
             ['key' => 'tipe',      'label' => 'Tipe',            'sortable' => true],
+            ['key' => 'deskripsi', 'label' => 'Deskripsi',       'sortable' => false], // TAMBAHKAN INI
             ['key' => 'is_active', 'label' => 'Status',          'sortable' => true],
             ['key' => 'logo',      'label' => 'Logo',            'sortable' => false],
             ['key' => 'periode_mulai',   'label' => 'Periode Mulai',         'sortable' => true],
@@ -26,10 +27,11 @@ class OrganisasiController extends Controller
 
         $rows = $organisasis->map(fn($o) => [
             'id'        => (string) $o->id,
-            'email'     => (string) $o->id, // <<< PENTING! Untuk identifier di data-table
+            'email'     => (string) $o->id,
             'nama'      => $o->nama,
             'singkatan' => $o->singkatan,
             'tipe'      => $o->tipe,
+            'deskripsi' => $o->deskripsi, // TAMBAHKAN INI
             'is_active' => $o->is_active,
             'logo'      => $o->logo ? asset('storage/' . $o->logo) : null,
             'periode_mulai'   => $o->periode_mulai,

@@ -378,6 +378,7 @@
                         </div>
 
                         {{-- Status Toggle --}}
+                        {{-- Status Toggle --}}
                         <div
                             class="card-field au d5 bg-gradient-to-r from-slate-50 to-slate-100 border border-slate-200/60 rounded-2xl p-6 shadow-lg hover:shadow-xl">
                             <div class="flex items-center justify-between relative z-10">
@@ -388,11 +389,11 @@
                                 <label class="relative z-20 inline-flex items-center cursor-pointer group">
                                     <input type="hidden" name="is_active" value="0">
                                     <input type="checkbox" id="status-toggle" name="is_active" value="1"
-                                        {{ old('is_active', true) ? 'checked' : '' }} class="sr-only peer">
-                                    <div
-                                        class="toggle-group w-11 h-6 bg-slate-200 peer-focus:ring-2 peer-focus:ring-slate-400 peer-focus:ring-offset-2 rounded-full peer transition-all duration-300 ease-in-out peer-checked:bg-emerald-600 relative overflow-hidden group-hover:shadow-md">
-                                        <span
-                                            class="w-5 h-5 bg-white rounded-full shadow-sm absolute left-0.5 top-0.5 peer-checked:translate-x-5 transition-all duration-300 ease-in-out block transform-gpu"></span>
+                                        {{ old('is_active', true) ? 'checked' : '' }} class="sr-only toggle-checkbox">
+                                    <div id="toggle-slider"
+                                        class="toggle-group w-11 h-6 bg-slate-200 rounded-full transition-all duration-300 ease-in-out relative overflow-hidden group-hover:shadow-md">
+                                        <span id="toggle-knob"
+                                            class="w-5 h-5 bg-white rounded-full shadow-sm absolute left-0.5 top-0.5 transition-all duration-300 ease-in-out block transform-gpu"></span>
                                     </div>
                                 </label>
                             </div>
@@ -451,42 +452,106 @@
         const CIRCUMFERENCE = 56.5;
 
         function updateField(card, value) {
+            // Update badge di dalam card
             const badge = card.querySelector('.filled-badge');
-            const check = card.querySelector('.filled-check');
-            const isFilled = value.trim().length > 0;
-            badge?.classList.toggle('hidden', !isFilled);
-            check?.classList.toggle('hidden', !isFilled);
+            const isFilled = value !== null && value !== undefined && value.toString().trim().length > 0;
+
+            if (badge) {
+                badge.classList.toggle('hidden', !isFilled);
+            }
+
+            // Update progress di sidebar kanan
             updateCompletion();
+        }
+
+        function updateToggleVisual(checkbox) {
+            const toggleSlider = checkbox.parentElement.querySelector('#toggle-slider') || checkbox.closest('label')
+                ?.querySelector('#toggle-slider');
+            const toggleKnob = checkbox.parentElement.querySelector('#toggle-knob') || checkbox.closest('label')
+                ?.querySelector('#toggle-knob');
+
+            if (checkbox.checked) {
+                if (toggleSlider) toggleSlider.classList.add('bg-emerald-600');
+                if (toggleSlider) toggleSlider.classList.remove('bg-slate-200');
+                if (toggleKnob) toggleKnob.style.transform = 'translateX(20px)';
+            } else {
+                if (toggleSlider) toggleSlider.classList.remove('bg-emerald-600');
+                if (toggleSlider) toggleSlider.classList.add('bg-slate-200');
+                if (toggleKnob) toggleKnob.style.transform = 'translateX(0px)';
+            }
         }
 
         function toggleStatus(checkbox) {
             const card = checkbox.closest('.card-field');
-            // Trigger update field untuk status toggle
+            updateToggleVisual(checkbox);
             updateField(card, checkbox.checked ? '1' : '0');
         }
 
         function updateCompletion() {
-            const cards = document.querySelectorAll('.card-field');
-            let filled = 0;
+            // Hitung berapa field yang sudah terisi
+            let filledCount = 0;
 
-            cards.forEach(card => {
-                // Cek input biasa
-                let input = card.querySelector('input:not([type=hidden]):not([type=checkbox]), select, textarea');
-                // Cek checkbox khusus untuk status
-                if (!input) {
-                    input = card.querySelector('input[type=checkbox]');
-                }
-                if (input?.value?.trim() || (input?.type === 'checkbox' && input.checked)) {
-                    filled++;
-                }
+            // Cek Nama Organisasi
+            const namaInput = document.querySelector('input[name="nama"]');
+            if (namaInput && namaInput.value.trim() !== '') filledCount++;
+
+            // Cek Singkatan
+            const singkatanInput = document.querySelector('input[name="singkatan"]');
+            if (singkatanInput && singkatanInput.value.trim() !== '') filledCount++;
+
+            // Cek Tipe
+            const tipeSelect = document.querySelector('select[name="tipe"]');
+            if (tipeSelect && tipeSelect.value !== '') filledCount++;
+
+            // Cek Periode (Mulai dan Selesai) - keduanya harus diisi
+            const periodeMulai = document.querySelector('input[name="periode_mulai"]');
+            const periodeSelesai = document.querySelector('input[name="periode_selesai"]');
+            if (periodeMulai && periodeMulai.value.trim() !== '' && periodeSelesai && periodeSelesai.value.trim() !== '') {
+                filledCount++;
+            }
+
+            // Cek Status Toggle
+            const statusCheckbox = document.getElementById('status-toggle');
+            if (statusCheckbox && statusCheckbox.checked) filledCount++;
+
+            // Update persentase (maksimal 5 field)
+            const pct = Math.round((filledCount / 5) * 100);
+            const completionText = document.getElementById('completion-text');
+            const completionRing = document.getElementById('completion-ring');
+            const footerStatus = document.getElementById('footer-status');
+
+            if (completionText) completionText.textContent = pct + '%';
+            if (completionRing) completionRing.style.strokeDashoffset = CIRCUMFERENCE * (1 - pct / 100);
+            if (footerStatus) footerStatus.textContent = (5 - filledCount) + ' field wajib tersisa';
+
+            // Update checklist di mini progress sidebar
+            updateProgressChecklist({
+                nama: filledCount >= 1,
+                singkatan: filledCount >= 2,
+                tipe: filledCount >= 3,
+                periode: filledCount >= 4,
+                status: filledCount >= 5
             });
+        }
 
-            const pct = Math.round((filled / 5) * 100);
-            document.getElementById('completion-text').textContent = pct + '%';
-            document.getElementById('completion-ring').style.strokeDashoffset = CIRCUMFERENCE * (1 - pct / 100);
+        function updateProgressChecklist(states) {
+            // Update checklist untuk Nama
+            const namaCheck = document.querySelector('.filled-check');
+            if (namaCheck && states.nama) {
+                namaCheck.classList.remove('hidden');
+            } else if (namaCheck && !states.nama) {
+                namaCheck.classList.add('hidden');
+            }
 
-            const remaining = 5 - filled;
-            document.getElementById('footer-status').textContent = remaining + ' field wajib tersisa';
+            // Karena ada 5 item, kita perlu selector yang lebih spesifik
+            const checks = document.querySelectorAll('.filled-check');
+
+            // Urutan: Nama, Singkatan, Tipe, Periode, Status
+            if (checks[0]) checks[0].classList.toggle('hidden', !states.nama);
+            if (checks[1]) checks[1].classList.toggle('hidden', !states.singkatan);
+            if (checks[2]) checks[2].classList.toggle('hidden', !states.tipe);
+            if (checks[3]) checks[3].classList.toggle('hidden', !states.periode);
+            if (checks[4]) checks[4].classList.toggle('hidden', !states.status);
         }
 
         // Event listeners
@@ -505,17 +570,23 @@
                     .value));
             });
 
-            // Checkbox status toggle - DIPERBAIKI
+            // Checkbox status toggle
             const statusCheckbox = document.getElementById('status-toggle');
             if (statusCheckbox) {
                 const statusCard = statusCheckbox.closest('.card-field');
-                statusCheckbox.addEventListener('change', () => {
-                    toggleStatus(statusCheckbox);
-                    statusCard.classList.add('focused'); // Visual feedback
+
+                // Set initial visual state
+                updateToggleVisual(statusCheckbox);
+
+                // Add change event
+                statusCheckbox.addEventListener('change', function() {
+                    toggleStatus(this);
+                    statusCard.classList.add('focused');
                     setTimeout(() => statusCard.classList.remove('focused'), 200);
                 });
             }
 
+            // Initial update
             updateCompletion();
         });
     </script>
