@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ProfileOrganisasiController;
 use App\Http\Controllers\Admin\StrukturOrganisasiController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\Admin\OrganisasiController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,8 @@ Route::get('/articles/{slug}', [LandingController::class, 'showArticle'])->name(
 Route::get('/struktur-organisasi', [LandingController::class, 'showStrukturOrganisasi'])->name('struktur-organisasi');
 Route::get('/berita/show-all', [LandingController::class, 'showAllBerita'])->name('berita.all');
 Route::get('/berita/detail/{berita}', [LandingController::class, 'showBerita'])->name('berita.show');
+Route::get('/organisasi-otonom', [LandingController::class, 'showOrganisasiOtonom'])->name('organisasi-otonom.show');
+Route::get('/anggota-organisasi', [LandingController::class, 'showAnggotaOrganisasi'])->name('anggota-organisasi.show');
 
 
 Route::prefix('admin')->group(function () {
@@ -30,11 +33,20 @@ Route::prefix('admin')->group(function () {
     Route::get('/profile-organisasi/{id}/edit', [ProfileOrganisasiController::class, 'edit'])->name('admin.profile-organisasi.edit');
     Route::put('/profile-organisasi/{id}', [ProfileOrganisasiController::class, 'update'])->name('admin.profile-organisasi.update');
 
+    Route::get('/organisasi-otonom', [OrganisasiController::class, 'index'])->name('admin.organisasi-otonom');
+    Route::get('/organisasi-otonom/create', [OrganisasiController::class, 'create'])->name('admin.organisasi-otonom.create');
+    Route::post('/organisasi-otonom', [OrganisasiController::class, 'store'])->name('admin.organisasi-otonom.store');
+    Route::get('/organisasi-otonom/{id}/edit', [OrganisasiController::class, 'edit'])->name('admin.organisasi-otonom.edit');
+    Route::put('/organisasi-otonom/{id}', [OrganisasiController::class, 'update'])->name('admin.organisasi-otonom.update');
+    Route::delete('/organisasi-otonom/{id}', [OrganisasiController::class, 'destroy'])->name('admin.organisasi-otonom.destroy');
+    // Route
+
     Route::get('/struktur-organisasi',              [StrukturOrganisasiController::class, 'index'])->name('admin.struktur-organisasi');
     Route::post('/struktur-organisasi',             [StrukturOrganisasiController::class, 'store'])->name('admin.struktur-organisasi.store');
     Route::get('/struktur-organisasi/{strukturOrganisasi}/json', [StrukturOrganisasiController::class, 'show'])->name('admin.struktur-organisasi.show');
     Route::post('/struktur-organisasi/{strukturOrganisasi}',     [StrukturOrganisasiController::class, 'update'])->name('admin.struktur-organisasi.update');
     Route::delete('/struktur-organisasi/{strukturOrganisasi}', [StrukturOrganisasiController::class, 'destroy'])->name('admin.struktur-organisasi.destroy');
+
 
     Route::get('/articles', [ArtikelController::class, 'index'])->name('admin.articles');
     Route::get('/articles/create', [ArtikelController::class, 'create'])->name('admin.articles.create');
@@ -53,7 +65,6 @@ Route::prefix('admin')->group(function () {
     Route::get('/program-kajian/{id}/edit', [JadwalKajianController::class, 'edit'])->name('admin.jadwal-kajian.edit');
     Route::put('/program-kajian/{id}', [JadwalKajianController::class, 'update'])->name('admin.jadwal-kajian.update');
     Route::delete('/program-kajian/{id}', [JadwalKajianController::class, 'destroy'])->name('admin.jadwal-kajian.destroy');
-});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -69,3 +80,4 @@ Route::get('/cek-db', function () {
 });
 
 require __DIR__ . '/auth.php';
+});

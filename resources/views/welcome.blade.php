@@ -89,6 +89,7 @@
         @include('partials.modal-sekolah')
         @include('partials.modal-jsm')
 
+        @include('partials.organisasi-otonom')
         @include('partials.layanan-section')
 
         @include('layouts.footer')

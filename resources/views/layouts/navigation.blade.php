@@ -19,6 +19,7 @@
                 <li><a href="/" class="text-heading hover:text-fg-brand">Berita</a></li>
                 <li><a href="/" class="text-heading hover:text-fg-brand">Program</a></li>
                 <li><a href="/" class="text-heading hover:text-fg-brand">Organisasi Otonom</a></li>
+                <li><a href="/" class="text-heading hover:text-fg-brand">Amal Usaha</a></li>
                 <li><a href="/" class="text-heading hover:text-fg-brand">Kontak</a></li>
             </ul>
         </div>

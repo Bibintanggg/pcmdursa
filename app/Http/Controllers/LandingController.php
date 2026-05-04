@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use App\Models\Berita;
 use App\Models\Jadwal;
+use App\Models\Organisasi;
+use App\Models\Pengurus;
 use App\Models\ProfileOrganisasi;
 use App\Models\StrukturOrganisasi;
 use Illuminate\Http\Request;
@@ -37,6 +39,10 @@ class LandingController extends Controller
             ->orderBy('waktu', 'asc')
             ->get();
 
+        $organisasis = Organisasi::aktif()
+            ->with(['pengurus' => fn($q) => $q->where('level', 'inti')->orderBy('urutan')])
+            ->orderBy('tipe')
+            ->get();
         // 🔥 Tambahkan ini
         $currentYear = now()->year;
 
@@ -57,6 +63,7 @@ class LandingController extends Controller
             'jadwalCount'     => $allJadwalsRaw->count(),
             'kajianPerTahun'  => $kajianPerTahun, // ⬅ kirim ke view
             'currentYear'     => $currentYear,
+            'organisasis'     => $organisasis,
         ]);
     }
 
@@ -117,5 +124,25 @@ class LandingController extends Controller
             : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop';
 
         return view('pages.berita.berita-detail', compact('berita'));
+    }
+
+    public function showOrganisasiOtonom()
+    {
+        $organisasis = Organisasi::aktif()
+            ->where('tipe', 'otonom')
+            ->with(['pengurus' => fn($q) => $q->where('level', 'inti')->orderBy('urutan')])
+            ->orderBy('tipe')
+            ->get();
+
+        return view('pages.otonom.show-organisasi-otonom', compact('organisasis'));
+    }
+
+    public function showAnggotaOrganisasi()
+    {
+        $penguruses = Pengurus::whereHas('organisasi', fn($q) => $q->where('is_active', true))
+            ->orderBy('nama')
+            ->get();
+
+        return view('pages.otonom.organisasi-anggota', compact('penguruses'));
     }
 }

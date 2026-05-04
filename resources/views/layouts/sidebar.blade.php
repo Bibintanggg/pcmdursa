@@ -86,8 +86,6 @@
             <span class="nav-label">Artikel</span>
         </a>
 
-
-
         <a href="/admin/berita" class="nav-item {{ request()->routeIs('admin.berita') ? 'active' : '' }}"
             data-label="Berita">
             <div class="nav-icon">
@@ -130,7 +128,7 @@
                     <span>Program Kajian</span>
                 </a>
 
-                <a href="/admin/program-unggulan"
+                {{-- <a href="/admin/program-unggulan"
                     class="dropdown-item {{ request()->routeIs('admin.program-unggulan') ? 'active' : '' }}">
                     <span>Program Unggulan</span>
                 </a>
@@ -138,9 +136,60 @@
                 <a href="/admin/kategori-program"
                     class="dropdown-item {{ request()->routeIs('admin.kategori-program') ? 'active' : '' }}">
                     <span>Kategori Program</span>
-                </a>
+                </a> --}}
             </div>
         </div>
+
+        <div class="dropdown" x-data="{ open: {{ request()->routeIs('admin.organisasi*') ? 'true' : 'false' }} }">
+
+            <div class="dropdown-toggle nav-item" @click="open = !open" :class="{ 'active': open }"
+                data-label="Kelola Organisasi">
+
+                <div class="nav-icon">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M2 14V6M8 14V2M14 14V9" stroke="currentColor" stroke-width="1.4"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+
+                <span class="nav-label">Kelola Organisasi</span>
+
+                <svg class="dropdown-arrow" :class="{ 'rotate': open }" width="12" height="12"
+                    viewBox="0 0 12 12" fill="none">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+
+            <div class="dropdown-menu" x-show="open" x-collapse>
+
+                {{-- Data Organisasi --}}
+                <a href="{{ route('admin.organisasi-otonom') }}"
+                    class="dropdown-item {{ request()->routeIs('admin.organisasi-otonom') ? 'active' : '' }}">
+                    <span>Data Organisasi</span>
+                </a>
+
+                {{-- Data Pengurus --}}
+                <a href="{{ route('admin.organisasi-otonom') }}"
+                    class="dropdown-item {{ request()->routeIs('admin.pengurus*') ? 'active' : '' }}">
+                    <span>Data Pengurus</span>
+                </a>
+
+            </div>
+        </div>
+
+        <a href="/admin/amal-usaha" class="nav-item {{ request()->routeIs('admin.amal-usaha') ? 'active' : '' }}"
+            data-label="Amal Usaha">
+            <div class="nav-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor"
+                        stroke-width="1.4" />
+                    <path d="M4.5 5.5H11.5M4.5 8H9M4.5 10.5H7.5" stroke="currentColor" stroke-width="1.4"
+                        stroke-linecap="round" />
+                </svg>
+            </div>
+            <span class="nav-label">Amal Usaha</span>
+        </a>
     </nav>
 
     {{-- FOOTER USER --}}

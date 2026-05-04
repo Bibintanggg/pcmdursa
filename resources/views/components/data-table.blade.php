@@ -347,11 +347,19 @@
             },
 
             init(cols, rows, perPage, editUrl, deleteUrl) {
+                console.log('=== DATA TABLE INIT ===');
+                console.log('Columns:', cols);
+                console.log('Rows:', rows);
+                console.log('Edit URL:', editUrl);
+                console.log('Delete URL:', deleteUrl);
+
                 this.columns = cols;
                 this.allRows = rows;
                 this.perPage = perPage;
                 this.editUrl = editUrl;
                 this.deleteUrl = deleteUrl;
+
+                console.log('Total rows:', this.allRows.length);
             },
 
             truncate(text, length = 50) {

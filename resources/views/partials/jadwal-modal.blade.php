@@ -29,7 +29,7 @@
         {{-- Header --}}
         <div class="flex items-start justify-between px-6 pt-4 pb-5 border-b border-gray-100 shrink-0">
             <div>
-                <p class="text-xs font-bold uppercase tracking-[.15em] text-emerald-600 mb-0.5">3 Kegiatan Terdekat</p>
+                <p class="text-xs font-bold uppercase tracking-[.15em] text-emerald-600 mb-0.5">Kegiatan Terdekat</p>
                 <h2 id="modalJadwalTitle" class="text-2xl font-bold text-gray-900" style="font-family:'DM Sans',sans-serif">
                     Jadwal Kajian
                 </h2>
