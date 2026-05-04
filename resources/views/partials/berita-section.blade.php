@@ -4,7 +4,7 @@
         <div class="flex justify-between items-end mb-10">
             <div>
                 <h6 class="text-emerald-600 font-bold uppercase tracking-widest flex items-center gap-2">
-                    📰 Kabar Persyarikatan
+                    Kabar Persyarikatan
                 </h6>
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
                     Berita & Kegiatan Terbaru

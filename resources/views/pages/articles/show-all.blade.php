@@ -69,33 +69,7 @@
 <body class="bg-[#F5F3EF] min-h-screen">
 
     {{-- ══════════ NAV ══════════ --}}
-    <nav class="bg-white fixed w-full z-50 top-0 border-b border-gray-200 h-20">
-        <div class="max-w-screen-xl mx-auto px-6 h-full flex items-center justify-between">
-            <a href="/" class="flex items-center gap-3">
-                <img src="https://i.pinimg.com/564x/29/e9/30/29e9307518d8366f97a6d26e888c6bf4.jpg" class="h-7" alt="Logo"/>
-                <span class="text-xl font-semibold text-gray-900 whitespace-nowrap">PCM Duren Sawit 1</span>
-            </a>
-            <div class="hidden md:flex items-center gap-8">
-                <a href="/"         class="text-sm text-gray-500 hover:text-gray-900 transition">Beranda</a>
-                <a href="/profil"   class="text-sm text-gray-500 hover:text-gray-900 transition">Profil</a>
-                <a href="/ortonom"  class="text-sm text-gray-500 hover:text-gray-900 transition">Organisasi Otonom</a>
-                <a href="/articles" class="text-sm font-semibold text-[#c8a96e]">Artikel</a>
-                <a href="/program"  class="text-sm text-gray-500 hover:text-gray-900 transition">Program</a>
-                <a href="/kontak"   class="text-sm text-gray-500 hover:text-gray-900 transition">Kontak</a>
-            </div>
-            <button id="menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100">
-                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-            </button>
-        </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-4 space-y-3">
-            <a href="/"         class="block text-sm text-gray-700">Beranda</a>
-            <a href="/profil"   class="block text-sm text-gray-700">Profil</a>
-            <a href="/ortonom"  class="block text-sm text-gray-700">Organisasi Otonom</a>
-            <a href="/articles" class="block text-sm font-semibold text-[#c8a96e]">Artikel</a>
-            <a href="/program"  class="block text-sm text-gray-700">Program</a>
-            <a href="/kontak"   class="block text-sm text-gray-700">Kontak</a>
-        </div>
-    </nav>
+    @include('layouts.navigation')
 
     {{-- ══════════ PAGE HEADER ══════════ --}}
     <div class="pt-20">

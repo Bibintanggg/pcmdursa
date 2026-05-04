@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ArtikelController;
+use App\Http\Controllers\Admin\JadwalKajianController;
 use App\Http\Controllers\Admin\KelolaOrganisasi;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\ProfileOrganisasiController;
@@ -45,6 +46,13 @@ Route::prefix('admin')->group(function () {
     Route::resource('berita', NewsController::class)->parameters([
         'berita' => 'berita'
     ]);
+
+    Route::get('/program-kajian', [JadwalKajianController::class, 'index'])->name('admin.program-kajian');
+    Route::get('/program-kajian/create', [JadwalKajianController::class, 'create'])->name('admin.jadwal-kajian.create');
+    Route::post('/program-kajian', [JadwalKajianController::class, 'store'])->name('admin.jadwal-kajian.store');
+    Route::get('/program-kajian/{id}/edit', [JadwalKajianController::class, 'edit'])->name('admin.jadwal-kajian.edit');
+    Route::put('/program-kajian/{id}', [JadwalKajianController::class, 'update'])->name('admin.jadwal-kajian.update');
+    Route::delete('/program-kajian/{id}', [JadwalKajianController::class, 'destroy'])->name('admin.jadwal-kajian.destroy');
 });
 
 Route::middleware('auth')->group(function () {

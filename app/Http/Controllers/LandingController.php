@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Berita;
+use App\Models\Jadwal;
 use App\Models\ProfileOrganisasi;
 use App\Models\StrukturOrganisasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class LandingController extends Controller
 {
+
     public function index()
     {
         $hero = ProfileOrganisasi::latest('created_at')->first();
@@ -24,10 +27,36 @@ class LandingController extends Controller
             ->limit(3)
             ->get();
 
+        $jadwals = Jadwal::where('tanggal', '>=', today())
+            ->orderBy('tanggal', 'asc')
+            ->orderBy('waktu', 'asc')
+            ->limit(3)
+            ->get();
+
+        $allJadwalsRaw = Jadwal::orderBy('tanggal', 'asc')
+            ->orderBy('waktu', 'asc')
+            ->get();
+
+        // 🔥 Tambahkan ini
+        $currentYear = now()->year;
+
+        $kajianPerTahun = Jadwal::whereYear('tanggal', $currentYear)->count();
+
         return view('welcome', [
-            'hero' => $hero,
-            'articles' => $articles,
-            'latestBerita' => $latestBerita,
+            'hero'            => $hero,
+            'articles'        => $articles,
+            'latestBerita'    => $latestBerita,
+            'jadwals'         => $jadwals,
+            'jadwalJson'      => $allJadwalsRaw->map(fn($j) => [
+                'nama_kegiatan' => $j->nama_kegiatan,
+                'tanggal'       => \Carbon\Carbon::parse($j->tanggal)->format('Y-m-d'),
+                'waktu'         => \Carbon\Carbon::parse($j->waktu)->format('H:i'),
+                'lokasi'        => $j->lokasi,
+                'deskripsi'     => $j->deskripsi,
+            ])->values(),
+            'jadwalCount'     => $allJadwalsRaw->count(),
+            'kajianPerTahun'  => $kajianPerTahun, // ⬅ kirim ke view
+            'currentYear'     => $currentYear,
         ]);
     }
 
@@ -62,14 +91,14 @@ class LandingController extends Controller
             ->get()
             ->map(function ($item) {
                 return [
-                    'id' => $item->id,
-                    'judul' => $item->judul,
-                    'slug' => $item->slug,
-                    'isi' => $item->isi,
-                    'excerpt' => Str::limit(strip_tags($item->isi), 140),
-                    'gambar' => $item->gambar ? asset('storage/' . $item->gambar) : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop',
-                    'kategori' => $item->kategori,
-                    'status' => $item->status,
+                    'id'         => $item->id,
+                    'judul'      => $item->judul,
+                    'slug'       => $item->slug,
+                    'isi'        => $item->isi,
+                    'excerpt'    => Str::limit(strip_tags($item->isi), 140),
+                    'gambar'     => $item->gambar ? asset('storage/' . $item->gambar) : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop',
+                    'kategori'   => $item->kategori,
+                    'status'     => $item->status,
                     'created_at' => $item->created_at,
                 ];
             });
@@ -83,7 +112,9 @@ class LandingController extends Controller
             ->where('status', 'published')
             ->firstOrFail();
 
-        $berita->gambar = $berita->gambar ? asset('storage/' . $berita->gambar) : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop';
+        $berita->gambar = $berita->gambar
+            ? asset('storage/' . $berita->gambar)
+            : 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&fit=crop';
 
         return view('pages.berita.berita-detail', compact('berita'));
     }

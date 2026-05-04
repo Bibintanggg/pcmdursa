@@ -207,7 +207,11 @@
 
                                 <!-- Kondisi untuk teks biasa (BUKAN image) -->
                                 <template x-if="col.key !== 'image' && col.key !== 'thumbnail' && col.key !== 'gambar'">
-                                    <span class="text-zinc-700" x-text="truncate(row[col.key], 80)"></span>
+                                    <span class="text-zinc-700"
+                                        x-text="col.key === 'tanggal'
+            ? formatTanggal(row[col.key])
+            : truncate(row[col.key], 80)">
+                                    </span>
                                 </template>
                             </td>
                         </template>
@@ -370,6 +374,18 @@
                     });
                 }
                 return r;
+            },
+
+            formatTanggal(dateString) {
+                if (!dateString) return '';
+
+                let date = new Date(dateString);
+
+                return date.toLocaleDateString('id-ID', {
+                    day: '2-digit',
+                    month: 'long',
+                    year: 'numeric'
+                });
             },
 
             get totalPages() {
