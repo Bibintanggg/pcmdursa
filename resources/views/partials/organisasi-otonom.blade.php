@@ -1,4 +1,4 @@
-<section class="border-b border-gray-100 px-8 pt-14 pb-10">
+<section class="border-b border-gray-100 px-8 pt-14 pb-10 max-w-7xl mx-auto">
     <p class="flex items-center gap-2 text-[10px] uppercase tracking-[.12em] text-gray-400 mb-4">
         <span class="inline-block w-4 h-px bg-gray-400"></span>
         Struktur Kepengurusan {{ $periode ?? '2022–2027' }}
@@ -36,8 +36,10 @@
     </div>
 </section>
 
+
+
 {{-- Filter Tabs --}}
-<div class="flex border-b border-gray-100 px-8" x-data="{ active: 'all' }">
+<div class="flex border-b border-gray-100 px-8 max-w-7xl mx-auto" x-data="{ active: 'all' }">
     @foreach ([['all', 'Semua'], ['otonom', 'Otonom'], ['lembaga', 'Lembaga'], ['majelis', 'Majelis']] as [$val, $label])
         <button @click="active = '{{ $val }}'"
             :class="active === '{{ $val }}'
@@ -52,7 +54,8 @@
 </div>
 
 {{-- Org Grid --}}
-<div class="p-8" x-data="{ activeFilter: 'all', selected: null }" @filter-org.window="activeFilter = $event.detail.type; selected = null">
+<div class="p-8 max-w-7xl mx-auto" x-data="{ activeFilter: 'all', selected: null }"
+    @filter-org.window="activeFilter = $event.detail.type; selected = null">
     <div
         class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 border border-gray-100 rounded-xl overflow-hidden divide-x divide-y divide-gray-100">
 
@@ -62,8 +65,17 @@
                 x-transition:enter-end="opacity-100"
                 @click="selected = selected === {{ $org->id }} ? null : {{ $org->id }}"
                 class="p-6 bg-white hover:bg-gray-50 cursor-pointer transition-colors duration-150">
-                <div class="w-9 h-9 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center mb-4">
-                    <span class="text-[10px] font-medium text-gray-500">{{ $org->singkatan }}</span>
+                <div
+                    class="w-9 h-9 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center mb-4 overflow-hidden">
+                    @if ($org->logo)
+                        <img src="{{ asset('storage/' . $org->logo) }}" alt="{{ $org->nama }}"
+                            class="w-full h-full object-contain">
+                    @else
+                        <span class="text-[10px] font-medium text-gray-500">
+                            {{ $org->singkatan }}
+                        </span>
+                    @endif
+
                 </div>
                 <div class="text-[13px] font-medium mb-1">{{ $org->nama }}</div>
                 <div class="text-[11px] text-gray-400 mb-4">{{ ucfirst($org->tipe) }}</div>
@@ -106,6 +118,7 @@
                             {{ $org->periode_mulai }}–{{ $org->periode_selesai }}</div>
                     </div>
                 @endforeach
+
             </div>
 
             {{-- Majelis / Lembaga di bawah org ini --}}

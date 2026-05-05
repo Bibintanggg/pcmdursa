@@ -18,8 +18,8 @@ Route::get('/articles/{slug}', [LandingController::class, 'showArticle'])->name(
 Route::get('/struktur-organisasi', [LandingController::class, 'showStrukturOrganisasi'])->name('struktur-organisasi');
 Route::get('/berita/show-all', [LandingController::class, 'showAllBerita'])->name('berita.all');
 Route::get('/berita/detail/{berita}', [LandingController::class, 'showBerita'])->name('berita.show');
-Route::get('/organisasi-otonom', [LandingController::class, 'showOrganisasiOtonom'])->name('organisasi-otonom.show');
-Route::get('/anggota-organisasi', [LandingController::class, 'showAnggotaOrganisasi'])->name('anggota-organisasi.show');
+Route::get('/organisasi-otonom/{slug}', [LandingController::class, 'showOrganisasiOtonom'])->name('organisasi-otonom.show');
+Route::get('/anggota-organisasi/{slug}', [LandingController::class, 'showAnggotaOrganisasi'])->name('anggota-organisasi.show');
 
 
 Route::prefix('admin')->group(function () {

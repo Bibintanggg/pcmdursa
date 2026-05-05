@@ -273,15 +273,7 @@
     @endif
 
     {{-- ══════════ FOOTER ══════════ --}}
-    <footer style="border-top:1px solid #e8e4dc">
-        <div class="max-w-screen-xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex items-center gap-3">
-                <img src="https://i.pinimg.com/564x/29/e9/30/29e9307518d8366f97a6d26e888c6bf4.jpg" class="h-6" alt="Logo"/>
-                <span class="serif text-sm text-[#0d0d0d]">PCM Duren Sawit 1</span>
-            </div>
-            <p class="text-xs text-[#9a9690]">© {{ date('Y') }} PCM Duren Sawit 1. All rights reserved.</p>
-        </div>
-    </footer>
+   @include('layouts.footer')
 
     <script>
         // Mobile nav

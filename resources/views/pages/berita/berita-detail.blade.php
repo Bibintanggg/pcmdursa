@@ -577,15 +577,7 @@
     </div>
 
     {{-- ══════════ FOOTER ══════════ --}}
-    <footer>
-        <div class="footer-inner">
-            <div class="footer-brand">
-                <img src="https://i.pinimg.com/564x/29/e9/30/29e9307518d8366f97a6d26e888c6bf4.jpg" alt="Logo"/>
-                <span>PCM Duren Sawit 1</span>
-            </div>
-            <p class="footer-copy">© {{ date('Y') }} PCM Duren Sawit 1. All rights reserved.</p>
-        </div>
-    </footer>
+    @include('layouts.footer')
 
     <script>
         // ── Mobile nav ──

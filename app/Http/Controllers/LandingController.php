@@ -155,23 +155,49 @@ class LandingController extends Controller
         return view('pages.berita.berita-detail', compact('berita'));
     }
 
-    public function showOrganisasiOtonom()
+    public function showOrganisasiOtonom(string $slug)
     {
-        $organisasis = Organisasi::aktif()
-            ->where('tipe', 'otonom')
-            ->with(['pengurus' => fn($q) => $q->where('level', 'inti')->orderBy('urutan')])
-            ->orderBy('tipe')
-            ->get();
+        $org = Organisasi::aktif()
+            ->where('slug', $slug)
+            ->with(['pengurus' => fn($q) => $q->orderBy('urutan')->orderBy('jabatan')])
+            ->firstOrFail();
 
-        return view('pages.otonom.show-organisasi-otonom', compact('organisasis'));
+        // Pengurus inti (ketua, sekretaris, bendahara)
+        $pengurusInti = $org->pengurus->filter(fn($p) => $p->level === 'inti');
+
+        // Semua pengurus
+        $allPengurus = $org->pengurus;
+
+        // Total anggota aktif
+        $totalPengurus = $org->pengurus->where('is_active', true)->count();
+
+        // Resolusi jabatan inti
+        $org->ketua = $pengurusInti->first(fn($p) => strtolower(trim($p->jabatan)) === 'ketua')?->nama;
+        $org->sekretaris = $pengurusInti->first(fn($p) => strtolower(trim($p->jabatan)) === 'sekretaris')?->nama;
+        $org->bendahara = $pengurusInti->first(fn($p) => strtolower(trim($p->jabatan)) === 'bendahara')?->nama;
+
+        return view('pages.otonom.show-organisasi-otonom', compact(
+            'org',
+            'pengurusInti',
+            'allPengurus',
+            'totalPengurus',
+        ));
     }
 
-    public function showAnggotaOrganisasi()
+    public function showAnggotaOrganisasi(string $slug)
     {
-        $penguruses = Pengurus::whereHas('organisasi', fn($q) => $q->where('is_active', true))
+        // Cari organisasi berdasarkan slug
+        $organisasi = Organisasi::where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        // Ambil semua pengurus aktif dari organisasi ini
+        $penguruses = Pengurus::where('organisasi_otonom_id', $organisasi->id)
+            ->where('is_active', true)
+            ->orderBy('urutan')
             ->orderBy('nama')
             ->get();
 
-        return view('pages.otonom.organisasi-anggota', compact('penguruses'));
+        return view('pages.otonom.organisasi-anggota', compact('penguruses', 'organisasi'));
     }
 }
