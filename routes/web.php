@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\ArtikelController;
 use App\Http\Controllers\Admin\JadwalKajianController;
 use App\Http\Controllers\Admin\KelolaOrganisasi;
@@ -23,60 +24,53 @@ Route::get('/anggota-organisasi/{slug}', [LandingController::class, 'showAnggota
 
 
 Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pages.admin.dashboard');
-    })->name('admin.dashboard');
+    Route::middleware('auth')->group(function () {
 
-    Route::get('/profile-organisasi', [ProfileOrganisasiController::class, 'index'])->name('admin.profile-organisasi');
-    Route::get('/profile-organisasi/create', [ProfileOrganisasiController::class, 'create'])->name('admin.profile-organisasi.create');
-    Route::post('/profile-organisasi', [ProfileOrganisasiController::class, 'store'])->name('admin.profile-organisasi.store');
-    Route::delete('/profile-organisasi/{id}', [ProfileOrganisasiController::class, 'destroy'])->name('admin.profile-organisasi.destroy');
-    Route::get('/profile-organisasi/{id}/edit', [ProfileOrganisasiController::class, 'edit'])->name('admin.profile-organisasi.edit');
-    Route::put('/profile-organisasi/{id}', [ProfileOrganisasiController::class, 'update'])->name('admin.profile-organisasi.update');
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-    Route::get('/organisasi-otonom', [OrganisasiController::class, 'index'])->name('admin.organisasi-otonom');
-    Route::get('/organisasi-otonom/create', [OrganisasiController::class, 'create'])->name('admin.organisasi-otonom.create');
-    Route::post('/organisasi-otonom', [OrganisasiController::class, 'store'])->name('admin.organisasi-otonom.store');
-    Route::get('/organisasi-otonom/{id}/edit', [OrganisasiController::class, 'edit'])->name('admin.organisasi-otonom.edit');
-    Route::put('/organisasi-otonom/{id}', [OrganisasiController::class, 'update'])->name('admin.organisasi-otonom.update');
-    Route::delete('/organisasi-otonom/{id}', [OrganisasiController::class, 'destroy'])->name('admin.organisasi-otonom.destroy');
+        Route::get('/profile-organisasi', [ProfileOrganisasiController::class, 'index'])->name('admin.profile-organisasi');
+        Route::get('/profile-organisasi/create', [ProfileOrganisasiController::class, 'create'])->name('admin.profile-organisasi.create');
+        Route::post('/profile-organisasi', [ProfileOrganisasiController::class, 'store'])->name('admin.profile-organisasi.store');
+        Route::delete('/profile-organisasi/{id}', [ProfileOrganisasiController::class, 'destroy'])->name('admin.profile-organisasi.destroy');
+        Route::get('/profile-organisasi/{id}/edit', [ProfileOrganisasiController::class, 'edit'])->name('admin.profile-organisasi.edit');
+        Route::put('/profile-organisasi/{id}', [ProfileOrganisasiController::class, 'update'])->name('admin.profile-organisasi.update');
 
-    Route::get('/pengurus', [PengurusController::class, 'index'])->name('admin.pengurus.index');
-    Route::get('/pengurus/create', [PengurusController::class, 'create'])->name('admin.pengurus.create');
-    Route::post('/pengurus', [PengurusController::class, 'store'])->name('admin.pengurus.store');
-    Route::get('/pengurus/{id}/edit', [PengurusController::class, 'edit'])->name('admin.pengurus.edit');
-    Route::put('/pengurus/{id}', [PengurusController::class, 'update'])->name('admin.pengurus.update');
-    Route::delete('/pengurus/{id}', [PengurusController::class, 'destroy'])->name('admin.pengurus.destroy');
+        Route::get('/organisasi-otonom', [OrganisasiController::class, 'index'])->name('admin.organisasi-otonom');
+        Route::get('/organisasi-otonom/create', [OrganisasiController::class, 'create'])->name('admin.organisasi-otonom.create');
+        Route::post('/organisasi-otonom', [OrganisasiController::class, 'store'])->name('admin.organisasi-otonom.store');
+        Route::get('/organisasi-otonom/{id}/edit', [OrganisasiController::class, 'edit'])->name('admin.organisasi-otonom.edit');
+        Route::put('/organisasi-otonom/{id}', [OrganisasiController::class, 'update'])->name('admin.organisasi-otonom.update');
+        Route::delete('/organisasi-otonom/{id}', [OrganisasiController::class, 'destroy'])->name('admin.organisasi-otonom.destroy');
 
-    Route::get('/struktur-organisasi',              [StrukturOrganisasiController::class, 'index'])->name('admin.struktur-organisasi');
-    Route::post('/struktur-organisasi',             [StrukturOrganisasiController::class, 'store'])->name('admin.struktur-organisasi.store');
-    Route::get('/struktur-organisasi/{strukturOrganisasi}/json', [StrukturOrganisasiController::class, 'show'])->name('admin.struktur-organisasi.show');
-    Route::post('/struktur-organisasi/{strukturOrganisasi}',     [StrukturOrganisasiController::class, 'update'])->name('admin.struktur-organisasi.update');
-    Route::delete('/struktur-organisasi/{strukturOrganisasi}', [StrukturOrganisasiController::class, 'destroy'])->name('admin.struktur-organisasi.destroy');
+        Route::get('/pengurus', [PengurusController::class, 'index'])->name('admin.pengurus.index');
+        Route::get('/pengurus/create', [PengurusController::class, 'create'])->name('admin.pengurus.create');
+        Route::post('/pengurus', [PengurusController::class, 'store'])->name('admin.pengurus.store');
+        Route::get('/pengurus/{id}/edit', [PengurusController::class, 'edit'])->name('admin.pengurus.edit');
+        Route::put('/pengurus/{id}', [PengurusController::class, 'update'])->name('admin.pengurus.update');
+        Route::delete('/pengurus/{id}', [PengurusController::class, 'destroy'])->name('admin.pengurus.destroy');
 
+        Route::resource('berita', NewsController::class);
 
-    Route::get('/articles', [ArtikelController::class, 'index'])->name('admin.articles');
-    Route::get('/articles/create', [ArtikelController::class, 'create'])->name('admin.articles.create');
-    Route::post('/articles', [ArtikelController::class, 'store'])->name('admin.articles.store');
-    Route::get('/articles/{id}/edit', [ArtikelController::class, 'edit'])->name('admin.articles.edit');
-    Route::put('/articles/{id}', [ArtikelController::class, 'update'])->name('admin.articles.update');
-    Route::delete('/articles/{id}', [ArtikelController::class, 'destroy'])->name('admin.articles.destroy');
+        Route::get('/articles', [ArtikelController::class, 'index'])->name('admin.articles');
+        Route::get('/articles/create', [ArtikelController::class, 'create'])->name('admin.articles.create');
+        Route::post('/articles', [ArtikelController::class, 'store'])->name('admin.articles.store');
+        Route::get('/articles/{id}/edit', [ArtikelController::class, 'edit'])->name('admin.articles.edit');
+        Route::put('/articles/{id}', [ArtikelController::class, 'update'])->name('admin.articles.update');
+        Route::delete('/articles/{id}', [ArtikelController::class, 'destroy'])->name('admin.articles.destroy');
 
-    Route::resource('berita', NewsController::class)->parameters([
-        'berita' => 'berita'
-    ]);
+        Route::get('/program-kajian', [JadwalKajianController::class, 'index'])->name('admin.program-kajian');
+        Route::get('/program-kajian/create', [JadwalKajianController::class, 'create'])->name('admin.jadwal-kajian.create');
+        Route::post('/program-kajian', [JadwalKajianController::class, 'store'])->name('admin.jadwal-kajian.store');
+        Route::get('/program-kajian/{id}/edit', [JadwalKajianController::class, 'edit'])->name('admin.jadwal-kajian.edit');
+        Route::put('/program-kajian/{id}', [JadwalKajianController::class, 'update'])->name('admin.jadwal-kajian.update');
+        Route::delete('/program-kajian/{id}', [JadwalKajianController::class, 'destroy'])->name('admin.jadwal-kajian.destroy');
 
-    Route::get('/program-kajian', [JadwalKajianController::class, 'index'])->name('admin.program-kajian');
-    Route::get('/program-kajian/create', [JadwalKajianController::class, 'create'])->name('admin.jadwal-kajian.create');
-    Route::post('/program-kajian', [JadwalKajianController::class, 'store'])->name('admin.jadwal-kajian.store');
-    Route::get('/program-kajian/{id}/edit', [JadwalKajianController::class, 'edit'])->name('admin.jadwal-kajian.edit');
-    Route::put('/program-kajian/{id}', [JadwalKajianController::class, 'update'])->name('admin.jadwal-kajian.update');
-    Route::delete('/program-kajian/{id}', [JadwalKajianController::class, 'destroy'])->name('admin.jadwal-kajian.destroy');
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
+
 });
 
 Route::get('/cek-db', function () {
@@ -87,4 +81,3 @@ Route::get('/cek-db', function () {
 });
 
 require __DIR__ . '/auth.php';
-});

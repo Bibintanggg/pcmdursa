@@ -194,13 +194,37 @@
 
     {{-- FOOTER USER --}}
     <div class="sidebar-footer">
+
+        {{-- USER INFO --}}
         <div class="user-card">
-            <div class="avatar">{{ strtoupper(substr(auth()->user()->name ?? 'Ad', 0, 2)) }}</div>
+            <div class="avatar">
+                {{ strtoupper(substr(auth()->user()->name ?? 'Ad', 0, 2)) }}
+            </div>
             <div class="user-info">
                 <p>{{ auth()->user()->name ?? 'Admin' }}</p>
                 <p>{{ auth()->user()->email ?? 'admin@mail.com' }}</p>
             </div>
         </div>
+
+        {{-- LOGOUT BUTTON --}}
+        <form method="POST" action="{{ route('logout') }}" class="mt-2">
+            @csrf
+            <button type="submit"
+                class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-red-600 hover:bg-red-50 transition">
+
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M21 12H9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                    <path
+                        d="M13 5V4C13 3.44772 12.5523 3 12 3H5C4.44772 3 4 3.44772 4 4V20C4 20.5523 4.44772 21 5 21H12C12.5523 21 13 20.5523 13 20V19"
+                        stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+
+                <span class="nav-label">Logout</span>
+            </button>
+        </form>
+
     </div>
 </aside>
 

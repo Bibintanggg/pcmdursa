@@ -558,44 +558,6 @@
                 <div class="au-slider-track" id="auSliderTrack">
 
                     {{-- ── SLIDE 1: Bidang Ekonomi ── --}}
-                    <div class="au-slide au-slide-green au-slide-active">
-                        <div class="au-slide-content">
-                            <span class="au-badge au-badge-green">
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="5" cy="5" r="3" fill="currentColor" />
-                                </svg>
-                                Bidang Ekonomi
-                            </span>
-                            <h3 class="au-slide-name">Amal Usaha<br>Ekonomi</h3>
-                            <p class="au-slide-subtitle">Penggerak Kemandirian Ekonomi Umat</p>
-                            <div class="au-divider-line"></div>
-                            <ul class="au-list">
-                                <li>PT. Sunci Sinar Semesta</li>
-                                <li>BMT An-nisa</li>
-                                <li>Dos-Qua Air Mineral</li>
-                                <li>Konveksi Al-kahfi</li>
-                                <li>Sun Martmu</li>
-                                <li>Guest House (Progres)</li>
-                                <li>Sentralisasi Buku</li>
-                                <li>Pengadaan Beras untuk guru dan karyawan</li>
-                                <li>Unit Produksi</li>
-                                <li>TravelMu · Biro Perjalanan Umroh dan Haji</li>
-                            </ul>
-                            {{-- <a href="#" class="au-cta-btn au-btn-green">
-                                Selengkapnya
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.6"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a> --}}
-                        </div>
-                        <div class="au-slide-visual">
-                            <span class="au-visual-icon">💼</span>
-                            <span class="au-visual-label">Bidang Ekonomi</span>
-                        </div>
-                    </div>
 
                     {{-- ── SLIDE 2: Bidang Kesehatan ── --}}
                     <div class="au-slide au-slide-blue">
@@ -617,14 +579,6 @@
                                 <li>Program Kesehatan Gratis</li>
                                 <li>Ambulans Umat</li>
                             </ul>
-                            <a href="#" class="au-cta-btn au-btn-blue">
-                                Selengkapnya
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.6"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a>
                         </div>
                         <div class="au-slide-visual">
                             <span class="au-visual-icon">🏥</span>
@@ -650,17 +604,7 @@
                                 <li>SD Muhammadiyah</li>
                                 <li>SMP Muhammadiyah</li>
                                 <li>SMA / SMK Muhammadiyah</li>
-                                <li>Pondok Pesantren Binaan</li>
-                                <li>TPQ & Madrasah Diniyah</li>
                             </ul>
-                            <a href="#" class="au-cta-btn au-btn-amber">
-                                Selengkapnya
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.6"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a>
                         </div>
                         <div class="au-slide-visual">
                             <span class="au-visual-icon">🎓</span>
@@ -689,14 +633,6 @@
                                 <li>Tanggap Bencana PCM</li>
                                 <li>Program Pemberdayaan Masyarakat</li>
                             </ul>
-                            <a href="#" class="au-cta-btn au-btn-indigo">
-                                Selengkapnya
-                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 7h8M7 3l4 4-4 4" stroke="white" stroke-width="1.6"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a>
                         </div>
                         <div class="au-slide-visual">
                             <span class="au-visual-icon">🤝</span>
@@ -721,7 +657,7 @@
         <div class="au-counter">
             <div class="au-dots" id="auDots"></div>
             <span class="au-counter-text">
-                <strong id="auCurrent">01</strong> / <span id="auTotal">04</span>
+                <strong id="auCurrent">01</strong> / <span id="auTotal">03</span>
             </span>
         </div>
 
@@ -730,7 +666,7 @@
 
 <script>
     (function() {
-        const TOTAL = 4;
+        const TOTAL = 3;
         const INTERVAL = 5500; // ms auto-advance
         const track = document.getElementById('auSliderTrack');
         const dotsWrap = document.getElementById('auDots');
