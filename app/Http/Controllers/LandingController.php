@@ -49,6 +49,32 @@ class LandingController extends Controller
             ->orderBy('nama')
             ->get();
 
+        $amalUsahaGrouped = \App\Models\AmalUsaha::with('organisasiOtonom')
+            ->whereHas('organisasiOtonom')
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->groupBy('tipe')
+            ->map(function ($items, $tipe) {
+
+                $allOrgs = $items
+                    ->filter(fn($item) => $item->organisasiOtonom)
+                    ->unique('organisasi_otonom_id')
+                    ->values();
+
+                $latestItem = $items->first();
+
+                return [
+                    'tipe' => $tipe,
+                    'items' => $allOrgs,
+                    'count' => $allOrgs->count(),
+                    'latestDesc' => $latestItem?->deskripsi,
+                    'latestDescTitle' => $latestItem?->nama,
+                ];
+            })
+            ->filter(fn($group) => $group['count'] > 0)
+            ->values();
+
+
         $totalAnggota = Pengurus::where('is_active', true)->count();
 
         $tahunMulai = Organisasi::min('periode_mulai') ?? date('Y');
@@ -93,6 +119,7 @@ class LandingController extends Controller
             'organisasis'     => $organisasis,
             'totalAnggota'    => $totalAnggota,
             'periode'         => $periode,
+            'amalUsahaGrouped' => $amalUsahaGrouped,
         ]);
     }
 

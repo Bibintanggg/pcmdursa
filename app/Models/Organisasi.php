@@ -31,6 +31,11 @@ class Organisasi extends Model
         return $this->hasMany(Pengurus::class, 'organisasi_otonom_id');
     }
 
+    public function amalUsaha(): HasMany
+    {
+        return $this->hasMany(AmalUsaha::class, 'organisasi_otonom_id');
+    }
+
     // Helpers untuk pengurus inti (accessor di blade)
     public function getKetuaAttribute(): ?string
     {

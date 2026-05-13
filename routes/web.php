@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\StrukturOrganisasiController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Admin\OrganisasiController;
 use App\Http\Controllers\Admin\PengurusController;
+use App\Http\Controllers\Admin\AmalUsahaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/program-kajian/{id}/edit', [JadwalKajianController::class, 'edit'])->name('admin.jadwal-kajian.edit');
         Route::put('/program-kajian/{id}', [JadwalKajianController::class, 'update'])->name('admin.jadwal-kajian.update');
         Route::delete('/program-kajian/{id}', [JadwalKajianController::class, 'destroy'])->name('admin.jadwal-kajian.destroy');
+
+        Route::get('/amal-usaha', [AmalUsahaController::class, 'index'])->name('admin.amal-usaha.index');
+        Route::get('/amal-usaha/create', [AmalUsahaController::class, 'create'])->name('admin.amal-usaha.create');
+        Route::post('/amal-usaha', [AmalUsahaController::class, 'store'])->name('admin.amal-usaha.store');
+        Route::get('/amal-usaha/{id}/edit', [AmalUsahaController::class, 'edit'])->name('admin.amal-usaha.edit');
+        Route::put('/amal-usaha/{id}', [AmalUsahaController::class, 'update'])->name('admin.amal-usaha.update');
+        Route::delete('/amal-usaha/{id}', [AmalUsahaController::class, 'destroy'])->name('admin.amal-usaha.destroy');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

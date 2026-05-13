@@ -1,13 +1,6 @@
-{{-- ================================================================
-     AMAL USAHA SECTION — PCM Cileungsi
-     Minimalis · Clean · Modern (Awwwards-style)
-     ================================================================ --}}
-
 <style>
-    /* ── Font ── */
     @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
 
-    /* ── Tokens ── */
     #amal-usaha-section {
         --au-black: #0e0e0e;
         --au-white: #fafaf8;
@@ -16,7 +9,6 @@
         --au-muted: #9a9690;
         --au-dark: #3a3830;
 
-        /* Bidang colours */
         --au-green: #1b5e40;
         --au-green-mid: #2e7d52;
         --au-green-bg: #e8f3ec;
@@ -37,12 +29,10 @@
         --au-indigo-bg: #eeeaf8;
         --au-indigo-grd: linear-gradient(135deg, #2d1e6b 0%, #6050c8 100%);
 
-        --au-gold: #c9a84c;
         --au-radius: 18px;
         --au-radius-sm: 10px;
     }
 
-    /* ── Section wrapper ── */
     #amal-usaha-section {
         background: var(--au-white);
         font-family: 'DM Sans', sans-serif;
@@ -114,7 +104,6 @@
         max-width: 300px;
     }
 
-    /* ── Progress bar ── */
     .au-progress-track {
         width: 240px;
         height: 2px;
@@ -127,11 +116,10 @@
         height: 100%;
         background: var(--au-black);
         border-radius: 2px;
-        width: 25%;
-        transition: width 0.15s linear;
+        width: 0%;
     }
 
-    /* ── Slider outer ── */
+    /* ── Slider ── */
     .au-slider-outer {
         position: relative;
     }
@@ -174,27 +162,43 @@
         overflow: hidden;
     }
 
-    /* Visual decoration */
     .au-slide-visual::before {
         content: '';
         position: absolute;
         inset: 0;
         opacity: 0.08;
-        background-image: radial-gradient(circle at 30% 70%, white 1px, transparent 1px),
+        background-image:
+            radial-gradient(circle at 30% 70%, white 1px, transparent 1px),
             radial-gradient(circle at 70% 30%, white 1px, transparent 1px);
         background-size: 32px 32px;
+        z-index: 1;
+    }
+
+    .au-slide-visual img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.4;
+        z-index: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .au-slide.au-slide-active .au-slide-visual img {
+        opacity: 0.55;
     }
 
     .au-visual-icon {
-        font-size: 100px;
-        opacity: 0.25;
-        z-index: 1;
+        font-size: 96px;
+        opacity: 0.22;
+        z-index: 2;
         filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
         transition: transform 0.5s ease, opacity 0.5s ease;
     }
 
     .au-slide.au-slide-active .au-visual-icon {
-        opacity: 0.35;
+        opacity: 0.32;
         transform: scale(1.05);
     }
 
@@ -207,10 +211,10 @@
         letter-spacing: 0.14em;
         text-transform: uppercase;
         color: rgba(255, 255, 255, 0.5);
-        z-index: 2;
+        z-index: 3;
     }
 
-    /* Colour themes per slide */
+    /* Warna visual per tipe */
     .au-slide-green .au-slide-visual {
         background: var(--au-green-grd);
     }
@@ -227,7 +231,7 @@
         background: var(--au-indigo-grd);
     }
 
-    /* ── Slide content elements ── */
+    /* ── Badge ── */
     .au-badge {
         display: inline-flex;
         align-items: center;
@@ -238,7 +242,7 @@
         font-weight: 500;
         letter-spacing: 0.06em;
         width: fit-content;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
     }
 
     .au-badge-green {
@@ -261,22 +265,31 @@
         color: var(--au-indigo);
     }
 
+    /* ── Judul (nama amal usaha dari DB) ── */
     .au-slide-name {
         font-family: 'DM Serif Display', serif;
-        font-size: clamp(2.2rem, 4vw, 3.2rem);
+        font-size: clamp(2rem, 3.5vw, 3rem);
         letter-spacing: -0.025em;
-        line-height: 1;
+        line-height: 1.05;
         color: var(--au-black);
-        margin-bottom: 8px;
-        /* Animate on slide in */
+        margin-bottom: 6px;
         animation: au-fade-up 0.7s ease both;
     }
 
-    .au-slide-subtitle {
-        font-size: 0.85rem;
+    /* ── Organisasi otonom (sebagai sub-label) ── */
+    .au-org-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.78rem;
         color: var(--au-muted);
-        margin-bottom: 18px;
-        animation: au-fade-up 0.7s 0.08s ease both;
+        margin-bottom: 20px;
+        animation: au-fade-up 0.7s 0.06s ease both;
+    }
+
+    .au-org-chip svg {
+        flex-shrink: 0;
+        opacity: 0.6;
     }
 
     .au-divider-line {
@@ -286,88 +299,19 @@
         margin-bottom: 18px;
     }
 
+    /* ── Deskripsi ── */
     .au-slide-desc {
-        font-size: 0.9rem;
+        font-size: 0.88rem;
         line-height: 1.75;
         color: var(--au-dark);
-        margin-bottom: 32px;
         max-width: 440px;
-        animation: au-fade-up 0.7s 0.14s ease both;
-    }
+        animation: au-fade-up 0.7s 0.12s ease both;
 
-    .au-list {
-        list-style: none;
-        margin-bottom: 32px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        animation: au-fade-up 0.7s 0.18s ease both;
-    }
-
-    .au-list li {
-        display: flex;
-        align-items: baseline;
-        gap: 10px;
-        font-size: 0.85rem;
-        color: var(--au-dark);
-        line-height: 1.5;
-    }
-
-    .au-list li::before {
-        content: '—';
-        font-size: 0.7rem;
-        color: var(--au-muted);
-        flex-shrink: 0;
-    }
-
-    .au-cta-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 13px 22px;
-        border-radius: var(--au-radius-sm);
-        font-size: 0.82rem;
-        font-weight: 500;
-        letter-spacing: 0.04em;
-        cursor: pointer;
-        border: none;
-        transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s;
-        width: fit-content;
-        text-decoration: none;
-        animation: au-fade-up 0.7s 0.22s ease both;
-    }
-
-    .au-cta-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
-    }
-
-    .au-cta-btn svg {
-        transition: transform 0.2s ease;
-    }
-
-    .au-cta-btn:hover svg {
-        transform: translateX(3px);
-    }
-
-    .au-btn-green {
-        background: var(--au-green-mid);
-        color: #fff;
-    }
-
-    .au-btn-blue {
-        background: var(--au-blue-mid);
-        color: #fff;
-    }
-
-    .au-btn-amber {
-        background: var(--au-amber-mid);
-        color: #fff;
-    }
-
-    .au-btn-indigo {
-        background: var(--au-indigo-mid);
-        color: #fff;
+        /* Clamp panjang teks agar slide tidak melar */
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     /* ── Nav buttons ── */
@@ -412,7 +356,7 @@
         transition: stroke 0.2s;
     }
 
-    /* ── Dot indicators ── */
+    /* ── Dots ── */
     .au-dots {
         display: flex;
         align-items: center;
@@ -438,7 +382,7 @@
         border-radius: 3px;
     }
 
-    /* ── Slide counter ── */
+    /* ── Counter ── */
     .au-counter {
         display: flex;
         align-items: center;
@@ -456,7 +400,93 @@
         color: var(--au-black);
     }
 
-    /* ── Animation keyframes ── */
+    /* ── Tipe filter tabs ── */
+    .au-tipe-tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 32px;
+    }
+
+    .au-badge-count {
+        font-weight: 400;
+        opacity: 0.8;
+        margin-left: 4px;
+    }
+
+    .au-org-list {
+        margin: 20px 0 24px;
+        max-height: 200px;
+        overflow-y: auto;
+        padding-right: 8px;
+    }
+
+    .au-org-item {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid var(--au-line);
+    }
+
+    .au-org-item:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+
+    .au-item-desc {
+        font-size: 0.8rem;
+        color: var(--au-muted);
+        margin-top: 4px;
+        line-height: 1.5;
+    }
+
+    .au-total-org {
+        font-weight: 500;
+        font-style: italic;
+    }
+
+    /* Scrollbar custom */
+    .au-org-list::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .au-org-list::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .au-org-list::-webkit-scrollbar-thumb {
+        background: var(--au-line);
+        border-radius: 2px;
+    }
+
+    .au-org-list::-webkit-scrollbar-thumb:hover {
+        background: var(--au-dark);
+    }
+
+    .au-tipe-tab {
+        padding: 6px 16px;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        border: 1px solid var(--au-line);
+        background: transparent;
+        color: var(--au-muted);
+        cursor: pointer;
+        transition: all 0.2s;
+        letter-spacing: 0.04em;
+    }
+
+    .au-tipe-tab:hover {
+        border-color: var(--au-dark);
+        color: var(--au-dark);
+    }
+
+    .au-tipe-tab.active {
+        background: var(--au-black);
+        color: #fff;
+        border-color: var(--au-black);
+    }
+
     @keyframes au-fade-up {
         from {
             opacity: 0;
@@ -499,14 +529,14 @@
         }
 
         .au-slide-content {
-            padding: 36px 28px;
+            padding: 32px 24px;
             border-right: 1px solid var(--au-line);
             border-bottom: none;
             border-radius: var(--au-radius) var(--au-radius) 0 0;
         }
 
         .au-slide-visual {
-            min-height: 180px;
+            min-height: 200px;
             border-radius: 0 0 var(--au-radius) var(--au-radius);
         }
 
@@ -517,245 +547,298 @@
         .au-nav-next {
             right: -8px;
         }
+
+        .au-slide-name {
+            font-size: clamp(1.6rem, 6vw, 2.4rem);
+        }
     }
 </style>
 
-{{-- ================================================================ --}}
-<section id="amal-usaha-section">
-    <div class="au-container">
+@php
+    /*
+     * Config per tipe — hanya untuk icon, warna, label badge.
+     * Nama & deskripsi slide sepenuhnya dari DB.
+     */
+    $tipeConfig = [
+        'bidang_kesehatan' => [
+            'label' => 'Bidang Kesehatan',
+            'icon' => '🏥',
+            'color' => 'blue',
+        ],
+        'bidang_pendidikan' => [
+            'label' => 'Bidang Pendidikan',
+            'icon' => '🎓',
+            'color' => 'amber',
+        ],
+        'bidang_sosial' => [
+            'label' => 'Bidang Sosial',
+            'icon' => '🤝',
+            'color' => 'indigo',
+        ],
+    ];
 
-        {{-- Header --}}
-        <div class="au-header">
-            <div>
-                <div class="au-eyebrow">Amal Usaha Muhammadiyah</div>
-                <h2 class="au-title">
-                    Platform <em>Digital</em><br>Manajemen Cabang
-                </h2>
-            </div>
-            <div class="au-header-right">
-                <p class="au-header-desc">
-                    Empat bidang utama yang menggerakkan<br>
-                    kehidupan bermasyarakat PCM Cileungsi.
-                </p>
-                <div class="au-progress-track">
-                    <div class="au-progress-fill" id="auProgressFill"></div>
+    $totalSlides = $amalUsahaGrouped->count();
+@endphp
+
+@if ($totalSlides > 0)
+    <section id="amal-usaha-section">
+        <div class="au-container">
+
+            <div class="au-header">
+                <div>
+                    <div class="au-eyebrow">Amal Usaha Muhammadiyah</div>
+                    <h2 class="au-title">
+                        Gerak <em>Nyata</em><br>PCM Duren Sawit
+                    </h2>
+                </div>
+                <div class="au-header-right">
+                    <p class="au-header-desc">
+                        Amal usaha yang menggerakkan<br>
+                        kehidupan bermasyarakat PCM Duren Sawit.
+                    </p>
+                    <div class="au-progress-track">
+                        <div class="au-progress-fill" id="auProgressFill"></div>
+                    </div>
                 </div>
             </div>
+
+            {{-- Filter tabs per tipe --}}
+            <div class="au-tipe-tabs" id="auTipeTabs">
+                <button class="au-tipe-tab active" data-tipe="all">Semua</button>
+                @foreach ($amalUsahaGrouped as $group)
+                    @php $cfg = $tipeConfig[$group['tipe']] ?? ['label' => ucwords(str_replace('_', ' ', $group['tipe'])), 'color' => 'green']; @endphp
+                    <button class="au-tipe-tab" data-tipe="{{ $group['tipe'] }}">
+                        {{ $cfg['label'] }} ({{ $group['count'] }})
+                    </button>
+                @endforeach
+            </div>
+
+            {{-- Slider --}}
+            <div class="au-slider-outer">
+                <button class="au-nav-btn au-nav-prev" onclick="auSlide(-1)" aria-label="Sebelumnya">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.8">
+                        <path d="M10 12L6 8l4-4" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+
+                <div class="au-slider-viewport">
+                    <div class="au-slider-track" id="auSliderTrack">
+
+                        @foreach ($amalUsahaGrouped as $index => $group)
+                            @php
+                                $cfg = $tipeConfig[$group['tipe']] ?? [
+                                    'label' => ucwords(str_replace('_', ' ', $group['tipe'])),
+                                    'icon' => '📋',
+                                    'color' => 'green',
+                                ];
+                                $firstItem = $group['items']->first();
+                            @endphp
+
+                            <div class="au-slide au-slide-{{ $cfg['color'] }}" data-tipe="{{ $group['tipe'] }}">
+
+                                {{-- Konten kiri --}}
+                                <div class="au-slide-content">
+
+                                    <span class="au-badge au-badge-{{ $cfg['color'] }}">
+                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                                            <circle cx="5" cy="5" r="3" fill="currentColor" />
+                                        </svg>
+                                        {{ $cfg['label'] }}
+                                        <span class="au-badge-count">({{ $group['count'] }})</span>
+                                    </span>
+
+                                    @if ($firstItem)
+                                        <h3 class="au-slide-name">{{ $firstItem->nama }}</h3>
+                                    @endif
+
+                                    <div class="au-org-list">
+                                        @foreach ($group['items'] as $item)
+                                            @if ($item->organisasiOtonom)
+                                                <div class="au-org-chip au-org-name-only">
+                                                    <svg width="12" height="12" viewBox="0 0 12 12"
+                                                        fill="none">
+                                                        <path
+                                                            d="M6 1L7.5 4.5H11L8.5 6.5L9.5 10L6 8L2.5 10L3.5 6.5L1 4.5H4.5L6 1Z"
+                                                            stroke="currentColor" stroke-width="1" fill="none"
+                                                            stroke-linejoin="round" />
+                                                    </svg>
+                                                    {{ $item->organisasiOtonom->nama }}
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+
+                                    @if ($group['latestDesc'])
+                                        <div class="au-latest-desc">
+                                            <div class="au-latest-badge">Terbaru</div>
+                                            <div class="au-latest-title">{{ $group['latestDescTitle'] }}</div>
+                                            <p class="au-item-desc">{{ Str::limit($group['latestDesc'], 120) }}</p>
+                                        </div>
+                                    @endif
+
+                                    <div class="au-divider-line"></div>
+
+                                </div>
+
+                                {{-- Visual kanan --}}
+                                <div class="au-slide-visual">
+                                    @if ($firstItem && $firstItem->foto)
+                                        <img src="{{ Storage::url($firstItem->foto) }}" alt="{{ $firstItem->nama }}"
+                                            loading="lazy">
+                                    @endif
+                                    <span class="au-visual-icon">{{ $cfg['icon'] }}</span>
+                                    <span class="au-visual-label">{{ $cfg['label'] }}</span>
+                                </div>
+
+                            </div>
+                        @endforeach
+
+                    </div>
+                </div>
+
+                <button class="au-nav-btn au-nav-next" onclick="auSlide(1)" aria-label="Berikutnya">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.8">
+                        <path d="M6 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+
+            {{-- Footer dots + counter --}}
+            <div class="au-counter">
+                <div class="au-dots" id="auDots"></div>
+                <span class="au-counter-text">
+                    <strong id="auCurrent">01</strong> /
+                    <span id="auTotal">{{ str_pad($totalSlides, 2, '0', STR_PAD_LEFT) }}</span>
+                </span>
+            </div>
+
         </div>
+    </section>
 
-        {{-- Slider --}}
-        <div class="au-slider-outer">
+    <script>
+        (function() {
+            const INTERVAL = 5500;
 
-            {{-- Prev btn --}}
-            <button class="au-nav-btn au-nav-prev" onclick="auSlide(-1)" aria-label="Sebelumnya">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.8"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 12L6 8l4-4" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </button>
+            const track = document.getElementById('auSliderTrack');
+            const dotsWrap = document.getElementById('auDots');
+            const currentEl = document.getElementById('auCurrent');
+            const totalEl = document.getElementById('auTotal');
+            const progressEl = document.getElementById('auProgressFill');
 
-            <div class="au-slider-viewport">
-                <div class="au-slider-track" id="auSliderTrack">
+            /* ── Semua slides (NodeList) ── */
+            let allSlides = Array.from(track.querySelectorAll('.au-slide'));
+            let visible = [...allSlides]; // slides yang sedang ditampilkan
+            let current = 0;
+            let timer = null;
 
-                    {{-- ── SLIDE 1: Bidang Ekonomi ── --}}
+            /* ── Build dots ── */
+            function buildDots(count) {
+                dotsWrap.innerHTML = '';
+                for (let i = 0; i < count; i++) {
+                    const d = document.createElement('button');
+                    d.className = 'au-dot' + (i === 0 ? ' active' : '');
+                    d.setAttribute('aria-label', 'Slide ' + (i + 1));
+                    d.addEventListener('click', () => {
+                        clearInterval(timer);
+                        goTo(i);
+                        startAuto();
+                    });
+                    dotsWrap.appendChild(d);
+                }
+            }
 
-                    {{-- ── SLIDE 2: Bidang Kesehatan ── --}}
-                    <div class="au-slide au-slide-blue">
-                        <div class="au-slide-content">
-                            <span class="au-badge au-badge-blue">
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="5" cy="5" r="3" fill="currentColor" />
-                                </svg>
-                                Bidang Kesehatan
-                            </span>
-                            <h3 class="au-slide-name">Amal Usaha<br>Kesehatan</h3>
-                            <p class="au-slide-subtitle">Layanan Kesehatan Umat yang Amanah</p>
-                            <div class="au-divider-line"></div>
-                            <ul class="au-list">
-                                <li>Klinik Pratama Muhammadiyah</li>
-                                <li>Apotek Muhammadiyah</li>
-                                <li>Posyandu Binaan PCM</li>
-                                <li>Program Kesehatan Gratis</li>
-                                <li>Ambulans Umat</li>
-                            </ul>
-                        </div>
-                        <div class="au-slide-visual">
-                            <span class="au-visual-icon">🏥</span>
-                            <span class="au-visual-label">Bidang Kesehatan</span>
-                        </div>
-                    </div>
+            /* ── Filter by tipe ── */
+            document.getElementById('auTipeTabs').addEventListener('click', (e) => {
+                const btn = e.target.closest('.au-tipe-tab');
+                if (!btn) return;
 
-                    {{-- ── SLIDE 3: Bidang Pendidikan ── --}}
-                    <div class="au-slide au-slide-amber">
-                        <div class="au-slide-content">
-                            <span class="au-badge au-badge-amber">
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="5" cy="5" r="3" fill="currentColor" />
-                                </svg>
-                                Bidang Pendidikan
-                            </span>
-                            <h3 class="au-slide-name">Amal Usaha<br>Pendidikan</h3>
-                            <p class="au-slide-subtitle">Mencerdaskan Generasi Penerus Bangsa</p>
-                            <div class="au-divider-line"></div>
-                            <ul class="au-list">
-                                <li>TK / PAUD Muhammadiyah</li>
-                                <li>SD Muhammadiyah</li>
-                                <li>SMP Muhammadiyah</li>
-                                <li>SMA / SMK Muhammadiyah</li>
-                            </ul>
-                        </div>
-                        <div class="au-slide-visual">
-                            <span class="au-visual-icon">🎓</span>
-                            <span class="au-visual-label">Bidang Pendidikan</span>
-                        </div>
-                    </div>
+                document.querySelectorAll('.au-tipe-tab').forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
 
-                    {{-- ── SLIDE 4: Bidang Sosial ── --}}
-                    <div class="au-slide au-slide-indigo">
-                        <div class="au-slide-content">
-                            <span class="au-badge au-badge-indigo">
-                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <circle cx="5" cy="5" r="3" fill="currentColor" />
-                                </svg>
-                                Bidang Sosial
-                            </span>
-                            <h3 class="au-slide-name">Amal Usaha<br>Sosial</h3>
-                            <p class="au-slide-subtitle">Kepedulian Sosial untuk Kemaslahatan Umat</p>
-                            <div class="au-divider-line"></div>
-                            <ul class="au-list">
-                                <li>Panti Asuhan Muhammadiyah</li>
-                                <li>Program Beasiswa Dhuafa</li>
-                                <li>Rumah Singgah</li>
-                                <li>Lembaga Zakat & Infaq (LAZISMU)</li>
-                                <li>Tanggap Bencana PCM</li>
-                                <li>Program Pemberdayaan Masyarakat</li>
-                            </ul>
-                        </div>
-                        <div class="au-slide-visual">
-                            <span class="au-visual-icon">🤝</span>
-                            <span class="au-visual-label">Bidang Sosial</span>
-                        </div>
-                    </div>
+                const tipe = btn.dataset.tipe;
 
-                </div>{{-- /au-slider-track --}}
-            </div>{{-- /au-slider-viewport --}}
+                allSlides.forEach(s => {
+                    s.style.display = (tipe === 'all' || s.dataset.tipe === tipe) ? '' : 'none';
+                });
 
-            {{-- Next btn --}}
-            <button class="au-nav-btn au-nav-next" onclick="auSlide(1)" aria-label="Berikutnya">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke-width="1.8"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </button>
+                visible = allSlides.filter(s => s.style.display !== 'none');
+                totalEl.textContent = String(visible.length).padStart(2, '0');
 
-        </div>{{-- /au-slider-outer --}}
-
-        {{-- Footer: dots + counter --}}
-        <div class="au-counter">
-            <div class="au-dots" id="auDots"></div>
-            <span class="au-counter-text">
-                <strong id="auCurrent">01</strong> / <span id="auTotal">03</span>
-            </span>
-        </div>
-
-    </div>{{-- /au-container --}}
-</section>
-
-<script>
-    (function() {
-        const TOTAL = 3;
-        const INTERVAL = 5500; // ms auto-advance
-        const track = document.getElementById('auSliderTrack');
-        const dotsWrap = document.getElementById('auDots');
-        const currentEl = document.getElementById('auCurrent');
-        const progressEl = document.getElementById('auProgressFill');
-
-        let current = 0;
-        let timer = null;
-        let progress = 0;
-        let progTimer = null;
-
-        /* Build dots */
-        for (let i = 0; i < TOTAL; i++) {
-            const d = document.createElement('button');
-            d.className = 'au-dot' + (i === 0 ? ' active' : '');
-            d.setAttribute('aria-label', 'Slide ' + (i + 1));
-            d.addEventListener('click', () => goTo(i));
-            dotsWrap.appendChild(d);
-        }
-
-        function goTo(idx) {
-            current = (idx + TOTAL) % TOTAL;
-            track.style.transform = `translateX(-${current * 100}%)`;
-
-            /* Update dots */
-            dotsWrap.querySelectorAll('.au-dot').forEach((d, i) => {
-                d.classList.toggle('active', i === current);
+                clearInterval(timer);
+                goTo(0);
+                startAuto();
+                buildDots(visible.length);
             });
 
-            /* Update counter */
-            currentEl.textContent = String(current + 1).padStart(2, '0');
+            /* ── goTo ── */
+            function goTo(idx) {
+                current = ((idx % visible.length) + visible.length) % visible.length;
 
-            /* Re-trigger animations on slide content */
-            const slides = track.querySelectorAll('.au-slide');
-            slides.forEach((s, i) => s.classList.toggle('au-slide-active', i === current));
+                /* Hitung offset: jumlah slides sebelum slide visible[current] dalam allSlides */
+                const targetSlide = visible[current];
+                const allIdx = allSlides.indexOf(targetSlide);
 
-            /* Restart progress */
-            resetProgress();
-        }
+                track.style.transform = `translateX(-${allIdx * 100}%)`;
 
-        /* Public nav function (called by buttons) */
-        window.auSlide = function(dir) {
-            clearInterval(timer);
-            goTo(current + dir);
+                dotsWrap.querySelectorAll('.au-dot').forEach((d, i) =>
+                    d.classList.toggle('active', i === current)
+                );
+
+                currentEl.textContent = String(current + 1).padStart(2, '0');
+
+                allSlides.forEach((s, i) =>
+                    s.classList.toggle('au-slide-active', i === allIdx)
+                );
+
+                resetProgress();
+            }
+
+            window.auSlide = function(dir) {
+                clearInterval(timer);
+                goTo(current + dir);
+                startAuto();
+            };
+
+            /* ── Progress bar ── */
+            function resetProgress() {
+                progressEl.style.transition = 'none';
+                progressEl.style.width = '0%';
+                requestAnimationFrame(() => {
+                    progressEl.style.transition = `width ${INTERVAL}ms linear`;
+                    progressEl.style.width = '100%';
+                });
+            }
+
+            /* ── Auto-advance ── */
+            function startAuto() {
+                clearInterval(timer);
+                resetProgress();
+                timer = setInterval(() => goTo(current + 1), INTERVAL);
+            }
+
+            /* ── Pause on hover ── */
+            const section = document.getElementById('amal-usaha-section');
+            section.addEventListener('mouseenter', () => clearInterval(timer));
+            section.addEventListener('mouseleave', () => startAuto());
+
+            /* ── Touch swipe ── */
+            let touchX = 0;
+            track.addEventListener('touchstart', e => {
+                touchX = e.touches[0].clientX;
+            }, {
+                passive: true
+            });
+            track.addEventListener('touchend', e => {
+                const diff = touchX - e.changedTouches[0].clientX;
+                if (Math.abs(diff) > 40) window.auSlide(diff > 0 ? 1 : -1);
+            }, {
+                passive: true
+            });
+
+            /* ── Init ── */
+            buildDots(visible.length);
+            goTo(0);
             startAuto();
-        };
-
-        /* Progress bar animation */
-        function resetProgress() {
-            clearInterval(progTimer);
-            progress = 0;
-            progressEl.style.transition = 'none';
-            progressEl.style.width = '0%';
-            requestAnimationFrame(() => {
-                progressEl.style.transition = `width ${INTERVAL}ms linear`;
-                progressEl.style.width = '100%';
-            });
-        }
-
-        /* Auto-advance */
-        function startAuto() {
-            clearInterval(timer);
-            resetProgress();
-            timer = setInterval(() => goTo(current + 1), INTERVAL);
-        }
-
-        /* Pause on hover */
-        const section = document.getElementById('amal-usaha-section');
-        section.addEventListener('mouseenter', () => {
-            clearInterval(timer);
-            clearInterval(progTimer);
-        });
-        section.addEventListener('mouseleave', () => startAuto());
-
-        /* Touch swipe */
-        let touchStartX = 0;
-        track.addEventListener('touchstart', e => {
-            touchStartX = e.touches[0].clientX;
-        }, {
-            passive: true
-        });
-        track.addEventListener('touchend', e => {
-            const diff = touchStartX - e.changedTouches[0].clientX;
-            if (Math.abs(diff) > 40) window.auSlide(diff > 0 ? 1 : -1);
-        }, {
-            passive: true
-        });
-
-        /* Init */
-        startAuto();
-    })();
-</script>
+        })();
+    </script>
+@endif
