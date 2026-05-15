@@ -11,6 +11,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Admin\OrganisasiController;
 use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\AmalUsahaController;
+use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ Route::get('/anggota-organisasi/{slug}', [LandingController::class, 'showAnggota
 
 
 Route::prefix('admin')->group(function () {
-    Route::middleware('auth')->group(function () {
+    Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -77,8 +78,27 @@ Route::prefix('admin')->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    });
+        Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
+            Route::get('/manage-user', [ManageUserController::class, 'index'])
+                ->name('admin.manage-user');
+
+            Route::get('/manage-user/create', [ManageUserController::class, 'create'])
+                ->name('admin.manage-user.create');
+
+            Route::post('/manage-user', [ManageUserController::class, 'store'])
+                ->name('admin.manage-user.store');
+
+            Route::get('/manage-user/{id}/edit', [ManageUserController::class, 'edit'])
+                ->name('admin.manage-user.edit');
+
+            Route::put('/manage-user/{id}', [ManageUserController::class, 'update'])
+                ->name('admin.manage-user.update');
+
+            Route::delete('/manage-user/{id}', [ManageUserController::class, 'destroy'])
+                ->name('admin.manage-user.destroy');
+        });
+    });
 });
 
 Route::get('/cek-db', function () {

@@ -416,8 +416,8 @@
 
     .au-org-list {
         margin: 20px 0 24px;
-        max-height: 200px;
-        overflow-y: auto;
+        padding: 0;
+        list-style: none;
         padding-right: 8px;
     }
 
@@ -524,7 +524,10 @@
         }
 
         .au-slide {
-            grid-template-columns: 1fr;
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+
             min-height: auto;
         }
 
@@ -651,10 +654,16 @@
                                         <h3 class="au-slide-name">{{ $firstItem->nama }}</h3>
                                     @endif
 
-                                    <div class="au-org-list">
+                                    @if ($group['latestDesc'])
+                                        <div class="au-latest-desc">
+                                            <p class="au-item-desc">{{ Str::limit($group['latestDesc'], 120) }}</p>
+                                        </div>
+                                    @endif
+
+                                    <ul class="au-org-list">
                                         @foreach ($group['items'] as $item)
                                             @if ($item->organisasiOtonom)
-                                                <div class="au-org-chip au-org-name-only">
+                                                <li class="au-org-chip au-org-name-only">
                                                     <svg width="12" height="12" viewBox="0 0 12 12"
                                                         fill="none">
                                                         <path
@@ -663,18 +672,10 @@
                                                             stroke-linejoin="round" />
                                                     </svg>
                                                     {{ $item->organisasiOtonom->nama }}
-                                                </div>
+                                                </li>
                                             @endif
                                         @endforeach
-                                    </div>
-
-                                    @if ($group['latestDesc'])
-                                        <div class="au-latest-desc">
-                                            <div class="au-latest-badge">Terbaru</div>
-                                            <div class="au-latest-title">{{ $group['latestDescTitle'] }}</div>
-                                            <p class="au-item-desc">{{ Str::limit($group['latestDesc'], 120) }}</p>
-                                        </div>
-                                    @endif
+                                    </ul>
 
                                     <div class="au-divider-line"></div>
 
