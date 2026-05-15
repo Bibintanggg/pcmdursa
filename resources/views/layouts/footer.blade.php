@@ -128,6 +128,7 @@
                 <div class="flex gap-4">
                     <a href="#" class="hover:text-white transition">Kebijakan Privasi</a>
                     <a href="#" class="hover:text-white transition">Syarat & Ketentuan</a>
+                    <p>Created by @bintang.ydha_ on instagram</p>
                 </div>
 
             </div>
