@@ -5,8 +5,6 @@
                 stroke-linejoin="round" />
         </svg>
     </div>
-
-    {{-- LOGO --}}
     <div class="logo">
         <div class="logo-icon">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -21,195 +19,250 @@
             <p>Admin Panel</p>
         </div>
     </div>
-
-    {{-- NAV --}}
     <nav>
         <div class="section-label">Menu</div>
 
-        <a href="/admin/dashboard" class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-            data-label="Dashboard">
-            <div class="nav-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
-                        stroke-width="1.4" />
-                    <rect x="9" y="1.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
-                        stroke-width="1.4" />
-                    <rect x="1.5" y="9" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
-                        stroke-width="1.4" />
-                    <rect x="9" y="9" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
-                        stroke-width="1.4" />
-                </svg>
-            </div>
-            <span class="nav-label">Dashboard</span>
-        </a>
-
-        {{-- DROPDOWN PROFILE --}}
-        <div class="dropdown" x-data="{ open: {{ request()->routeIs('admin.profile-organisasi*') || request()->routeIs('admin.kelola-organisasi*') ? 'true' : 'false' }} }">
-            <div class="dropdown-toggle nav-item" @click="open = !open" :class="{ 'active': open }"
-                data-label="Profile">
-                <div class="nav-icon">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.4" />
-                        <path d="M2.5 13.5C2.5 11.015 5.015 9 8 9C10.985 9 13.5 11.015 13.5 13.5" stroke="currentColor"
-                            stroke-width="1.4" stroke-linecap="round" />
-                    </svg>
-                </div>
-                <span class="nav-label">Profile</span>
-                <svg class="dropdown-arrow" :class="{ 'rotate': open }" width="12" height="12"
-                    viewBox="0 0 12 12" fill="none">
-                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </div>
-            <div class="dropdown-menu" x-show="open" x-collapse>
-                <a href="/admin/profile-organisasi"
-                    class="dropdown-item {{ request()->routeIs('admin.profile-organisasi') ? 'active' : '' }}">
-                    <span>Profile Organisasi</span>
-                </a>
-                <a href="/admin/struktur-organisasi"
-                    class="dropdown-item {{ request()->routeIs('admin.struktur-organisasi') ? 'active' : '' }}">
-                    <span>Struktur Organisasi</span>
-                </a>
-            </div>
-        </div>
-
-        <a href="/admin/articles" class="nav-item {{ request()->routeIs('admin.articles') ? 'active' : '' }}"
-            data-label="Artikel">
-            <div class="nav-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="1.4" />
-                    <path
-                        d="M8 1.5V3M8 13V14.5M14.5 8H13M3 8H1.5M12.95 3.05L11.89 4.11M4.11 11.89L3.05 12.95M12.95 12.95L11.89 11.89M4.11 4.11L3.05 3.05"
-                        stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
-                </svg>
-            </div>
-            <span class="nav-label">Artikel</span>
-        </a>
-
-        <a href="/admin/berita" class="nav-item {{ request()->routeIs('admin.berita') ? 'active' : '' }}"
-            data-label="Berita">
-            <div class="nav-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor"
-                        stroke-width="1.4" />
-                    <path d="M4.5 5.5H11.5M4.5 8H9M4.5 10.5H7.5" stroke="currentColor" stroke-width="1.4"
-                        stroke-linecap="round" />
-                </svg>
-            </div>
-            <span class="nav-label">Berita</span>
-        </a>
-
-        {{-- DROPDOWN PROGRAM --}}
-        <div class="dropdown" x-data="{ open: {{ request()->routeIs('admin.program*') ? 'true' : 'false' }} }">
-
-            <div class="dropdown-toggle nav-item" @click="open = !open" :class="{ 'active': open }"
-                data-label="Program">
-
-                <div class="nav-icon">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path
-                            d="M8 1.5L9.545 5.635L14 6.09L10.75 9.08L11.705 13.5L8 11.27L4.295 13.5L5.25 9.08L2 6.09L6.455 5.635L8 1.5Z"
-                            stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <span class="nav-label">Program</span>
-
-                <svg class="dropdown-arrow" :class="{ 'rotate': open }" width="12" height="12"
-                    viewBox="0 0 12 12" fill="none">
-                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </div>
-
-            <div class="dropdown-menu" x-show="open" x-collapse>
-                <a href="/admin/program-kajian"
-                    class="dropdown-item {{ request()->routeIs('admin.program-kajian') ? 'active' : '' }}">
-                    <span>Program Kajian</span>
-                </a>
-
-                {{-- <a href="/admin/program-unggulan"
-                    class="dropdown-item {{ request()->routeIs('admin.program-unggulan') ? 'active' : '' }}">
-                    <span>Program Unggulan</span>
-                </a>
-
-                <a href="/admin/kategori-program"
-                    class="dropdown-item {{ request()->routeIs('admin.kategori-program') ? 'active' : '' }}">
-                    <span>Kategori Program</span>
-                </a> --}}
-            </div>
-        </div>
-
-        <div class="dropdown" x-data="{ open: {{ request()->routeIs('admin.organisasi*') ? 'true' : 'false' }} }">
-
-            <div class="dropdown-toggle nav-item" @click="open = !open" :class="{ 'active': open }"
-                data-label="Kelola Organisasi">
-
-                <div class="nav-icon">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <path d="M2 14V6M8 14V2M14 14V9" stroke="currentColor" stroke-width="1.4"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </div>
-
-                <span class="nav-label">Kelola Organisasi</span>
-
-                <svg class="dropdown-arrow" :class="{ 'rotate': open }" width="12" height="12"
-                    viewBox="0 0 12 12" fill="none">
-                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </div>
-
-            <div class="dropdown-menu" x-show="open" x-collapse>
-
-                {{-- Data Organisasi --}}
-                <a href="{{ route('admin.organisasi-otonom') }}"
-                    class="dropdown-item {{ request()->routeIs('admin.organisasi-otonom') ? 'active' : '' }}">
-                    <span>Data Organisasi</span>
-                </a>
-
-                {{-- Data Pengurus --}}
-                <a href="{{ route('admin.pengurus.index') }}"
-                    class="dropdown-item {{ request()->routeIs('admin.pengurus*') ? 'active' : '' }}">
-                    <span>Data Pengurus</span>
-                </a>
-
-            </div>
-        </div>
-
-        <a href="/admin/amal-usaha" class="nav-item {{ request()->routeIs('admin.amal-usaha') ? 'active' : '' }}"
-            data-label="Amal Usaha">
-            <div class="nav-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor"
-                        stroke-width="1.4" />
-                    <path d="M4.5 5.5H11.5M4.5 8H9M4.5 10.5H7.5" stroke="currentColor" stroke-width="1.4"
-                        stroke-linecap="round" />
-                </svg>
-            </div>
-            <span class="nav-label">Amal Usaha</span>
-        </a>
         @auth
-            @if (auth()->user()->role === 'superadmin')
-                <a href="{{ route('admin.manage-user') }}"
-                    class="nav-item {{ request()->routeIs('admin.manage-user*') ? 'active' : '' }}"
-                    data-label="Manajemen Akun">
-
+            @if (in_array(auth()->user()->role, ['superadmin', 'admin']))
+                {{-- DASHBOARD --}}
+                <a href="/admin/dashboard" class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                    data-label="Dashboard">
                     <div class="nav-icon">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <rect x="9" y="1.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <rect x="1.5" y="9" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <rect x="9" y="9" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
                         </svg>
                     </div>
+                    <span class="nav-label">Dashboard</span>
+                </a>
 
-                    <span class="nav-label">Manajemen Akun</span>
+                {{-- PROFILE --}}
+                <div class="dropdown" x-data="{ open: {{ request()->routeIs('admin.profile-organisasi*') || request()->routeIs('admin.struktur-organisasi*') ? 'true' : 'false' }} }">
+                    <div class="dropdown-toggle nav-item" @click="open = !open" :class="{ 'active': open }"
+                        data-label="Profile">
+                        <div class="nav-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.4" />
+                                <path d="M2.5 13.5C2.5 11.015 5.015 9 8 9C10.985 9 13.5 11.015 13.5 13.5"
+                                    stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <span class="nav-label">Profile</span>
+                        <svg class="dropdown-arrow" :class="{ 'rotate': open }" width="12" height="12"
+                            viewBox="0 0 12 12" fill="none">
+                            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu" x-show="open" x-collapse>
+                        <a href="/admin/profile-organisasi"
+                            class="dropdown-item {{ request()->routeIs('admin.profile-organisasi') ? 'active' : '' }}">
+                            <span>Profile Organisasi</span>
+                        </a>
+                        <a href="/admin/struktur-organisasi"
+                            class="dropdown-item {{ request()->routeIs('admin.struktur-organisasi') ? 'active' : '' }}">
+                            <span>Struktur Organisasi</span>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- ARTIKEL --}}
+                <a href="/admin/articles" class="nav-item {{ request()->routeIs('admin.articles*') ? 'active' : '' }}"
+                    data-label="Artikel">
+                    <div class="nav-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <line x1="4.5" y1="5.5" x2="11.5" y2="5.5" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                            <line x1="4.5" y1="8" x2="11.5" y2="8" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                            <line x1="4.5" y1="10.5" x2="8.5" y2="10.5" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <span class="nav-label">Artikel</span>
+                </a>
+
+                {{-- BERITA --}}
+                <a href="/admin/berita" class="nav-item {{ request()->routeIs('admin.berita*') ? 'active' : '' }}"
+                    data-label="Berita">
+                    <div class="nav-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <line x1="4" y1="5.5" x2="12" y2="5.5" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                            <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                            <line x1="4" y1="10.5" x2="8" y2="10.5" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <span class="nav-label">Berita</span>
+                </a>
+
+                {{-- PROGRAM KAJIAN --}}
+                <a href="/admin/program-kajian"
+                    class="nav-item {{ request()->routeIs('admin.program-kajian*') ? 'active' : '' }}"
+                    data-label="Program Kajian">
+                    <div class="nav-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path
+                                d="M8 1.5L9.545 5.635L14 6.09L10.75 9.08L11.705 13.5L8 11.27L4.295 13.5L5.25 9.08L2 6.09L6.455 5.635L8 1.5Z"
+                                stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <span class="nav-label">Program Kajian</span>
+                </a>
+
+                {{-- KELOLA ORGANISASI --}}
+                <div class="dropdown" x-data="{ open: {{ request()->routeIs('admin.organisasi*') || request()->routeIs('admin.pengurus*') ? 'true' : 'false' }} }">
+                    <div class="dropdown-toggle nav-item" @click="open = !open" :class="{ 'active': open }"
+                        data-label="Kelola Organisasi">
+                        <div class="nav-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <!-- Top (root) node -->
+                                <circle cx="8" cy="3.5" r="1.8" stroke="currentColor"
+                                    stroke-width="1.3" />
+                                <!-- Left child node -->
+                                <circle cx="3.5" cy="12" r="1.5" stroke="currentColor"
+                                    stroke-width="1.2" />
+                                <!-- Right child node -->
+                                <circle cx="12.5" cy="12" r="1.5" stroke="currentColor"
+                                    stroke-width="1.2" />
+                                <!-- Lines: root to branch -->
+                                <line x1="8" y1="5.3" x2="8" y2="8" stroke="currentColor"
+                                    stroke-width="1.2" stroke-linecap="round" />
+                                <!-- Branch horizontal -->
+                                <line x1="3.5" y1="8" x2="12.5" y2="8" stroke="currentColor"
+                                    stroke-width="1.2" stroke-linecap="round" />
+                                <!-- Branch to left child -->
+                                <line x1="3.5" y1="8" x2="3.5" y2="10.5" stroke="currentColor"
+                                    stroke-width="1.2" stroke-linecap="round" />
+                                <!-- Branch to right child -->
+                                <line x1="12.5" y1="8" x2="12.5" y2="10.5" stroke="currentColor"
+                                    stroke-width="1.2" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <span class="nav-label">Kelola Organisasi</span>
+                        <svg class="dropdown-arrow" :class="{ 'rotate': open }" width="12" height="12"
+                            viewBox="0 0 12 12" fill="none">
+                            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div class="dropdown-menu" x-show="open" x-collapse>
+                        <a href="{{ route('admin.organisasi-otonom') }}"
+                            class="dropdown-item {{ request()->routeIs('admin.organisasi-otonom') ? 'active' : '' }}">
+                            <span>Data Organisasi</span>
+                        </a>
+                        <a href="{{ route('admin.pengurus.index') }}"
+                            class="dropdown-item {{ request()->routeIs('admin.pengurus*') ? 'active' : '' }}">
+                            <span>Data Pengurus</span>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- AMAL USAHA --}}
+                <a href="/admin/amal-usaha"
+                    class="nav-item {{ request()->routeIs('admin.amal-usaha*') ? 'active' : '' }}"
+                    data-label="Amal Usaha">
+                    <div class="nav-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path
+                                d="M8 13.5C8 13.5 1.5 9 1.5 5.5C1.5 3.567 3.067 2 5 2C6.1 2 7.1 2.55 7.7 3.4L8 3.8L8.3 3.4C8.9 2.55 9.9 2 11 2C12.933 2 14.5 3.567 14.5 5.5C14.5 9 8 13.5 8 13.5Z"
+                                stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <span class="nav-label">Amal Usaha</span>
+                </a>
+
+                {{-- KHUSUS SUPERADMIN --}}
+                @if (auth()->user()->role === 'superadmin')
+                    <a href="{{ route('admin.manage-user') }}"
+                        class="nav-item {{ request()->routeIs('admin.manage-user*') ? 'active' : '' }}"
+                        data-label="Manajemen Akun">
+                        <div class="nav-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <circle cx="7" cy="5.5" r="2.5" stroke="currentColor"
+                                    stroke-width="1.4" />
+                                <path d="M1.5 13.5C1.5 11.015 4.015 9 7 9" stroke="currentColor" stroke-width="1.4"
+                                    stroke-linecap="round" />
+                                <circle cx="12" cy="11.5" r="2.5" stroke="currentColor"
+                                    stroke-width="1.3" />
+                                <line x1="12" y1="10.2" x2="12" y2="12.8" stroke="currentColor"
+                                    stroke-width="1.2" stroke-linecap="round" />
+                                <line x1="10.7" y1="11.5" x2="13.3" y2="11.5" stroke="currentColor"
+                                    stroke-width="1.2" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <span class="nav-label">Manajemen Akun</span>
+                    </a>
+                @endif
+            @elseif (auth()->user()->role === 'penulis')
+                {{-- DASHBOARD PENULIS --}}
+                <a href="{{ route('penulis.dashboard') }}"
+                    class="nav-item {{ request()->routeIs('penulis.dashboard') ? 'active' : '' }}"
+                    data-label="Dashboard">
+                    <div class="nav-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <rect x="9" y="1.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <rect x="1.5" y="9" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <rect x="9" y="9" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                        </svg>
+                    </div>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+
+                {{-- ARTIKEL PENULIS --}}
+                <a href="{{ route('penulis.articles') }}"
+                    class="nav-item {{ request()->routeIs('penulis.articles*') ? 'active' : '' }}" data-label="Artikel">
+                    <div class="nav-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <rect x="2" y="2" width="12" height="12" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <line x1="4.5" y1="5.5" x2="11.5" y2="5.5" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                            <line x1="4.5" y1="8" x2="11.5" y2="8" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                            <line x1="4.5" y1="10.5" x2="8.5" y2="10.5" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <span class="nav-label">Artikel</span>
+                </a>
+
+                <a href="{{ route('penulis.berita') }}"
+                    class="nav-item {{ request()->routeIs('penulis.berita*') ? 'active' : '' }}" data-label="Berita">
+                    <div class="nav-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <line x1="4" y1="5.5" x2="12" y2="5.5" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                            <line x1="4" y1="8" x2="12" y2="8" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                            <line x1="4" y1="10.5" x2="8" y2="10.5" stroke="currentColor"
+                                stroke-width="1.2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <span class="nav-label">Berita</span>
                 </a>
             @endif
         @endauth
     </nav>
-
     {{-- FOOTER USER --}}
     <div class="sidebar-footer">
 

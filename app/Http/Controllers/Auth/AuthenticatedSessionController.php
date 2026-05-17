@@ -17,7 +17,22 @@ class AuthenticatedSessionController extends Controller
     public function create()
     {
         if (auth()->check()) {
-            return redirect()->route('admin.dashboard');
+
+            $role = auth()->user()->role;
+
+            if ($role === 'superadmin') {
+                return redirect()->route('superadmin.dashboard');
+            }
+
+            if ($role === 'penulis') {
+                return redirect()->route('penulis.dashboard');
+            }
+
+            if ($role === 'bendahara') {
+                return redirect()->route('bendahara.dashboard');
+            }
+
+            return redirect()->route('dashboard');
         }
 
         return view('auth.login');

@@ -22,6 +22,13 @@ class DatabaseSeeder extends Seeder
             'role' => 'superadmin',
         ]);
 
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'penulis@example.com',
+            'password' => bcrypt('penulis123'),
+            'role' => 'penulis',
+        ]);
+
         $this->call([
             ArticleSeeder::class,
         ]);

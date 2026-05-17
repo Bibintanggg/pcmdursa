@@ -101,6 +101,28 @@ Route::prefix('admin')->group(function () {
     });
 });
 
+Route::prefix('penulis')->group(function () {
+    Route::middleware(['auth', 'role:penulis'])->group(function () {
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('penulis.dashboard');
+
+        Route::get('/articles', [ArtikelController::class, 'index'])->name('penulis.articles');
+        Route::get('/articles/create', [ArtikelController::class, 'create'])->name('penulis.articles.create');
+        Route::post('/articles', [ArtikelController::class, 'store'])->name('penulis.articles.store');
+        Route::get('/articles/{id}/edit', [ArtikelController::class, 'edit'])->name('penulis.articles.edit');
+        Route::put('/articles/{id}', [ArtikelController::class, 'update'])->name('penulis.articles.update');
+        Route::delete('/articles/{id}', [ArtikelController::class, 'destroy'])->name('penulis.articles.destroy');
+
+        Route::get('/berita', [NewsController::class, 'index'])->name('penulis.berita');
+        Route::get('/berita/create', [NewsController::class, 'create'])->name('penulis.berita.create');
+        Route::post('/berita', [NewsController::class, 'store'])->name('penulis.berita.store');
+        Route::get('/berita/{id}/edit', [NewsController::class, 'edit'])->name('penulis.berita.edit');
+        Route::put('/berita/{id}', [NewsController::class, 'update'])->name('penulis.berita.update');
+        Route::delete('/berita/{id}', [NewsController::class, 'destroy'])->name('penulis.berita.destroy');
+    });
+});
+
+
+
 Route::get('/cek-db', function () {
     return [
         'env' => env('DB_CONNECTION'),
