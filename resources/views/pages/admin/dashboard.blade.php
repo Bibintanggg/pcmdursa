@@ -334,7 +334,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6m-6 4h6M7 4h10l2 2v14H5V6l2-2z"/></svg>
                             <span>Tambah Artikel</span>
                         </a>
-                        <a href="{{ route('berita.create') }}" class="qa-btn">
+                        <a href="{{ route('admin.berita.create') }}" class="qa-btn">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h6"/></svg>
                             <span>Tambah Berita</span>
                         </a>
