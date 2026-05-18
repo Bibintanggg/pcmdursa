@@ -126,7 +126,14 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('admin.articles.store') }}" method="POST" enctype="multipart/form-data">
+
+                    @php
+                        $role = auth()->user()->role;
+                        $prefix = $role === 'penulis' ? 'penulis' : 'admin';
+                    @endphp
+
+                    <form action="{{ route($prefix . '.articles.store') }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="space-y-4">
 
@@ -315,7 +322,7 @@
                         <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
                             <span id="footer-status" class="text-sm text-gray-500">Isi field yang diperlukan</span>
                             <div class="flex items-center gap-2">
-                                <a href="{{ route('admin.articles') }}"
+                                <a href="{{ route($prefix . '.articles') }}"
                                     class="text-sm px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition font-medium">Batal</a>
                                 <button type="submit"
                                     class="flex items-center gap-2 text-sm px-6 py-2.5 rounded-xl bg-black text-white font-semibold hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/20 transition-all duration-300 active:scale-95">

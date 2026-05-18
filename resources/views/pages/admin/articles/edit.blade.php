@@ -126,7 +126,15 @@
                             </ul>
                         </div>
                     @endif
-                    <form action="{{ route('admin.articles.update', $article->id) }}" method="POST" enctype="multipart/form-data">
+
+
+                    @php
+                        $role = auth()->user()->role;
+                        $prefix = $role === 'penulis' ? 'penulis' : 'admin';
+                    @endphp
+
+                    <form action="{{ route($prefix . '.articles.update', $article->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="space-y-4">
@@ -180,8 +188,8 @@
                                                 class="filled-badge hidden text-xs font-semibold bg-gray-100 text-gray-600 px-2.5 py-0.5 rounded-md">✓
                                                 Diisi</span>
                                         </div>
-                                        <input type="text" name="author" value="{{ old('author', $article->author) }}"
-                                            placeholder="Nama penulis..."
+                                        <input type="text" name="author"
+                                            value="{{ old('author', $article->author) }}" placeholder="Nama penulis..."
                                             class="field-input text-base text-gray-900 border-none py-1"
                                             oninput="sync('preview-author', this.value, 'Unknown')" />
                                         @error('author')
@@ -235,15 +243,23 @@
                                         <label class="text-sm font-semibold text-gray-700">Status</label>
 
                                         <!-- hidden -->
-                                        <input type="hidden" name="status" id="status" value="{{ old('status', $article->status) }}">
+                                        <input type="hidden" name="status" id="status"
+                                            value="{{ old('status', $article->status) }}">
 
                                         <!-- trigger -->
                                         <div id="dropdownBtn"
                                             class="mt-2 flex items-center justify-between px-3 py-2 border rounded-xl cursor-pointer hover:border-black transition">
 
                                             <div class="flex items-center gap-2">
-                                                <span id="dot" class="w-2 h-2 rounded-full @if(old('status', $article->status) == 'published') bg-emerald-500 @else bg-amber-500 @endif"></span>
-                                                <span id="label" class="text-sm font-medium">@if(old('status', $article->status) == 'published') Published @else Draft @endif</span>
+                                                <span id="dot"
+                                                    class="w-2 h-2 rounded-full @if (old('status', $article->status) == 'published') bg-emerald-500 @else bg-amber-500 @endif"></span>
+                                                <span id="label" class="text-sm font-medium">
+                                                    @if (old('status', $article->status) == 'published')
+                                                        Published
+                                                    @else
+                                                        Draft
+                                                    @endif
+                                                </span>
                                             </div>
 
                                             <svg id="arrow" class="w-4 h-4 text-gray-400 transition"
@@ -283,47 +299,52 @@
                                 <label for="thumbnail-input" id="upload-zone"
                                     class="flex flex-col items-center justify-center text-center cursor-pointer border-2 border-dashed border-gray-300 rounded-2xl bg-gray-50 py-10 px-6 transition-all duration-300 hover:border-black hover:bg-white hover:-translate-y-0.5">
 
-                                    @if($article->thumbnail)
+                                    @if ($article->thumbnail)
                                         {{-- Show current thumbnail --}}
                                         <div id="upload-preview-wrap"
                                             class="w-full mb-3 rounded-xl overflow-hidden aspect-video">
-                                            <img id="upload-img-preview" src="{{ asset('storage/' . $article->thumbnail) }}"
+                                            <img id="upload-img-preview"
+                                                src="{{ asset('storage/' . $article->thumbnail) }}"
                                                 class="w-full h-full object-cover" />
-                                            <input type="hidden" name="current_thumbnail" value="{{ $article->thumbnail }}">
+                                            <input type="hidden" name="current_thumbnail"
+                                                value="{{ $article->thumbnail }}">
                                         </div>
                                         <div id="upload-placeholder" class="hidden">
                                             <div
                                                 class="w-14 h-14 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mb-3 mx-auto">
-                                                <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor"
-                                                    stroke-width="1.5" viewBox="0 0 24 24">
+                                                <svg class="w-7 h-7 text-gray-400" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                                     <rect x="3" y="3" width="18" height="18" rx="3" />
                                                     <path d="M3 15l5-5 4 4 3-3 6 5" />
                                                     <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"
                                                         stroke="none" />
                                                 </svg>
                                             </div>
-                                            <p class="font-semibold text-gray-900 text-sm mb-0.5">Upload thumbnail artikel
+                                            <p class="font-semibold text-gray-900 text-sm mb-0.5">Upload thumbnail
+                                                artikel
                                             </p>
                                             <p class="text-xs text-gray-500">PNG, JPG, WEBP · Maks 2MB</p>
                                         </div>
                                     @else
                                         {{-- Default upload zone --}}
-                                        <div id="upload-preview-wrap" class="hidden w-full mb-3 rounded-xl overflow-hidden aspect-video">
+                                        <div id="upload-preview-wrap"
+                                            class="hidden w-full mb-3 rounded-xl overflow-hidden aspect-video">
                                             <img id="upload-img-preview" src=""
                                                 class="w-full h-full object-cover" />
                                         </div>
                                         <div id="upload-placeholder">
                                             <div
                                                 class="w-14 h-14 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mb-3 mx-auto">
-                                                <svg class="w-7 h-7 text-gray-400" fill="none" stroke="currentColor"
-                                                    stroke-width="1.5" viewBox="0 0 24 24">
+                                                <svg class="w-7 h-7 text-gray-400" fill="none"
+                                                    stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
                                                     <rect x="3" y="3" width="18" height="18" rx="3" />
                                                     <path d="M3 15l5-5 4 4 3-3 6 5" />
                                                     <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor"
                                                         stroke="none" />
                                                 </svg>
                                             </div>
-                                            <p class="font-semibold text-gray-900 text-sm mb-0.5">Upload thumbnail artikel
+                                            <p class="font-semibold text-gray-900 text-sm mb-0.5">Upload thumbnail
+                                                artikel
                                             </p>
                                             <p class="text-xs text-gray-500">PNG, JPG, WEBP · Maks 2MB</p>
                                         </div>
@@ -342,7 +363,7 @@
                         <div class="mt-8 pt-6 border-t border-gray-200 flex items-center justify-between">
                             <span id="footer-status" class="text-sm text-gray-500">Isi field yang diperlukan</span>
                             <div class="flex items-center gap-2">
-                                <a href="{{ route('admin.articles') }}"
+                                <a href="{{ route($prefix . '.articles') }}"
                                     class="text-sm px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition font-medium">Batal</a>
                                 <button type="submit"
                                     class="flex items-center gap-2 text-sm px-6 py-2.5 rounded-xl bg-black text-white font-semibold hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/20 transition-all duration-300 active:scale-95">
@@ -372,12 +393,13 @@
                             {{-- IMAGE --}}
                             <div
                                 class="col-span-12 lg:col-span-5 h-52 lg:h-full overflow-hidden relative bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center">
-                                @if($article->thumbnail)
+                                @if ($article->thumbnail)
                                     <img id="preview-img" src="{{ asset('storage/' . $article->thumbnail) }}"
                                         class="w-full h-full object-cover absolute inset-0" />
-                                    <div id="img-placeholder" class="hidden flex flex-col items-center gap-2 text-neutral-300">
-                                        <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.5"
-                                            viewBox="0 0 24 24">
+                                    <div id="img-placeholder"
+                                        class="hidden flex flex-col items-center gap-2 text-neutral-300">
+                                        <svg class="w-10 h-10" fill="none" stroke="currentColor"
+                                            stroke-width="1.5" viewBox="0 0 24 24">
                                             <rect x="3" y="3" width="18" height="18" rx="3" />
                                             <path d="M3 15l5-5 4 4 3-3 6 5" />
                                         </svg>
@@ -386,9 +408,10 @@
                                 @else
                                     <img id="preview-img" src=""
                                         class="hidden w-full h-full object-cover absolute inset-0" />
-                                    <div id="img-placeholder" class="flex flex-col items-center gap-2 text-neutral-300">
-                                        <svg class="w-10 h-10" fill="none" stroke="currentColor" stroke-width="1.5"
-                                            viewBox="0 0 24 24">
+                                    <div id="img-placeholder"
+                                        class="flex flex-col items-center gap-2 text-neutral-300">
+                                        <svg class="w-10 h-10" fill="none" stroke="currentColor"
+                                            stroke-width="1.5" viewBox="0 0 24 24">
                                             <rect x="3" y="3" width="18" height="18" rx="3" />
                                             <path d="M3 15l5-5 4 4 3-3 6 5" />
                                         </svg>
@@ -403,14 +426,20 @@
                                 <div class="flex items-center gap-2">
                                     <span id="preview-status-badge"
                                         class="inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full
-                                        @if(old('status', $article->status) == 'published') bg-emerald-100 text-emerald-700 @else bg-amber-100 text-amber-700 @endif">
-                                        <span class="w-1.5 h-1.5 rounded-full
-                                            @if(old('status', $article->status) == 'published') bg-emerald-500 @else bg-amber-500 @endif"></span>
-                                        @if(old('status', $article->status) == 'published') Published @else Draft @endif
+                                        @if (old('status', $article->status) == 'published') bg-emerald-100 text-emerald-700 @else bg-amber-100 text-amber-700 @endif">
+                                        <span
+                                            class="w-1.5 h-1.5 rounded-full
+                                            @if (old('status', $article->status) == 'published') bg-emerald-500 @else bg-amber-500 @endif"></span>
+                                        @if (old('status', $article->status) == 'published')
+                                            Published
+                                        @else
+                                            Draft
+                                        @endif
                                     </span>
                                 </div>
 
-                                <span id="preview-author" class="text-sm text-neutral-500">{{ old('author', $article->author) ?: 'Unknown' }}</span>
+                                <span id="preview-author"
+                                    class="text-sm text-neutral-500">{{ old('author', $article->author) ?: 'Unknown' }}</span>
 
                                 <h3 id="preview-title" class="text-xl font-medium text-neutral-900 leading-snug">
                                     {{ old('title', $article->title) ?: 'Judul Artikel' }}

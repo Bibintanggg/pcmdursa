@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Berita;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -21,8 +22,13 @@ class NewsController extends Controller
             ['key' => 'created_at', 'label' => 'Tanggal'],
         ];
 
-        // Ambil semua data, jangan pake paginate
-        $rows = Berita::latest('created_at')
+        $query = Berita::latest('created_at');
+
+        if (auth()->user()->role === 'penulis') {
+            $query->where('user_id', auth()->id());
+        }
+
+        $rows = $query
             ->get()
             ->map(function ($berita) {
                 return [
@@ -31,8 +37,12 @@ class NewsController extends Controller
                     'kategori' => ucfirst($berita->kategori ?? 'Unknown'),
                     'status' => ucfirst($berita->status ?? 'draft'),
                     'created_at' => $berita->created_at?->format('d M Y') ?? 'N/A',
-                    'gambar' => asset($berita->gambar ? 'storage/' . $berita->gambar : 'https://picsum.photos/100/100?random=' . $berita->id),
-                    'email' => (string) $berita->id, // ID untuk edit & delete
+                    'gambar' => asset(
+                        $berita->gambar
+                            ? 'storage/' . $berita->gambar
+                            : 'https://picsum.photos/100/100?random=' . $berita->id
+                    ),
+                    'email' => (string) $berita->id,
                 ];
             })
             ->toArray();
@@ -59,26 +69,45 @@ class NewsController extends Controller
             $validated['gambar'] = $request->file('gambar')->store('berita', 'public');
         }
 
-        // Generate slug (tetap pakai slug untuk SEO frontend)
         $slug = Str::slug($request->judul);
         $count = Berita::where('slug', 'like', $slug . '%')->count();
         $validated['slug'] = $count ? "{$slug}-" . ($count + 1) : $slug;
+        $validated['user_id'] = Auth::id();
 
         Berita::create($validated);
 
-        return redirect()->route('berita.index')
+        if (auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin') {
+            return redirect()->route('admin.berita.index')
+                ->with('success', '✅ Berita berhasil disimpan!');
+        }
+
+        return redirect()->route('penulis.berita')
             ->with('success', '✅ Berita berhasil disimpan!');
     }
 
-    public function edit($id) // ✅ ID only
+    public function edit($id)
     {
         $berita = Berita::findOrFail($id);
+
+        if (
+            auth()->user()->role === 'penulis' &&
+            $berita->user_id !== Auth::id()
+        ) {
+            abort(403);
+        }
+
         return view('pages.admin.news.edit', compact('berita'));
     }
-
-    public function update(Request $request, $id) // ✅ ID only
+    public function update(Request $request, $id)
     {
         $berita = Berita::findOrFail($id);
+
+        if (
+            auth()->user()->role === 'penulis' &&
+            $berita->user_id !== Auth::id()
+        ) {
+            abort(403);
+        }
 
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
@@ -95,21 +124,32 @@ class NewsController extends Controller
             $validated['gambar'] = $request->file('gambar')->store('berita', 'public');
         }
 
-        // Regenerate slug jika judul berubah
         if ($request->judul !== $berita->judul) {
             $slug = Str::slug($request->judul);
-            $count = Berita::where('slug', 'like', $slug . '%')->where('id', '!=', $id)->count();
+            $count = Berita::where('slug', 'like', $slug . '%')
+                ->where('id', '!=', $id)
+                ->count();
             $validated['slug'] = $count ? "{$slug}-" . ($count + 1) : $slug;
         }
 
         $berita->update($validated);
 
-        return redirect()->route('berita.index')->with('success', '✅ Berita berhasil diupdate!');
+        $prefix = auth()->user()->role === 'admin' ? 'admin' : 'penulis';
+
+        return redirect()->route($prefix . '.berita')
+            ->with('success', '✅ Berita berhasil diupdate!');
     }
 
     public function destroy($id)
     {
         $berita = Berita::findOrFail($id);
+
+        if (
+            auth()->user()->role === 'penulis' &&
+            $berita->user_id !== Auth::id()
+        ) {
+            abort(403);
+        }
 
         if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
             Storage::disk('public')->delete($berita->gambar);

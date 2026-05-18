@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('berita', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->after('id')->constrained()->onDelete('cascade');
             $table->string('judul');
             $table->text('isi');
-            $table->string('gambar');
+            $table->string('gambar')->nullable();
             $table->string('slug')->unique();
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->enum('kategori', ['dakwah', 'pendidikan', 'sosial', 'organisasi']);

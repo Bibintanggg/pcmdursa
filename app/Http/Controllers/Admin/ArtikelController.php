@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ArtikelController extends Controller
 {
@@ -20,25 +22,28 @@ class ArtikelController extends Controller
             ['key' => 'created_at', 'label' => 'Tanggal'],
         ];
 
-        $rows = Article::latest('created_at')
-            ->get()
-            ->map(function ($article) {
-                return [
-                    'id' => $article->id,
-                    'email' => (string) $article->id,
-                    'title' => $article->title,
-                    'author' => $article->author ?? 'Unknown',
-                    'content' => \Illuminate\Support\Str::limit(strip_tags($article->content), 50),
+        $query = Article::latest('created_at');
 
-                    'thumbnail' => $article->thumbnail
-                        ? asset('storage/' . $article->thumbnail)
-                        : 'https://picsum.photos/100/100?random=' . $article->id,
+        if (auth()->user()->role === 'penulis') {
+            $query->where('user_id', auth()->id());
+        }
 
-                    'status' => $article->status ?? 'draft',
-
-                    'created_at' => $article->created_at->format('d M Y'),
-                ];
-            });
+        $rows = $query->get()->map(function ($article) {
+            return [
+                'id' => $article->id,
+                'title' => $article->title,
+                'author' => $article->author ?? 'Unknown',
+                'content' => Str::limit(strip_tags($article->content), 50),
+                'thumbnail' => asset(
+                    $article->thumbnail
+                        ? 'storage/' . $article->thumbnail
+                        : 'https://picsum.photos/100/100?random=' . $article->id
+                ),
+                'status' => ucfirst($article->status ?? 'draft'),
+                'created_at' => $article->created_at?->format('d M Y') ?? 'N/A',
+                'email' => (string) $article->id,
+            ];
+        });
 
         return view('pages.admin.articles.index', compact('columns', 'rows'));
     }
@@ -59,32 +64,54 @@ class ArtikelController extends Controller
         ]);
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('thumbnails', 'public');
-            $validated['thumbnail'] = $path;
+            $validated['thumbnail'] = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        $validated['slug'] = \Illuminate\Support\Str::slug($validated['title']);
+        // Generate slug unique
+        $slug = Str::slug($request->title);
+        $count = Article::where('slug', 'like', $slug . '%')->count();
+        $validated['slug'] = $count ? "{$slug}-" . ($count + 1) : $slug;
+
+        // Tambahkan user_id
+        $validated['user_id'] = Auth::id();
 
         Article::create($validated);
 
-        return redirect()->route('admin.articles')->with('success', 'Artikel berhasil dibuat');
-    }
+        // Redirect sesuai role
+        if (auth()->user()->role === 'admin' || auth()->user()->role === 'superadmin') {
+            return redirect()->route('admin.articles')
+                ->with('success', '✅ Artikel berhasil dibuat!');
+        }
 
-    public function show($slug)
-    {
-        $article = Article::where('slug', $slug)->firstOrFail();
-        return view('pages.admin.articles.detail', compact('article'));
+        return redirect()->route('penulis.articles')
+            ->with('success', '✅ Artikel berhasil dibuat!');
     }
 
     public function edit($id)
     {
         $article = Article::findOrFail($id);
+
+        // Penulis tidak boleh edit artikel orang lain
+        if (
+            auth()->user()->role === 'penulis' &&
+            $article->user_id !== Auth::id()
+        ) {
+            abort(403);
+        }
+
         return view('pages.admin.articles.edit', compact('article'));
     }
 
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
+
+        if (
+            auth()->user()->role === 'penulis' &&
+            $article->user_id !== Auth::id()
+        ) {
+            abort(403);
+        }
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -95,38 +122,56 @@ class ArtikelController extends Controller
         ]);
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('thumbnails', 'public');
-            $validated['thumbnail'] = $path;
+
+            if ($article->thumbnail) {
+                Storage::disk('public')->delete($article->thumbnail);
+            }
+
+            $validated['thumbnail'] = $request->file('thumbnail')
+                ->store('thumbnails', 'public');
         }
 
-        $validated['slug'] = \Illuminate\Support\Str::slug($validated['title']);
+        if ($request->title !== $article->title) {
+            $slug = Str::slug($request->title);
+
+            $count = Article::where('slug', 'like', $slug . '%')
+                ->where('id', '!=', $id)
+                ->count();
+
+            $validated['slug'] = $count
+                ? "{$slug}-" . ($count + 1)
+                : $slug;
+        }
 
         $article->update($validated);
 
-        return redirect()->route('admin.articles')->with('success', 'Artikel berhasil diperbarui');
+        $prefix = auth()->user()->role;
+
+        return redirect()->route($prefix . '.articles')
+            ->with('success', '✅ Artikel berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        try {
-            $article = Article::findOrFail($id);
+        $article = Article::findOrFail($id);
 
-            // Hapus thumbnail jika ada
-            if ($article->thumbnail && Storage::disk('public')->exists($article->thumbnail)) {
-                Storage::disk('public')->delete($article->thumbnail);
-            }
-
-            $article->delete();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Artikel berhasil dihapus'
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal menghapus artikel: ' . $e->getMessage()
-            ], 500);
+        // Cek kepemilikan
+        if (
+            auth()->user()->role === 'penulis' &&
+            $article->user_id !== Auth::id()
+        ) {
+            abort(403);
         }
+
+        if ($article->thumbnail && Storage::disk('public')->exists($article->thumbnail)) {
+            Storage::disk('public')->delete($article->thumbnail);
+        }
+
+        $article->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => '✅ Artikel berhasil dihapus!'
+        ]);
     }
 }

@@ -54,7 +54,12 @@ class StrukturOrganisasiController extends Controller
 
         $item = StrukturOrganisasi::create($data);
 
-        return response()->json(['success' => true, 'message' => 'Anggota berhasil ditambahkan', 'data' => $item]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Anggota berhasil ditambahkan',
+            'id' => $item->id,
+            'data' => $item
+        ]);
     }
 
     /**
@@ -83,7 +88,12 @@ class StrukturOrganisasiController extends Controller
 
         $strukturOrganisasi->update($data);
 
-        return response()->json(['success' => true, 'message' => 'Data berhasil diperbarui', 'data' => $strukturOrganisasi->fresh()]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil diperbarui',
+            'id' => $strukturOrganisasi->id,
+            'data' => $strukturOrganisasi->fresh()
+        ]);
     }
 
     /**
@@ -110,7 +120,7 @@ class StrukturOrganisasiController extends Controller
             ], 500);
         }
     }
-    
+
     private function seedDefaultSlots()
     {
         if (StrukturOrganisasi::count() > 0) return;

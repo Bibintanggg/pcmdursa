@@ -17,6 +17,7 @@ class Berita extends Model
         'slug',
         'status',
         'kategori',
+        'user_id'
     ];
 
     public function getRouteKeyName()

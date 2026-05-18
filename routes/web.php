@@ -25,54 +25,60 @@ Route::get('/organisasi-otonom/{slug}', [LandingController::class, 'showOrganisa
 Route::get('/anggota-organisasi/{slug}', [LandingController::class, 'showAnggotaOrganisasi'])->name('anggota-organisasi.show');
 
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-        Route::get('/profile-organisasi', [ProfileOrganisasiController::class, 'index'])->name('admin.profile-organisasi');
-        Route::get('/profile-organisasi/create', [ProfileOrganisasiController::class, 'create'])->name('admin.profile-organisasi.create');
-        Route::post('/profile-organisasi', [ProfileOrganisasiController::class, 'store'])->name('admin.profile-organisasi.store');
-        Route::delete('/profile-organisasi/{id}', [ProfileOrganisasiController::class, 'destroy'])->name('admin.profile-organisasi.destroy');
-        Route::get('/profile-organisasi/{id}/edit', [ProfileOrganisasiController::class, 'edit'])->name('admin.profile-organisasi.edit');
-        Route::put('/profile-organisasi/{id}', [ProfileOrganisasiController::class, 'update'])->name('admin.profile-organisasi.update');
+        Route::get('/profile-organisasi', [ProfileOrganisasiController::class, 'index'])->name('profile-organisasi');
+        Route::get('/profile-organisasi/create', [ProfileOrganisasiController::class, 'create'])->name('profile-organisasi.create');
+        Route::post('/profile-organisasi', [ProfileOrganisasiController::class, 'store'])->name('profile-organisasi.store');
+        Route::delete('/profile-organisasi/{id}', [ProfileOrganisasiController::class, 'destroy'])->name('profile-organisasi.destroy');
+        Route::get('/profile-organisasi/{id}/edit', [ProfileOrganisasiController::class, 'edit'])->name('profile-organisasi.edit');
+        Route::put('/profile-organisasi/{id}', [ProfileOrganisasiController::class, 'update'])->name('profile-organisasi.update');
 
-        Route::get('/organisasi-otonom', [OrganisasiController::class, 'index'])->name('admin.organisasi-otonom');
-        Route::get('/organisasi-otonom/create', [OrganisasiController::class, 'create'])->name('admin.organisasi-otonom.create');
-        Route::post('/organisasi-otonom', [OrganisasiController::class, 'store'])->name('admin.organisasi-otonom.store');
-        Route::get('/organisasi-otonom/{id}/edit', [OrganisasiController::class, 'edit'])->name('admin.organisasi-otonom.edit');
-        Route::put('/organisasi-otonom/{id}', [OrganisasiController::class, 'update'])->name('admin.organisasi-otonom.update');
-        Route::delete('/organisasi-otonom/{id}', [OrganisasiController::class, 'destroy'])->name('admin.organisasi-otonom.destroy');
+        Route::get('/organisasi-otonom', [OrganisasiController::class, 'index'])->name('organisasi-otonom');
+        Route::get('/organisasi-otonom/create', [OrganisasiController::class, 'create'])->name('organisasi-otonom.create');
+        Route::post('/organisasi-otonom', [OrganisasiController::class, 'store'])->name('organisasi-otonom.store');
+        Route::get('/organisasi-otonom/{id}/edit', [OrganisasiController::class, 'edit'])->name('organisasi-otonom.edit');
+        Route::put('/organisasi-otonom/{id}', [OrganisasiController::class, 'update'])->name('organisasi-otonom.update');
+        Route::delete('/organisasi-otonom/{id}', [OrganisasiController::class, 'destroy'])->name('organisasi-otonom.destroy');
 
-        Route::get('/pengurus', [PengurusController::class, 'index'])->name('admin.pengurus.index');
-        Route::get('/pengurus/create', [PengurusController::class, 'create'])->name('admin.pengurus.create');
-        Route::post('/pengurus', [PengurusController::class, 'store'])->name('admin.pengurus.store');
-        Route::get('/pengurus/{id}/edit', [PengurusController::class, 'edit'])->name('admin.pengurus.edit');
-        Route::put('/pengurus/{id}', [PengurusController::class, 'update'])->name('admin.pengurus.update');
-        Route::delete('/pengurus/{id}', [PengurusController::class, 'destroy'])->name('admin.pengurus.destroy');
+        Route::get('/struktur-organisasi', [StrukturOrganisasiController::class, 'index'])->name('struktur-organisasi');
+        Route::get('/struktur-organisasi/{strukturOrganisasi}', [StrukturOrganisasiController::class, 'show'])->name('struktur-organisasi.show');
+        Route::post('/struktur-organisasi', [StrukturOrganisasiController::class, 'store'])->name('struktur-organisasi.store');
+        Route::put('/struktur-organisasi/{strukturOrganisasi}', [StrukturOrganisasiController::class, 'update'])->name('struktur-organisasi.update');
+        Route::delete('/struktur-organisasi/{strukturOrganisasi}', [StrukturOrganisasiController::class, 'destroy'])->name('struktur-organisasi.destroy');
+
+        Route::get('/pengurus', [PengurusController::class, 'index'])->name('pengurus.index');
+        Route::get('/pengurus/create', [PengurusController::class, 'create'])->name('pengurus.create');
+        Route::post('/pengurus', [PengurusController::class, 'store'])->name('pengurus.store');
+        Route::get('/pengurus/{id}/edit', [PengurusController::class, 'edit'])->name('pengurus.edit');
+        Route::put('/pengurus/{id}', [PengurusController::class, 'update'])->name('pengurus.update');
+        Route::delete('/pengurus/{id}', [PengurusController::class, 'destroy'])->name('pengurus.destroy');
 
         Route::resource('berita', NewsController::class);
 
-        Route::get('/articles', [ArtikelController::class, 'index'])->name('admin.articles');
-        Route::get('/articles/create', [ArtikelController::class, 'create'])->name('admin.articles.create');
-        Route::post('/articles', [ArtikelController::class, 'store'])->name('admin.articles.store');
-        Route::get('/articles/{id}/edit', [ArtikelController::class, 'edit'])->name('admin.articles.edit');
-        Route::put('/articles/{id}', [ArtikelController::class, 'update'])->name('admin.articles.update');
-        Route::delete('/articles/{id}', [ArtikelController::class, 'destroy'])->name('admin.articles.destroy');
+        Route::get('/articles', [ArtikelController::class, 'index'])->name('articles');
+        Route::get('/articles/create', [ArtikelController::class, 'create'])->name('articles.create');
+        Route::post('/articles', [ArtikelController::class, 'store'])->name('articles.store');
+        Route::get('/articles/{id}/edit', [ArtikelController::class, 'edit'])->name('articles.edit');
+        Route::put('/articles/{id}', [ArtikelController::class, 'update'])->name('articles.update');
+        Route::delete('/articles/{id}', [ArtikelController::class, 'destroy'])->name('articles.destroy');
 
-        Route::get('/program-kajian', [JadwalKajianController::class, 'index'])->name('admin.program-kajian');
-        Route::get('/program-kajian/create', [JadwalKajianController::class, 'create'])->name('admin.jadwal-kajian.create');
-        Route::post('/program-kajian', [JadwalKajianController::class, 'store'])->name('admin.jadwal-kajian.store');
-        Route::get('/program-kajian/{id}/edit', [JadwalKajianController::class, 'edit'])->name('admin.jadwal-kajian.edit');
-        Route::put('/program-kajian/{id}', [JadwalKajianController::class, 'update'])->name('admin.jadwal-kajian.update');
-        Route::delete('/program-kajian/{id}', [JadwalKajianController::class, 'destroy'])->name('admin.jadwal-kajian.destroy');
+        Route::get('/program-kajian', [JadwalKajianController::class, 'index'])->name('program-kajian');
+        Route::get('/program-kajian/create', [JadwalKajianController::class, 'create'])->name('jadwal-kajian.create');
+        Route::post('/program-kajian', [JadwalKajianController::class, 'store'])->name('jadwal-kajian.store');
+        Route::get('/program-kajian/{id}/edit', [JadwalKajianController::class, 'edit'])->name('jadwal-kajian.edit');
+        Route::put('/program-kajian/{id}', [JadwalKajianController::class, 'update'])->name('jadwal-kajian.update');
+        Route::delete('/program-kajian/{id}', [JadwalKajianController::class, 'destroy'])->name('jadwal-kajian.destroy');
 
-        Route::get('/amal-usaha', [AmalUsahaController::class, 'index'])->name('admin.amal-usaha.index');
-        Route::get('/amal-usaha/create', [AmalUsahaController::class, 'create'])->name('admin.amal-usaha.create');
-        Route::post('/amal-usaha', [AmalUsahaController::class, 'store'])->name('admin.amal-usaha.store');
-        Route::get('/amal-usaha/{id}/edit', [AmalUsahaController::class, 'edit'])->name('admin.amal-usaha.edit');
-        Route::put('/amal-usaha/{id}', [AmalUsahaController::class, 'update'])->name('admin.amal-usaha.update');
-        Route::delete('/amal-usaha/{id}', [AmalUsahaController::class, 'destroy'])->name('admin.amal-usaha.destroy');
+        Route::get('/amal-usaha', [AmalUsahaController::class, 'index'])->name('amal-usaha.index');
+        Route::get('/amal-usaha/create', [AmalUsahaController::class, 'create'])->name('amal-usaha.create');
+        Route::post('/amal-usaha', [AmalUsahaController::class, 'store'])->name('amal-usaha.store');
+        Route::get('/amal-usaha/{id}/edit', [AmalUsahaController::class, 'edit'])->name('amal-usaha.edit');
+        Route::put('/amal-usaha/{id}', [AmalUsahaController::class, 'update'])->name('amal-usaha.update');
+        Route::delete('/amal-usaha/{id}', [AmalUsahaController::class, 'destroy'])->name('amal-usaha.destroy');
 
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -81,27 +87,27 @@ Route::prefix('admin')->group(function () {
         Route::middleware(['auth', 'role:superadmin'])->group(function () {
 
             Route::get('/manage-user', [ManageUserController::class, 'index'])
-                ->name('admin.manage-user');
+                ->name('manage-user');
 
             Route::get('/manage-user/create', [ManageUserController::class, 'create'])
-                ->name('admin.manage-user.create');
+                ->name('manage-user.create');
 
             Route::post('/manage-user', [ManageUserController::class, 'store'])
-                ->name('admin.manage-user.store');
+                ->name('manage-user.store');
 
             Route::get('/manage-user/{id}/edit', [ManageUserController::class, 'edit'])
-                ->name('admin.manage-user.edit');
+                ->name('manage-user.edit');
 
             Route::put('/manage-user/{id}', [ManageUserController::class, 'update'])
-                ->name('admin.manage-user.update');
+                ->name('manage-user.update');
 
             Route::delete('/manage-user/{id}', [ManageUserController::class, 'destroy'])
-                ->name('admin.manage-user.destroy');
+                ->name('manage-user.destroy');
         });
     });
 });
 
-Route::prefix('penulis')->group(function () {
+Route::prefix('penulis')->name('penulis.')->group(function () {
     Route::middleware(['auth', 'role:penulis'])->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('penulis.dashboard');
 
@@ -112,12 +118,7 @@ Route::prefix('penulis')->group(function () {
         Route::put('/articles/{id}', [ArtikelController::class, 'update'])->name('penulis.articles.update');
         Route::delete('/articles/{id}', [ArtikelController::class, 'destroy'])->name('penulis.articles.destroy');
 
-        Route::get('/berita', [NewsController::class, 'index'])->name('penulis.berita');
-        Route::get('/berita/create', [NewsController::class, 'create'])->name('penulis.berita.create');
-        Route::post('/berita', [NewsController::class, 'store'])->name('penulis.berita.store');
-        Route::get('/berita/{id}/edit', [NewsController::class, 'edit'])->name('penulis.berita.edit');
-        Route::put('/berita/{id}', [NewsController::class, 'update'])->name('penulis.berita.update');
-        Route::delete('/berita/{id}', [NewsController::class, 'destroy'])->name('penulis.berita.destroy');
+        Route::resource('/berita', NewsController::class);
     });
 });
 
