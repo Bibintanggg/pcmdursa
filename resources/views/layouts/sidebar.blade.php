@@ -260,8 +260,8 @@
                     </div>
                     <span class="nav-label">Berita</span>
                 </a>
-            @endif
         @endauth
+            @endif
     </nav>
     {{-- FOOTER USER --}}
     <div class="sidebar-footer">

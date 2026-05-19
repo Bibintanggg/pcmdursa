@@ -28,7 +28,7 @@ Route::get('/anggota-organisasi/{slug}', [LandingController::class, 'showAnggota
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
 
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/profile-organisasi', [ProfileOrganisasiController::class, 'index'])->name('profile-organisasi');
         Route::get('/profile-organisasi/create', [ProfileOrganisasiController::class, 'create'])->name('profile-organisasi.create');

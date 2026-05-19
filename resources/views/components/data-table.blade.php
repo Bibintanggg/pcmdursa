@@ -6,6 +6,7 @@
     'addUrl' => null,
     'editUrl' => null,
     'deleteUrl' => null,
+    'rowKey' => 'id',
 ])
 
 @push('styles')
@@ -131,7 +132,7 @@
     </style>
 @endpush
 
-<div class="w-full font-sans text-sm text-zinc-900" x-data="dataTable" x-init="init({{ json_encode($columns) }}, {{ json_encode($rows) }}, {{ (int) $perPage }}, '{{ $editUrl }}', '{{ $deleteUrl }}')" x-cloak>
+<div class="w-full font-sans text-sm text-zinc-900" x-data="dataTable" x-init="init({{ json_encode($columns) }}, {{ json_encode($rows) }}, {{ (int) $perPage }}, '{{ $editUrl }}', '{{ $deleteUrl }}', '{{ $rowKey }}')" x-cloak>
 
     {{-- Top Bar --}}
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
@@ -192,8 +193,8 @@
                 </template>
                 <template x-for="(row, i) in paginatedRows" :key="i">
                     <tr class="border-b border-zinc-50 hover:bg-zinc-50/60 dt-row-anim"
-                        :class="selected.includes(row.email) ? 'bg-zinc-50' : ''">
-                        <td class="px-4 py-3"><input type="checkbox" class="dt-checkbox" :value="row.email"
+                        :class=": selected.includes(row[rowKey]) ? 'bg-zinc-50' : ''">
+                        <td class="px-4 py-3"><input type="checkbox" class="dt-checkbox" :value="row[rowKey]"
                                 x-model="selected" /></td>
 
                         <template x-for="col in columns" :key="col.key">
@@ -231,7 +232,7 @@
 
                         <td class="px-4 py-3 text-center">
                             <div class="flex items-center justify-center gap-2">
-                                <a :href="editUrl.replace('{id}', row.email)"
+                                <a :href="editUrl.replace('{id}', row[rowKey])"
                                     class="p-1.5 rounded-md text-blue-600 hover:bg-blue-50 transition-colors"
                                     title="Edit">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -338,6 +339,7 @@
         return {
             columns: [],
             allRows: [],
+            rowKey: 'id',
             perPage: 10,
             currentPage: 1,
             search: '',
@@ -359,7 +361,7 @@
                 timer: null
             },
 
-            init(cols, rows, perPage, editUrl, deleteUrl) {
+            init(cols, rows, perPage, editUrl, deleteUrl, rowKey) {
                 console.log('=== DATA TABLE INIT ===');
                 console.log('Columns:', cols);
                 console.log('Rows:', rows);
@@ -371,6 +373,7 @@
                 this.perPage = perPage;
                 this.editUrl = editUrl;
                 this.deleteUrl = deleteUrl;
+                this.rowKey = rowKey;
 
                 console.log('Total rows:', this.allRows.length);
             },
@@ -419,8 +422,8 @@
             },
 
             get isAllChecked() {
-                return this.paginatedRows.length > 0 && this.paginatedRows.every(r => this.selected.includes(r
-                    .email));
+                return this.paginatedRows.length > 0 && this.paginatedRows.every(r => this.selected.includes(r[this
+                    .rowKey]))
             },
 
             sort(key) {
