@@ -69,6 +69,10 @@
                             class="dropdown-item {{ request()->routeIs('admin.struktur-organisasi') ? 'active' : '' }}">
                             <span>Struktur Organisasi</span>
                         </a>
+                        <a href="/admin/banner"
+                            class="dropdown-item {{ request()->routeIs('admin.banner') ? 'active' : '' }}">
+                            <span>Banner Utama</span>
+                        </a>
                     </div>
                 </div>
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Admin\OrganisasiController;
 use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\AmalUsahaController;
+use App\Http\Controllers\Admin\HeroSectionsController;
 use App\Http\Controllers\Admin\ManageUserController;
 
 use App\Http\Controllers\Bendahara\FinanceController;
@@ -32,6 +33,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'role:admin,superadmin'])->group(function () {
 
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::resource('/banner', HeroSectionsController::class);
 
         Route::get('/profile-organisasi', [ProfileOrganisasiController::class, 'index'])->name('profile-organisasi');
         Route::get('/profile-organisasi/create', [ProfileOrganisasiController::class, 'create'])->name('profile-organisasi.create');

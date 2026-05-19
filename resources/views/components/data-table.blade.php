@@ -450,10 +450,12 @@
 
             toggleAll(checked) {
                 if (checked) {
-                    let keys = this.paginatedRows.map(r => r.email);
+                    let keys = this.paginatedRows.map(r => r[this.rowKey]);
                     this.selected = [...new Set([...this.selected, ...keys])];
                 } else {
-                    this.selected = this.selected.filter(s => !this.paginatedRows.map(r => r.email).includes(s));
+                    this.selected = this.selected.filter(
+                        s => !this.paginatedRows.map(r => r[this.rowKey]).includes(s)
+                    );
                 }
             },
 
@@ -478,7 +480,7 @@
 
             confirmDelete() {
                 let row = this.deleteModal.row;
-                let url = this.deleteUrl.replace('{id}', row.email);
+                let url = this.deleteUrl.replace('{id}', row[this.rowKey]);
 
                 fetch(url, {
                         method: 'DELETE',
@@ -491,8 +493,12 @@
                     .then(data => {
                         this.deleteModal.show = false;
                         if (data.success) {
-                            this.allRows = this.allRows.filter(r => r.email !== row.email);
-                            this.selected = this.selected.filter(s => s !== row.email);
+                            this.allRows = this.allRows.filter(
+                                r => r[this.rowKey] !== row[this.rowKey]
+                            );
+                            this.selected = this.selected.filter(
+                                s => s !== row[this.rowKey]
+                            );
                             this.showToast('Data berhasil dihapus');
                             if (this.paginatedRows.length === 0 && this.currentPage > 1) this.currentPage--;
                         } else {
@@ -524,7 +530,9 @@
                         this.deleteSelectedModal.show = false;
                         let allSuccess = responses.every(r => r.ok);
                         if (allSuccess) {
-                            this.allRows = this.allRows.filter(r => !ids.includes(r.email));
+                            this.allRows = this.allRows.filter(
+                                r => !ids.includes(r[this.rowKey])
+                            );
                             this.selected = [];
                             this.showToast(`✅ ${ids.length} data berhasil dihapus`);
                             if (this.paginatedRows.length === 0 && this.currentPage > 1) this.currentPage--;
