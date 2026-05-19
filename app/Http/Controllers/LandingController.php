@@ -9,6 +9,7 @@ use App\Models\Organisasi;
 use App\Models\Pengurus;
 use App\Models\ProfileOrganisasi;
 use App\Models\StrukturOrganisasi;
+use App\Models\HeroSections;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -19,6 +20,7 @@ class LandingController extends Controller
     public function index()
     {
         $hero = ProfileOrganisasi::latest('created_at')->first();
+        $heroSections = HeroSections::latest()->get();
 
         $articles = Article::where('status', 'published')
             ->latest('created_at')
@@ -120,6 +122,7 @@ class LandingController extends Controller
             'totalAnggota'    => $totalAnggota,
             'periode'         => $periode,
             'amalUsahaGrouped' => $amalUsahaGrouped,
+            'heroSections' => $heroSections,
         ]);
     }
 
