@@ -15,6 +15,7 @@ class NewsController extends Controller
     public function index()
     {
         $columns = [
+            ['key' => 'user_id', 'label' => 'Nama Akun'],
             ['key' => 'judul', 'label' => 'Judul'],
             ['key' => 'kategori', 'label' => 'Kategori'],
             ['key' => 'gambar', 'label' => 'Gambar'],
@@ -33,6 +34,7 @@ class NewsController extends Controller
             ->map(function ($berita) {
                 return [
                     'id' => $berita->id,
+                    'user_id' => $berita->user->name ?? '-',
                     'judul' => Str::limit($berita->judul, 50),
                     'kategori' => ucfirst($berita->kategori ?? 'Unknown'),
                     'status' => ucfirst($berita->status ?? 'draft'),
@@ -81,7 +83,7 @@ class NewsController extends Controller
                 ->with('success', '✅ Berita berhasil disimpan!');
         }
 
-        return redirect()->route('penulis.berita')
+        return redirect()->route('penulis.berita.index')
             ->with('success', '✅ Berita berhasil disimpan!');
     }
 

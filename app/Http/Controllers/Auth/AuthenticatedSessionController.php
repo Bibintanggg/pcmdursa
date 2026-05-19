@@ -57,6 +57,10 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('penulis.dashboard', absolute: false));
         }
 
+        if($role === 'bendahara') {
+            return redirect()->intended(route('bendahara.dashboard', absolute:false));
+        }
+
         return redirect('/');
     }
     /**

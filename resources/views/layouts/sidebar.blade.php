@@ -185,7 +185,7 @@
                 </a>
 
                 {{-- KHUSUS SUPERADMIN --}}
-                @if (auth()->user()->role === 'superadmin')
+                @if (in_array(auth()->user()->role, ['superadmin', 'bendahara']))
                     <a href="{{ route('admin.manage-user') }}"
                         class="nav-item {{ request()->routeIs('admin.manage-user*') ? 'active' : '' }}"
                         data-label="Manajemen Akun">
@@ -205,9 +205,28 @@
                         </div>
                         <span class="nav-label">Manajemen Akun</span>
                     </a>
+
+                    <a href="{{ route('bendahara.keuangan.index') }}"
+                        class="nav-item {{ request()->routeIs('bendahara.keuangan.index*') ? 'active' : '' }}"
+                        data-label="Keuangan">
+
+                        <div class="nav-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M3 7.5A2.5 2.5 0 0 1 5.5 5h11A2.5 2.5 0 0 1 19 7.5v9A2.5 2.5 0 0 1 16.5 19h-11A2.5 2.5 0 0 1 3 16.5v-9Z"
+                                    stroke="currentColor" stroke-width="1.7" />
+
+                                <path d="M19 9h1.5A1.5 1.5 0 0 1 22 10.5v3A1.5 1.5 0 0 1 20.5 15H19" stroke="currentColor"
+                                    stroke-width="1.7" />
+
+                                <circle cx="16" cy="12" r="1" fill="currentColor" />
+                            </svg>
+                        </div>
+
+                        <span class="nav-label">Laporan Keuangan</span>
+                    </a>
                 @endif
             @elseif (auth()->user()->role === 'penulis')
-                {{-- DASHBOARD PENULIS --}}
                 <a href="{{ route('penulis.dashboard') }}"
                     class="nav-item {{ request()->routeIs('penulis.dashboard') ? 'active' : '' }}"
                     data-label="Dashboard">
@@ -260,8 +279,46 @@
                     </div>
                     <span class="nav-label">Berita</span>
                 </a>
-        @endauth
-            @endif
+            @elseif (auth()->user()->role === 'bendahara')
+                <a href="{{ route('bendahara.dashboard') }}"
+                    class="nav-item {{ request()->routeIs('bendahara.dashboard') ? 'active' : '' }}"
+                    data-label="Dashboard">
+                    <div class="nav-icon">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <rect x="9" y="1.5" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <rect x="1.5" y="9" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                            <rect x="9" y="9" width="5.5" height="5.5" rx="1.5" stroke="currentColor"
+                                stroke-width="1.4" />
+                        </svg>
+                    </div>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+
+                <a href="{{ route('bendahara.keuangan.index') }}"
+                    class="nav-item {{ request()->routeIs('bendahara.keuangan.index*') ? 'active' : '' }}"
+                    data-label="Keuangan">
+
+                    <div class="nav-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M3 7.5A2.5 2.5 0 0 1 5.5 5h11A2.5 2.5 0 0 1 19 7.5v9A2.5 2.5 0 0 1 16.5 19h-11A2.5 2.5 0 0 1 3 16.5v-9Z"
+                                stroke="currentColor" stroke-width="1.7" />
+
+                            <path d="M19 9h1.5A1.5 1.5 0 0 1 22 10.5v3A1.5 1.5 0 0 1 20.5 15H19" stroke="currentColor"
+                                stroke-width="1.7" />
+
+                            <circle cx="16" cy="12" r="1" fill="currentColor" />
+                        </svg>
+                    </div>
+
+                    <span class="nav-label">Laporan Keuangan</span>
+                </a>
+            @endauth
+        @endif
     </nav>
     {{-- FOOTER USER --}}
     <div class="sidebar-footer">

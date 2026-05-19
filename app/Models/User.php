@@ -46,4 +46,14 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function berita()
+    {
+        return $this->hasMany(Berita::class);
+    }
+
+    public function finances()
+    {
+        return $this->hasMany(Finance::class);
+    }
 }

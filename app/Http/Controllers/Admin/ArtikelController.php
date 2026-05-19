@@ -155,7 +155,6 @@ class ArtikelController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        // Cek kepemilikan
         if (
             auth()->user()->role === 'penulis' &&
             $article->user_id !== Auth::id()

@@ -207,6 +207,21 @@
                                         onerror="this.src='https://ui-avatars.com/api/?name='+encodeURIComponent(row.nama || 'User')+'&background=0D8ABC&color=fff'">
                                 </template>
 
+                                <template x-if="col.key === 'file'">
+                                    <a :href="row[col.key]" target="_blank"
+                                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition text-xs font-medium">
+
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 21h10a2 2 0 0 0 2-2V7.5L13.5 2H7a2 2 0 0 0-2 2v15a2 2 0 0 0 2 2z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 2v6h6" />
+                                        </svg>
+
+                                        <span>Lihat PDF</span>
+                                    </a>
+                                </template>
+
                                 <!-- Kondisi khusus untuk urutan dengan badge -->
                                 <template x-if="col.key === 'urutan'">
                                     <span
@@ -217,14 +232,11 @@
 
                                 <!-- Kondisi untuk teks BIASA (BUKAN foto, BUKAN urutan) -->
                                 <template
-                                    x-if="col.key !== 'image' && col.key !== 'thumbnail' && col.key !== 'gambar' && col.key !== 'logo' && col.key !== 'foto' && col.key !== 'urutan'">
+                                    x-if="col.key !== 'image' && col.key !== 'thumbnail' && col.key !== 'gambar' && col.key !== 'logo' && col.key !== 'foto' && col.key !== 'urutan' && col.key !== 'file'">
+
                                     <span class="text-zinc-700"
-                                        x-text="
-                    col.key === 'tanggal' ? formatTanggal(row[col.key]) :
-                    col.key === 'is_active' ? (row[col.key] ? 'Aktif' : 'Tidak Aktif') :
-                    (col.key === 'periode_mulai' || col.key === 'periode_selesai') ? (row[col.key] || '-') :
-                    truncate(row[col.key], 80)
-                ">
+                                        x-text="col.key === 'tanggal' ? formatTanggal(row[col.key]) : col.key === 'is_active' ? (row[col.key] ? 'Aktif' : 'Tidak Aktif') :
+                                        (col.key === 'periode_mulai' || col.key === 'periode_selesai') ? (row[col.key] || '-') : truncate(row[col.key], 80)">
                                     </span>
                                 </template>
                             </td>
@@ -268,7 +280,8 @@
                         </svg>
                     </div>
                     <h3 class="text-lg font-semibold text-zinc-900 mb-2">Hapus Data</h3>
-                    <p class="text-sm text-zinc-500 mb-6">Apakah Anda yakin ingin menghapus data ini? Tindakan ini tidak
+                    <p class="text-sm text-zinc-500 mb-6">Apakah Anda yakin ingin menghapus data ini? Tindakan ini
+                        tidak
                         dapat dibatalkan.</p>
                     <div class="flex gap-3 justify-center">
                         <button @click="deleteModal.show = false"

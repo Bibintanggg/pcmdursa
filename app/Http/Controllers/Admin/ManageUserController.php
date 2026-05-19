@@ -86,4 +86,16 @@ class ManageUserController extends Controller
             ->route('admin.manage-user')
             ->with('success', 'User berhasil diupdate!');
     }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+
+        $user->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User berhasil dihapus!'
+        ]);
+    }
 }

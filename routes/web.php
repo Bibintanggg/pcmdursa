@@ -12,6 +12,9 @@ use App\Http\Controllers\Admin\OrganisasiController;
 use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\AmalUsahaController;
 use App\Http\Controllers\Admin\ManageUserController;
+
+use App\Http\Controllers\Bendahara\FinanceController;
+use App\Http\Controllers\Bendahara\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -109,16 +112,25 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::prefix('penulis')->name('penulis.')->group(function () {
     Route::middleware(['auth', 'role:penulis'])->group(function () {
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('penulis.dashboard');
+        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-        Route::get('/articles', [ArtikelController::class, 'index'])->name('penulis.articles');
-        Route::get('/articles/create', [ArtikelController::class, 'create'])->name('penulis.articles.create');
-        Route::post('/articles', [ArtikelController::class, 'store'])->name('penulis.articles.store');
-        Route::get('/articles/{id}/edit', [ArtikelController::class, 'edit'])->name('penulis.articles.edit');
-        Route::put('/articles/{id}', [ArtikelController::class, 'update'])->name('penulis.articles.update');
-        Route::delete('/articles/{id}', [ArtikelController::class, 'destroy'])->name('penulis.articles.destroy');
+        Route::get('/articles', [ArtikelController::class, 'index'])->name('articles');
+        Route::get('/articles/create', [ArtikelController::class, 'create'])->name('articles.create');
+        Route::post('/articles', [ArtikelController::class, 'store'])->name('articles.store');
+        Route::get('/articles/{id}/edit', [ArtikelController::class, 'edit'])->name('articles.edit');
+        Route::put('/articles/{id}', [ArtikelController::class, 'update'])->name('articles.update');
+        Route::delete('/articles/{id}', [ArtikelController::class, 'destroy'])->name('articles.destroy');
 
         Route::resource('/berita', NewsController::class);
+    });
+});
+
+Route::prefix('bendahara')->name('bendahara.')->group(function () {
+
+    Route::middleware(['auth', 'role:bendahara,superadmin'])->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])
+            ->name('dashboard');
+        Route::resource('/keuangan', FinanceController::class);
     });
 });
 
