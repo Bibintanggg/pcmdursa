@@ -58,7 +58,8 @@ class AuthenticatedSessionController extends Controller
         }
 
         if($role === 'bendahara') {
-            return redirect()->intended(route('bendahara.dashboard', absolute:false));
+            session(['2fa_passed' => false]);
+            return redirect()->route('bendahara.2fa.verify');
         }
 
         return redirect('/');

@@ -2,9 +2,9 @@
     <div class="max-w-screen-xl mx-auto px-4 h-full flex items-center justify-between">
 
         <!-- Logo -->
-        <a href="/" class="flex items-center space-x-3">
-            <img src="https://i.pinimg.com/564x/29/e9/30/29e9307518d8366f97a6d26e888c6bf4.jpg" class="h-7"
-                alt="Logo" />
+        <a href="#beranda" class="flex items-center space-x-3">
+            <img src="https://i.pinimg.com/564x/29/e9/30/29e9307518d8366f97a6d26e888c6bf4.jpg"
+                 class="h-7" alt="Logo" />
             <span class="text-xl text-heading font-semibold whitespace-nowrap">
                 PCM Duren Sawit 1
             </span>
@@ -13,14 +13,14 @@
         <!-- Menu -->
         <div class="hidden md:block">
             <ul class="font-medium flex space-x-8">
-                <li><a href="/" class="text-fg-brand">Beranda</a></li>
-                <li><a href="/" class="text-heading hover:text-fg-brand">Profil</a></li>
-                <li><a href="/" class="text-heading hover:text-fg-brand">Artikel</a></li>
-                <li><a href="/" class="text-heading hover:text-fg-brand">Berita</a></li>
-                <li><a href="/" class="text-heading hover:text-fg-brand">Program</a></li>
-                <li><a href="/" class="text-heading hover:text-fg-brand">Organisasi Otonom</a></li>
-                <li><a href="/" class="text-heading hover:text-fg-brand">Amal Usaha</a></li>
-                <li><a href="/" class="text-heading hover:text-fg-brand">Kontak</a></li>
+                <li><a href="#beranda" class="text-fg-brand">Beranda</a></li>
+                <li><a href="#profil" class="text-heading hover:text-fg-brand">Profil</a></li>
+                <li><a href="#artikel" class="text-heading hover:text-fg-brand">Artikel</a></li>
+                <li><a href="#berita" class="text-heading hover:text-fg-brand">Berita</a></li>
+                <li><a href="#program" class="text-heading hover:text-fg-brand">Program</a></li>
+                <li><a href="#organisasi" class="text-heading hover:text-fg-brand">Organisasi Otonom</a></li>
+                <li><a href="#amal-usaha" class="text-heading hover:text-fg-brand">Amal Usaha</a></li>
+                <li><a href="#kontak" class="text-heading hover:text-fg-brand">Kontak</a></li>
             </ul>
         </div>
 

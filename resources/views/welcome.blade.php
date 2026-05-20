@@ -16,6 +16,9 @@
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
     <style>
+        html {
+             scroll-behavior: smooth;
+        }
         /* smooth carousel transition */
         #sliderSistemV2 .carousel-item {
             transition: transform 0.9s ease-in-out, opacity 0.9s ease-in-out;
@@ -81,17 +84,43 @@
 
         @include('partials.header-section')
 
-        <section id="profil" class="py-20 bg-gray-50">
-            @include('partials.profile-section')
-            @include('partials.article-section')
-            @include('partials.berita-section')
-            @include('partials.program-unggulan-section')
-            @include('partials.jadwal-modal')
-            @include('partials.modal-sekolah')
-            @include('partials.modal-jsm')
-            @include('partials.organisasi-otonom')
-            @include('partials.layanan-section')
-        </section>
+        <main class="pt-20 bg-gray-50">
+            <section id="profil">
+                @include('partials.profile-section')
+            </section>
+
+            <section id="artikel">
+                @include('partials.article-section')
+            </section>
+
+            <section id="berita">
+                @include('partials.berita-section')
+            </section>
+
+            <section id="program">
+                @include('partials.program-unggulan-section')
+            </section>
+
+            <section id="profil">
+                @include('partials.jadwal-modal')
+            </section>
+
+            <section id="profil">
+                @include('partials.modal-sekolah')
+            </section>
+
+            <section id="profil">
+                @include('partials.modal-jsm')
+            </section>
+
+            <section id="organisasi">
+                @include('partials.organisasi-otonom')
+            </section>
+
+            <section id="amal-usaha">
+                @include('partials.layanan-section')
+            </section>
+        </main>
 
     </main>
 

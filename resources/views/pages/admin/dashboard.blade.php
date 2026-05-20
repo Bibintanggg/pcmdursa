@@ -326,7 +326,8 @@
                     </div>
                 </div>
 
-                {{-- ===== QUICK ACTIONS ===== --}}
+                @if (Auth::user()->role !== 'penulis')
+
                 <p class="section-label">Aksi cepat</p>
                 <div class="card">
                     <div class="qa-grid">
@@ -356,6 +357,8 @@
                         </a>
                     </div>
                 </div>
+                @endif
+
 
             </div>
         </div>

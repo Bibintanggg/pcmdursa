@@ -13,7 +13,7 @@ use App\Http\Controllers\Admin\PengurusController;
 use App\Http\Controllers\Admin\AmalUsahaController;
 use App\Http\Controllers\Admin\HeroSectionsController;
 use App\Http\Controllers\Admin\ManageUserController;
-
+use App\Http\Controllers\Admin\TwoFactorController;
 use App\Http\Controllers\Bendahara\FinanceController;
 use App\Http\Controllers\Bendahara\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -130,8 +130,23 @@ Route::prefix('penulis')->name('penulis.')->group(function () {
 Route::prefix('bendahara')->name('bendahara.')->group(function () {
 
     Route::middleware(['auth', 'role:bendahara,superadmin'])->group(function () {
+
+        Route::get('/2fa/setup', [TwoFactorController::class, 'setup'])
+            ->name('2fa.setup');
+        Route::post('/2fa/setup', [TwoFactorController::class, 'activate'])
+            ->name('2fa.activate');
+
+        Route::get('/2fa/verify', [TwoFactorController::class, 'index'])
+            ->name('2fa.verify');
+        Route::post('/2fa/verify', [TwoFactorController::class, 'verify'])
+            ->name('2fa.check');
+    });
+
+    Route::middleware(['auth', 'role:bendahara,superadmin', 'bendahara.2fa'])->group(function () {
+
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
+
         Route::resource('/keuangan', FinanceController::class);
     });
 });

@@ -17,7 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('role', ['user', 'admin','superadmin', 'penulis', 'bendahara'])->default('user');
+            $table->enum('role', ['user', 'admin', 'superadmin', 'penulis', 'bendahara'])->default('user');
+
+            $table->string('google2fa_secret')->nullable();
+            $table->boolean('google2fa_enabled')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

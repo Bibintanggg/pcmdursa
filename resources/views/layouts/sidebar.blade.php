@@ -267,7 +267,7 @@
                     <span class="nav-label">Artikel</span>
                 </a>
 
-                <a href="{{ route('penulis.berita') }}"
+                <a href="{{ route('penulis.berita.index') }}"
                     class="nav-item {{ request()->routeIs('penulis.berita*') ? 'active' : '' }}" data-label="Berita">
                     <div class="nav-icon">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
