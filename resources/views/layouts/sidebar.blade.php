@@ -210,7 +210,7 @@
                         <span class="nav-label">Manajemen Akun</span>
                     </a>
 
-                    <a href="{{ route('bendahara.keuangan.index') }}"
+                    {{-- <a href="{{ route('bendahara.keuangan.index') }}"
                         class="nav-item {{ request()->routeIs('bendahara.keuangan.index*') ? 'active' : '' }}"
                         data-label="Keuangan">
 
@@ -228,7 +228,7 @@
                         </div>
 
                         <span class="nav-label">Laporan Keuangan</span>
-                    </a>
+                    </a> --}}
                 @endif
             @elseif (auth()->user()->role === 'penulis')
                 <a href="{{ route('penulis.dashboard') }}"
