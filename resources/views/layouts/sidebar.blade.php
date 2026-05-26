@@ -1,10 +1,4 @@
 <aside class="sidebar font-sans min-h-screen sticky" id="sidebar">
-    <div class="toggle-btn" onclick="toggleSidebar()">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M7.5 2L3.5 6L7.5 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                stroke-linejoin="round" />
-        </svg>
-    </div>
     <div class="logo">
         <div class="logo-icon">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -359,6 +353,17 @@
 
     </div>
 </aside>
+
+<button class="mobile-menu-btn" onclick="toggleSidebar()" id="mobileMenuBtn">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <line x1="2" y1="4.5" x2="16" y2="4.5" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" />
+        <line x1="2" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" />
+        <line x1="2" y1="13.5" x2="16" y2="13.5" stroke="currentColor" stroke-width="1.6"
+            stroke-linecap="round" />
+    </svg>
+</button>
 
 {{-- OVERLAY (mobile) --}}
 <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
@@ -760,21 +765,60 @@
         display: block;
     }
 
+    .mobile-menu-btn {
+        display: none;
+    }
+
     /* Mobile */
     @media (max-width: 768px) {
+
+        /* Sidebar keluar dari flow — ga makan space */
         .sidebar {
             position: fixed;
             z-index: 50;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 240px;
+            min-width: 240px;
             transform: translateX(-100%);
             transition: transform 0.3s cubic-bezier(.4, 0, .2, 1);
+            box-shadow: none;
         }
 
         .sidebar.open {
             transform: translateX(0);
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
         }
 
+        /* Sembunyiin toggle btn bawaan */
         .toggle-btn {
             display: none;
+        }
+
+        /* Hamburger nongol */
+        .mobile-menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 45;
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            cursor: pointer;
+            color: #64748b;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+            transition: background 0.15s;
+        }
+
+        .mobile-menu-btn:hover {
+            background: #f8fafc;
+            color: #0f172a;
         }
     }
 </style>
@@ -787,7 +831,8 @@
 
         if (isMobile) {
             sidebar.classList.toggle('open');
-            overlay.classList.toggle('active');
+            // overlay hanya muncul saat expanded di mobile
+            overlay.classList.toggle('active', sidebar.classList.contains('open'));
         } else {
             sidebar.classList.toggle('collapsed');
         }
