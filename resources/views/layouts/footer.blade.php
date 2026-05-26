@@ -41,7 +41,7 @@
                     </div>
                     <div class="flex gap-2 items-center">
                         <span class="text-emerald-400 text-sm">📞</span>
-                        <p class="text-sm">+62 812 3456 7890</p>
+                        <p class="text-sm">+6285280136056</p>
                     </div>
                     <div class="flex gap-2 items-center">
                         <span class="text-emerald-400 text-sm">✉️</span>

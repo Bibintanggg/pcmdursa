@@ -164,7 +164,7 @@
 function daftarJSMviaWA() {
     const nama  = (document.getElementById('jsm-nama').value || '').trim();
     // const nomor = '6285280136056'; // Ganti dengan nomor WA tujuan
-    const nomor = '6285717943270'; // Ganti dengan nomor WA tujuan
+    const nomor = '+6285280136056'; // Ganti dengan nomor WA tujuan
 
     const pesan = nama
         ? `Assalamu'alaikum, saya *${nama}* ingin mendaftarkan diri sebagai anggota Jaringan Saudagar Muhammadiyah (JSM). Mohon informasi lebih lanjut mengenai prosedur pendaftaran. Jazakumullahu Khayran.`

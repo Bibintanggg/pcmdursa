@@ -120,6 +120,10 @@
             <section id="amal-usaha">
                 @include('partials.layanan-section')
             </section>
+
+            <section id="kontak">
+                @include('partials.contact-section')
+            </section>
         </main>
 
     </main>
