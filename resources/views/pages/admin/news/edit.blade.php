@@ -10,7 +10,7 @@
                 <p class="text-xs text-gray-400 uppercase tracking-widest font-medium mb-0.5">Manajemen</p>
                 <h2 class="text-xl font-bold text-gray-900" style="font-family:'DM Sans',sans-serif">Edit Berita</h2>
             </div>
-            <div class="flex items-center gap-3">
+            {{-- <div class="flex items-center gap-3">
                 <a href="{{ route($prefix . '.berita') }}"
                     class="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 transition font-medium">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -18,7 +18,7 @@
                     </svg>
                     Kembali
                 </a>
-            </div>
+            </div> --}}
         </div>
     </x-slot>
 
@@ -385,7 +385,7 @@
                             <span id="footer-status" class="text-sm text-gray-500">Periksa kembali data sebelum
                                 menyimpan</span>
                             <div class="flex items-center gap-2">
-                                <a href="{{ route($prefix . '.berita') }}"
+                                <a href="{{ route($prefix . '.berita.index') }}"
                                     class="text-sm px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 transition font-medium">Batal</a>
                                 <button type="submit"
                                     class="flex items-center gap-2 text-sm px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-semibold hover:bg-emerald-700 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-emerald-500/25 transition-all duration-300 active:scale-95">

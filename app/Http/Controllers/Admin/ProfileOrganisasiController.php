@@ -30,7 +30,7 @@ class ProfileOrganisasiController extends Controller
             'misi'    => $p->misi,
             'tagline' => $p->tagline,
             'image'   => asset('storage/' . $p->image),
-            'email'   => (string) $p->id,
+            'id'      => $p->id,
         ])->toArray();
 
         return view('pages.admin.profile-org.profile-organisasi', compact('profile', 'columns', 'rows', 'hero'));
@@ -95,7 +95,6 @@ class ProfileOrganisasiController extends Controller
         try {
             $profile = ProfileOrganisasi::findOrFail($id);
 
-            // Hapus file image kalo ada
             if ($profile->image && Storage::disk('public')->exists($profile->image)) {
                 Storage::disk('public')->delete($profile->image);
             }
@@ -109,7 +108,7 @@ class ProfileOrganisasiController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal menghapus data'
+                'message' => $e->getMessage()
             ], 500);
         }
     }

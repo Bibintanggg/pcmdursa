@@ -1,11 +1,9 @@
-<header class="relative overflow-hidden pt-20" id="hero-header">
+<header class="relative overflow-hidden " id="hero-header">
 
-    {{-- ===================== SLIDER ===================== --}}
     @if(isset($heroSections) && $heroSections->count() > 0)
 
     <div class="relative" id="hero-slider-wrap">
 
-        {{-- SLIDES --}}
         <div id="hero-track" style="position:relative;">
             @foreach($heroSections as $index => $hero)
             <div class="hero-slide"
@@ -18,7 +16,6 @@
                     overflow: hidden;
                  ">
 
-                {{-- Background image overlay --}}
                 @if($hero->image)
                 <div style="
                     position:absolute; inset:0;
@@ -101,7 +98,7 @@
                         </div>
 
                         {{-- RIGHT --}}
-                        <div class="flex justify-center lg:justify-end">
+                        <div class="flex justify-center lg:justify-end pt-10">
                             @if($hero->image)
                             <div style="border-radius:1.5rem; overflow:hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.35); max-width:480px; width:100%;">
                                 <img src="{{ asset('storage/' . $hero->image) }}"

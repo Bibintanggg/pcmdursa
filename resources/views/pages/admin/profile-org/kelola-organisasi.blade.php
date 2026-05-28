@@ -6,80 +6,47 @@
                 <p class="text-[11px] text-gray-400 uppercase tracking-[.12em] font-semibold mb-0.5">Pengaturan</p>
                 <h2 class="text-xl text-gray-900">Struktur Organisasi</h2>
             </div>
-            <a href="{{ url()->previous() }}"
-                class="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-900 transition-colors font-medium">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path d="M15 19l-7-7 7-7" />
-                </svg>
-                Kembali
-            </a>
         </div>
     </x-slot>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { box-sizing: border-box; }
+        body, input, button, select { font-family: 'Outfit', sans-serif; }
 
-        body,
-        input,
-        button,
-        select {
+        .page-wrap { min-height: 100vh; background: #FAFAFA; padding: 20px 16px 100px; }
+        .inner { max-width: 1100px; margin: 0 auto; }
+
+        /* ── TABS (mobile only) ── */
+        .mob-tabs {
+            display: none;
+            background: #fff;
+            border: 1px solid #f1f5f9;
+            border-radius: 14px;
+            padding: 4px;
+            margin-bottom: 16px;
+            gap: 4px;
+        }
+        .mob-tab {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all .15s;
             font-family: 'Outfit', sans-serif;
         }
-
-        .page-wrap {
-            min-height: 100vh;
-            background: #FAFAFA;
-            padding: 36px 24px;
+        .mob-tab.active {
+            background: #0f172a;
+            color: #fff;
         }
 
-        .inner {
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .page-header {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            margin-bottom: 32px;
-        }
-
-        .page-title {
-            font-size: 36px;
-            color: #0f172a;
-            line-height: 1.1;
-            font-family: 'Instrument Serif', serif;
-        }
-
-        .page-title em {
-            font-style: italic;
-        }
-
-        .total-wrap {
-            text-align: right;
-        }
-
-        .total-wrap small {
-            font-size: 11px;
-            color: #94a3b8;
-            display: block;
-            margin-bottom: 2px;
-        }
-
-        .total-wrap strong {
-            font-size: 28px;
-            font-weight: 700;
-            color: #0f172a;
-        }
-
+        /* ── LAYOUT ── */
         .two-col {
             display: grid;
             grid-template-columns: 360px 1fr;
@@ -87,7 +54,7 @@
             align-items: start;
         }
 
-        /* ── LEFT ── */
+        /* ── LEFT PANEL ── */
         .lp {
             background: #fff;
             border: 1px solid #f1f5f9;
@@ -96,616 +63,270 @@
             position: sticky;
             top: 24px;
         }
+        .lp-head { padding: 18px 20px 14px; border-bottom: 1px solid #f1f5f9; }
+        .lp-head h3 { font-size: 15px; font-weight: 700; color: #0f172a; margin: 0 0 2px; }
+        .lp-head p { font-size: 11px; color: #94a3b8; margin: 0; }
+        .lp-body { padding: 14px 16px; max-height: calc(100vh - 220px); overflow-y: auto; }
 
-        .lp-head {
-            padding: 18px 20px 14px;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .lp-head h3 {
-            font-size: 15px;
-            font-weight: 700;
-            color: #0f172a;
-            margin: 0 0 2px;
-        }
-
-        .lp-head p {
-            font-size: 11px;
-            color: #94a3b8;
-            margin: 0;
-        }
-
-        .lp-body {
-            padding: 14px 16px;
-            max-height: calc(100vh - 220px);
-            overflow-y: auto;
-        }
-
-        .lv-grp {
-            margin-bottom: 20px;
-        }
-
-        .lv-grp-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .lv-grp-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: #cbd5e1;
-            text-transform: uppercase;
-            letter-spacing: .1em;
-        }
+        .lv-grp { margin-bottom: 20px; }
+        .lv-grp-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+        .lv-grp-label { font-size: 10px; font-weight: 700; color: #cbd5e1; text-transform: uppercase; letter-spacing: .1em; }
 
         .btn-add {
-            font-size: 11px;
-            font-weight: 600;
-            color: #64748b;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 3px 10px;
-            cursor: pointer;
-            transition: all .15s;
+            font-size: 11px; font-weight: 600; color: #64748b;
+            background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
+            padding: 3px 10px; cursor: pointer; transition: all .15s;
         }
-
-        .btn-add:hover {
-            background: #0f172a;
-            color: #fff;
-            border-color: #0f172a;
-        }
+        .btn-add:hover { background: #0f172a; color: #fff; border-color: #0f172a; }
 
         .mrow {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 11px;
-            border-radius: 13px;
-            border: 1px solid #f1f5f9;
-            background: #fafafa;
-            margin-bottom: 5px;
-            cursor: pointer;
-            transition: all .15s;
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 11px; border-radius: 13px;
+            border: 1px solid #f1f5f9; background: #fafafa;
+            margin-bottom: 5px; cursor: pointer; transition: all .15s;
         }
-
-        .mrow:hover {
-            border-color: #e2e8f0;
-            background: #fff;
-        }
-
-        .mrow.active {
-            border-color: #0f172a;
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(15, 23, 42, .05);
-        }
-
-        .mrow.isnew {
-            border-color: #93c5fd;
-            border-style: dashed;
-            background: #f0f9ff;
-        }
+        .mrow:hover { border-color: #e2e8f0; background: #fff; }
+        .mrow.active { border-color: #0f172a; background: #fff; box-shadow: 0 0 0 3px rgba(15,23,42,.05); }
+        .mrow.isnew { border-color: #93c5fd; border-style: dashed; background: #f0f9ff; }
 
         .mav {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            flex-shrink: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 700;
-            color: #64748b;
+            width: 34px; height: 34px; border-radius: 50%;
+            background: #f1f5f9; border: 1px solid #e2e8f0;
+            flex-shrink: 0; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 700; color: #64748b;
         }
+        .mav img { width: 100%; height: 100%; object-fit: cover; }
 
-        .mav img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .minfo { flex: 1; min-width: 0; }
+        .mname { font-size: 13px; font-weight: 600; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mname.dim { color: #cbd5e1; font-weight: 400; font-style: italic; }
+        .mrole { font-size: 11px; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .minfo {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .mname {
-            font-size: 13px;
-            font-weight: 600;
-            color: #0f172a;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .mname.dim {
-            color: #cbd5e1;
-            font-weight: 400;
-            font-style: italic;
-        }
-
-        .mrole {
-            font-size: 11px;
-            color: #94a3b8;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .macts {
-            display: flex;
-            gap: 4px;
-            flex-shrink: 0;
-        }
-
+        .macts { display: flex; gap: 4px; flex-shrink: 0; }
         .btn-sm {
-            font-size: 11px;
-            font-weight: 500;
-            padding: 3px 8px;
-            border-radius: 7px;
-            border: 1px solid #e2e8f0;
-            background: #fff;
-            cursor: pointer;
-            transition: all .15s;
-            color: #64748b;
+            font-size: 11px; font-weight: 500; padding: 3px 8px;
+            border-radius: 7px; border: 1px solid #e2e8f0;
+            background: #fff; cursor: pointer; transition: all .15s; color: #64748b;
         }
+        .btn-sm:hover { border-color: #0f172a; color: #0f172a; }
+        .btn-sm.del:hover { border-color: #fca5a5; background: #fef2f2; color: #dc2626; }
 
-        .btn-sm:hover {
-            border-color: #0f172a;
-            color: #0f172a;
-        }
+        .nbadge { font-size: 9px; font-weight: 700; padding: 2px 6px; background: #dbeafe; color: #1d4ed8; border-radius: 6px; flex-shrink: 0; }
+        .empty-state { text-align: center; padding: 20px 0; color: #e2e8f0; font-size: 12px; font-style: italic; }
 
-        .btn-sm.del:hover {
-            border-color: #fca5a5;
-            background: #fef2f2;
-            color: #dc2626;
-        }
-
-        .nbadge {
-            font-size: 9px;
-            font-weight: 700;
-            padding: 2px 6px;
-            background: #dbeafe;
-            color: #1d4ed8;
-            border-radius: 6px;
-            flex-shrink: 0;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 20px 0;
-            color: #e2e8f0;
-            font-size: 12px;
-            font-style: italic;
-        }
-
-        /* inline form */
+        /* ── INLINE FORM (desktop) ── */
         .iform {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 6px;
+            background: #f8fafc; border: 1px solid #e2e8f0;
+            border-radius: 14px; padding: 14px; margin-bottom: 6px;
         }
+        .iform-ttl { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 12px; }
 
-        .iform-ttl {
-            font-size: 10px;
-            font-weight: 700;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: .1em;
-            margin-bottom: 12px;
-        }
-
-        .av-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 11px;
-        }
-
+        .av-row { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
         .av-circ {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: #f1f5f9;
-            border: 1.5px dashed #cbd5e1;
-            flex-shrink: 0;
-            overflow: hidden;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 700;
-            color: #94a3b8;
-            transition: border-color .15s;
+            width: 42px; height: 42px; border-radius: 50%;
+            background: #f1f5f9; border: 1.5px dashed #cbd5e1; flex-shrink: 0;
+            overflow: hidden; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700; color: #94a3b8; transition: border-color .15s;
         }
-
-        .av-circ:hover {
-            border-color: #0f172a;
-        }
-
-        .av-circ img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
+        .av-circ:hover { border-color: #0f172a; }
+        .av-circ img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 
         .btn-ph {
-            font-size: 11px;
-            font-weight: 500;
-            padding: 4px 11px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            background: #fff;
-            cursor: pointer;
-            display: block;
-            margin-bottom: 4px;
-            transition: all .15s;
+            font-size: 11px; font-weight: 500; padding: 4px 11px;
+            border-radius: 8px; border: 1px solid #e2e8f0;
+            background: #fff; cursor: pointer; display: block; margin-bottom: 4px; transition: all .15s;
         }
+        .btn-ph:hover { border-color: #0f172a; }
 
-        .btn-ph:hover {
-            border-color: #0f172a;
-        }
-
-        .flabel {
-            font-size: 10px;
-            font-weight: 700;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: .08em;
-            margin-bottom: 4px;
-            display: block;
-        }
-
+        .flabel { font-size: 10px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 4px; display: block; }
         .finput {
-            width: 100%;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 8px 11px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #0f172a;
-            outline: none;
-            transition: all .15s;
-            margin-bottom: 7px;
+            width: 100%; background: #fff; border: 1px solid #e2e8f0;
+            border-radius: 10px; padding: 8px 11px; font-size: 13px; font-weight: 500;
+            color: #0f172a; outline: none; transition: all .15s; margin-bottom: 7px;
             font-family: 'Outfit', sans-serif;
         }
-
-        .finput::placeholder {
-            color: #cbd5e1;
-            font-weight: 400;
-        }
-
-        .finput:focus {
-            border-color: #0f172a;
-            box-shadow: 0 0 0 3px rgba(15, 23, 42, .05);
-        }
+        .finput::placeholder { color: #cbd5e1; font-weight: 400; }
+        .finput:focus { border-color: #0f172a; box-shadow: 0 0 0 3px rgba(15,23,42,.05); }
 
         .fselect {
-            width: 100%;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-            padding: 8px 11px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #0f172a;
-            outline: none;
-            margin-bottom: 7px;
-            font-family: 'Outfit', sans-serif;
-            cursor: pointer;
+            width: 100%; background: #fff; border: 1px solid #e2e8f0;
+            border-radius: 10px; padding: 8px 11px; font-size: 13px; font-weight: 500;
+            color: #0f172a; outline: none; margin-bottom: 7px;
+            font-family: 'Outfit', sans-serif; cursor: pointer;
         }
-
-        .faction {
-            display: flex;
-            gap: 6px;
-            margin-top: 4px;
-        }
+        .faction { display: flex; gap: 6px; margin-top: 4px; }
 
         .btn-save {
-            flex: 1;
-            padding: 9px;
-            border-radius: 10px;
-            background: #0f172a;
-            color: #fff;
-            border: none;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            transition: opacity .15s;
-            font-family: 'Outfit', sans-serif;
+            flex: 1; padding: 9px; border-radius: 10px;
+            background: #0f172a; color: #fff; border: none;
+            font-size: 12px; font-weight: 700; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+            transition: opacity .15s; font-family: 'Outfit', sans-serif;
         }
-
-        .btn-save:hover {
-            opacity: .85;
-        }
-
-        .btn-save.loading {
-            opacity: .45;
-            pointer-events: none;
-        }
+        .btn-save:hover { opacity: .85; }
+        .btn-save.loading { opacity: .45; pointer-events: none; }
 
         .btn-cancel {
-            padding: 9px 14px;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
-            background: #fff;
-            font-size: 12px;
-            color: #64748b;
-            cursor: pointer;
-            transition: all .15s;
-            font-family: 'Outfit', sans-serif;
+            padding: 9px 14px; border-radius: 10px;
+            border: 1px solid #e2e8f0; background: #fff;
+            font-size: 12px; color: #64748b; cursor: pointer;
+            transition: all .15s; font-family: 'Outfit', sans-serif;
         }
-
-        .btn-cancel:hover {
-            border-color: #0f172a;
-            color: #0f172a;
-        }
+        .btn-cancel:hover { border-color: #0f172a; color: #0f172a; }
 
         /* ── RIGHT / PREVIEW ── */
         .rp {
-            background: #fff;
-            border: 1px solid #f1f5f9;
-            border-radius: 20px;
-            padding: 28px 20px;
-            min-height: 520px;
+            background: #fff; border: 1px solid #f1f5f9;
+            border-radius: 20px; padding: 28px 20px; min-height: 520px;
         }
+        .rp-lbl { font-size: 10px; font-weight: 700; color: #e2e8f0; text-transform: uppercase; letter-spacing: .1em; text-align: center; margin-bottom: 28px; }
 
-        .rp-lbl {
-            font-size: 10px;
-            font-weight: 700;
-            color: #e2e8f0;
-            text-transform: uppercase;
-            letter-spacing: .1em;
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .org-tree {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-        }
-
-        .org-conn {
-            width: 1px;
-            height: 28px;
-            background: #e2e8f0;
-        }
-
-        .org-lv-wrap {
-            width: 100%;
-            margin-bottom: 0;
-        }
-
-        .org-lv-lbl {
-            font-size: 10px;
-            font-weight: 700;
-            color: #e2e8f0;
-            text-transform: uppercase;
-            letter-spacing: .1em;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .org-row {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            min-height: 20px;
-        }
-
-        /* preview empty state */
-        .org-empty {
-            font-size: 11px;
-            color: #e2e8f0;
-            font-style: italic;
-            text-align: center;
-            padding: 16px 0;
-            width: 100%;
-        }
+        .org-tree { display: flex; flex-direction: column; align-items: center; gap: 0; }
+        .org-conn { width: 1px; height: 28px; background: #e2e8f0; }
+        .org-lv-wrap { width: 100%; margin-bottom: 0; }
+        .org-lv-lbl { font-size: 10px; font-weight: 700; color: #e2e8f0; text-transform: uppercase; letter-spacing: .1em; text-align: center; margin-bottom: 10px; }
+        .org-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; min-height: 20px; }
+        .org-empty { font-size: 11px; color: #e2e8f0; font-style: italic; text-align: center; padding: 16px 0; width: 100%; }
 
         .ncard {
-            width: 112px;
-            border-radius: 18px;
-            border: 1px solid #f1f5f9;
-            background: #fff;
-            padding: 14px 8px 11px;
-            text-align: center;
-            cursor: pointer;
-            transition: all .2s;
-            position: relative;
+            width: 112px; border-radius: 18px; border: 1px solid #f1f5f9;
+            background: #fff; padding: 14px 8px 11px; text-align: center;
+            cursor: pointer; transition: all .2s; position: relative;
         }
+        .ncard:hover { border-color: #0f172a; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.07); }
+        .ncard.lv1 { background: #0f172a; border-color: #0f172a; }
+        .ncard.editing { border-color: #3b82f6 !important; border-width: 1.5px; box-shadow: 0 0 0 3px rgba(59,130,246,.12) !important; transform: none !important; }
+        .ncard.isnew-c { border-style: dashed; border-color: #93c5fd; }
 
-        .ncard:hover {
-            border-color: #0f172a;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, .07);
-        }
-
-        .ncard.lv1 {
-            background: #0f172a;
-            border-color: #0f172a;
-        }
-
-        .ncard.editing {
-            border-color: #3b82f6 !important;
-            border-width: 1.5px;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, .12) !important;
-            transform: none !important;
-        }
-
-        .ncard.isnew-c {
-            border-style: dashed;
-            border-color: #93c5fd;
-        }
-
-        @keyframes pulse-in {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0)
-            }
-
-            50% {
-                box-shadow: 0 0 0 5px rgba(59, 130, 246, .18)
-            }
-        }
-
-        .ncard.isnew-c {
-            animation: pulse-in 1.4s ease 3;
-        }
-
-        .ncard-badge {
-            position: absolute;
-            top: -6px;
-            right: -6px;
-            font-size: 9px;
-            font-weight: 700;
-            padding: 2px 6px;
-            background: #3b82f6;
-            color: #fff;
-            border-radius: 6px;
-        }
+        .ncard-badge { position: absolute; top: -6px; right: -6px; font-size: 9px; font-weight: 700; padding: 2px 6px; background: #3b82f6; color: #fff; border-radius: 6px; }
 
         .nav {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            margin: 0 auto 9px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            font-weight: 700;
-            color: #64748b;
+            width: 42px; height: 42px; border-radius: 50%; background: #f1f5f9;
+            border: 1px solid #e2e8f0; margin: 0 auto 9px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; font-weight: 700; color: #64748b;
         }
+        .nav img { width: 100%; height: 100%; object-fit: cover; }
+        .ncard.lv1 .nav { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.12); color: #fff; }
 
-        .nav img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .nname { font-size: 11px; font-weight: 700; color: #0f172a; line-height: 1.3; margin-bottom: 3px; }
+        .ncard.lv1 .nname { color: #fff; }
+        .nrole { font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: .04em; line-height: 1.2; }
+        .ncard.lv1 .nrole { color: rgba(255,255,255,.4); }
+        .nempty { font-size: 10px; color: #e2e8f0; margin-top: 4px; font-style: italic; }
+
+        /* ── BOTTOM SHEET (mobile edit form) ── */
+        .bs-overlay {
+            display: none;
+            position: fixed; inset: 0; background: rgba(0,0,0,.45);
+            z-index: 100; align-items: flex-end;
         }
-
-        .ncard.lv1 .nav {
-            background: rgba(255, 255, 255, .1);
-            border-color: rgba(255, 255, 255, .12);
-            color: #fff;
+        .bs-overlay.open { display: flex; }
+        .bs-sheet {
+            width: 100%; background: #fff;
+            border-radius: 20px 20px 0 0;
+            padding: 0 0 env(safe-area-inset-bottom, 16px);
+            max-height: 92vh; overflow-y: auto;
+            animation: slideUp .25s cubic-bezier(.4,0,.2,1);
         }
-
-        .nname {
-            font-size: 11px;
-            font-weight: 700;
-            color: #0f172a;
-            line-height: 1.3;
-            margin-bottom: 3px;
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
-
-        .ncard.lv1 .nname {
-            color: #fff;
+        .bs-handle {
+            width: 36px; height: 4px; background: #e2e8f0;
+            border-radius: 99px; margin: 12px auto 0;
         }
-
-        .nrole {
-            font-size: 10px;
-            color: #94a3b8;
-            text-transform: uppercase;
-            letter-spacing: .04em;
-            line-height: 1.2;
+        .bs-head {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid #f1f5f9;
         }
-
-        .ncard.lv1 .nrole {
-            color: rgba(255, 255, 255, .4);
+        .bs-head h3 { font-size: 15px; font-weight: 700; color: #0f172a; margin: 0; }
+        .bs-close {
+            width: 32px; height: 32px; border-radius: 50%;
+            background: #f1f5f9; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; color: #64748b; line-height: 1;
         }
+        .bs-body { padding: 16px 20px 24px; }
 
-        .nempty {
-            font-size: 10px;
-            color: #e2e8f0;
-            margin-top: 4px;
-            font-style: italic;
-        }
-
+        /* ── TOAST ── */
         .toast {
-            position: fixed;
-            bottom: 28px;
-            left: 50%;
+            position: fixed; bottom: 28px; left: 50%;
             transform: translateX(-50%) translateY(10px);
-            background: #0f172a;
-            color: #fff;
-            padding: 10px 22px;
-            border-radius: 999px;
-            font-size: 13px;
-            font-weight: 500;
-            opacity: 0;
-            pointer-events: none;
-            transition: all .3s cubic-bezier(.4, 0, .2, 1);
-            z-index: 200;
-            white-space: nowrap;
+            background: #0f172a; color: #fff;
+            padding: 10px 22px; border-radius: 999px;
+            font-size: 13px; font-weight: 500;
+            opacity: 0; pointer-events: none;
+            transition: all .3s cubic-bezier(.4,0,.2,1);
+            z-index: 200; white-space: nowrap;
         }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        /* ── KEYFRAMES ── */
+        @@keyframes pulse-in {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0) }
+            50% { box-shadow: 0 0 0 5px rgba(59,130,246,.18) }
         }
+        .ncard.isnew-c { animation: pulse-in 1.4s ease 3; }
 
-        @keyframes flash-green {
-            0% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0)
-            }
-
-            35% {
-                box-shadow: 0 0 0 5px rgba(16, 185, 129, .25)
-            }
-
-            100% {
-                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0)
-            }
+        @@keyframes flash-green {
+            0% { box-shadow: 0 0 0 0 rgba(16,185,129,0) }
+            35% { box-shadow: 0 0 0 5px rgba(16,185,129,.25) }
+            100% { box-shadow: 0 0 0 0 rgba(16,185,129,0) }
         }
+        .saved { animation: flash-green .8s ease forwards; }
 
-        .saved {
-            animation: flash-green .8s ease forwards;
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .page-wrap { padding: 16px 12px 80px; }
+            .mob-tabs { display: flex; }
+            .two-col { grid-template-columns: 1fr; gap: 0; }
+
+            .lp {
+                border-radius: 16px; position: static;
+                display: none;
+            }
+            .lp.mob-active { display: block; }
+            .lp-body { max-height: none; overflow-y: visible; }
+
+            .rp {
+                border-radius: 16px; padding: 20px 14px;
+                min-height: 300px; display: none;
+            }
+            .rp.mob-active { display: block; }
+
+            /* hide inline form on mobile — use bottom sheet instead */
+            .iform { display: none !important; }
+
+            .ncard { width: 90px; padding: 10px 6px 8px; }
+            .nav { width: 36px; height: 36px; font-size: 11px; }
+            .nname { font-size: 10px; }
+            .nrole { font-size: 9px; }
+
+            .org-conn { height: 18px; }
         }
     </style>
 
     <div class="page-wrap">
         <div class="inner">
 
-            {{-- <div class="page-header">
-            <div>
-                <p style="font-size:11px;color:#94a3b8;text-transform:uppercase;letter-spacing:.12em;font-weight:600;margin-bottom:6px">Organisasi</p>
-                <h1 class="font-sans">Struktur<br><em>Kepengurusan</em></h1>
+            {{-- Mobile Tab Switch --}}
+            <div class="mob-tabs">
+                <button class="mob-tab active" onclick="switchTab('list')">Kelola Anggota</button>
+                <button class="mob-tab" onclick="switchTab('preview')">Preview Bagan</button>
             </div>
-            <div class="total-wrap">
-                <small>Total anggota terisi</small>
-                <strong id="total-count">{{ $strukturs->where('nama','!=','')->whereNotNull('nama')->count() }}</strong>
-            </div>
-        </div> --}}
 
             <div class="two-col">
 
                 {{-- ══ PANEL KIRI ══ --}}
-                <div class="lp">
+                <div class="lp mob-active" id="panel-list">
                     <div class="lp-head">
                         <h3>Kelola Anggota</h3>
-                        <p>Klik baris untuk edit · Preview kanan update otomatis</p>
+                        <p>Klik baris untuk edit · Preview bagan update otomatis</p>
                     </div>
                     <div class="lp-body">
                         @php
@@ -734,23 +355,18 @@
                                                 @endif
                                             </div>
                                             <div class="minfo">
-                                                <div class="mname {{ empty($item->nama) ? 'dim' : '' }}"
-                                                    id="mname-{{ $item->id }}">
+                                                <div class="mname {{ empty($item->nama) ? 'dim' : '' }}" id="mname-{{ $item->id }}">
                                                     {{ $item->nama ?: 'Belum diisi...' }}
                                                 </div>
-                                                <div class="mrole" id="mrole-{{ $item->id }}">{{ $item->peran }}
-                                                </div>
+                                                <div class="mrole" id="mrole-{{ $item->id }}">{{ $item->peran }}</div>
                                             </div>
                                             <div class="macts">
-                                                <button class="btn-sm"
-                                                    onclick="event.stopPropagation();startEdit('{{ $item->id }}')">Edit</button>
-                                                <button class="btn-sm del"
-                                                    onclick="event.stopPropagation();deleteMember('{{ $item->id }}')">Hapus</button>
+                                                <button class="btn-sm" onclick="event.stopPropagation();startEdit('{{ $item->id }}')">Edit</button>
+                                                <button class="btn-sm del" onclick="event.stopPropagation();deleteMember('{{ $item->id }}')">Hapus</button>
                                             </div>
                                         </div>
                                     @empty
-                                        <div class="empty-state" id="empty-{{ $lv }}">Belum ada · klik +
-                                            Tambah</div>
+                                        <div class="empty-state" id="empty-{{ $lv }}">Belum ada · klik + Tambah</div>
                                     @endforelse
                                 </div>
                             </div>
@@ -759,7 +375,7 @@
                 </div>
 
                 {{-- ══ PANEL KANAN / PREVIEW ══ --}}
-                <div class="rp">
+                <div class="rp" id="panel-preview">
                     <p class="rp-lbl">Preview Bagan — realtime</p>
                     @php
                         $lv1 = $strukturs->where('peran_level', 1)->sortBy('urutan');
@@ -772,20 +388,17 @@
                             <div class="org-lv-lbl">Pimpinan Utama</div>
                             <div class="org-row" id="org-lv-1">
                                 @forelse($lv1 as $item)
-                                    <div class="ncard lv1" id="node-{{ $item->id }}"
-                                        onclick="startEdit('{{ $item->id }}')">
+                                    <div class="ncard lv1" id="node-{{ $item->id }}" onclick="startEdit('{{ $item->id }}')">
                                         <div class="nav" id="nav-{{ $item->id }}">
                                             @if ($item->image)
                                                 <img src="{{ asset('storage/' . $item->image) }}" alt="">
-                                                @else{{ strtoupper(substr($item->nama ?? $item->peran, 0, 1)) }}
+                                            @else
+                                                {{ strtoupper(substr($item->nama ?? $item->peran, 0, 1)) }}
                                             @endif
                                         </div>
-                                        <div class="nname" id="nname-{{ $item->id }}">{{ $item->nama ?: '—' }}
-                                        </div>
+                                        <div class="nname" id="nname-{{ $item->id }}">{{ $item->nama ?: '—' }}</div>
                                         <div class="nrole" id="nrole-{{ $item->id }}">{{ $item->peran }}</div>
-                                        @if (!$item->nama)
-                                            <div class="nempty">Klik untuk isi</div>
-                                        @endif
+                                        @if (!$item->nama)<div class="nempty">Klik untuk isi</div>@endif
                                     </div>
                                 @empty
                                     <div class="org-empty" id="org-empty-1">Belum ada data</div>
@@ -799,20 +412,17 @@
                             <div class="org-lv-lbl">Sekretariat</div>
                             <div class="org-row" id="org-lv-2">
                                 @forelse($lv2 as $item)
-                                    <div class="ncard" id="node-{{ $item->id }}"
-                                        onclick="startEdit('{{ $item->id }}')">
+                                    <div class="ncard" id="node-{{ $item->id }}" onclick="startEdit('{{ $item->id }}')">
                                         <div class="nav" id="nav-{{ $item->id }}">
                                             @if ($item->image)
                                                 <img src="{{ asset('storage/' . $item->image) }}" alt="">
-                                                @else{{ strtoupper(substr($item->nama ?? $item->peran, 0, 1)) }}
+                                            @else
+                                                {{ strtoupper(substr($item->nama ?? $item->peran, 0, 1)) }}
                                             @endif
                                         </div>
-                                        <div class="nname" id="nname-{{ $item->id }}">{{ $item->nama ?: '—' }}
-                                        </div>
+                                        <div class="nname" id="nname-{{ $item->id }}">{{ $item->nama ?: '—' }}</div>
                                         <div class="nrole" id="nrole-{{ $item->id }}">{{ $item->peran }}</div>
-                                        @if (!$item->nama)
-                                            <div class="nempty">Klik untuk isi</div>
-                                        @endif
+                                        @if (!$item->nama)<div class="nempty">Klik untuk isi</div>@endif
                                     </div>
                                 @empty
                                     <div class="org-empty" id="org-empty-2">Belum ada data</div>
@@ -826,20 +436,17 @@
                             <div class="org-lv-lbl">Bidang / Divisi</div>
                             <div class="org-row" id="org-lv-3">
                                 @forelse($lv3 as $item)
-                                    <div class="ncard" id="node-{{ $item->id }}"
-                                        onclick="startEdit('{{ $item->id }}')">
+                                    <div class="ncard" id="node-{{ $item->id }}" onclick="startEdit('{{ $item->id }}')">
                                         <div class="nav" id="nav-{{ $item->id }}">
                                             @if ($item->image)
                                                 <img src="{{ asset('storage/' . $item->image) }}" alt="">
-                                                @else{{ strtoupper(substr($item->nama ?? $item->peran, 0, 1)) }}
+                                            @else
+                                                {{ strtoupper(substr($item->nama ?? $item->peran, 0, 1)) }}
                                             @endif
                                         </div>
-                                        <div class="nname" id="nname-{{ $item->id }}">{{ $item->nama ?: '—' }}
-                                        </div>
+                                        <div class="nname" id="nname-{{ $item->id }}">{{ $item->nama ?: '—' }}</div>
                                         <div class="nrole" id="nrole-{{ $item->id }}">{{ $item->peran }}</div>
-                                        @if (!$item->nama)
-                                            <div class="nempty">Klik untuk isi</div>
-                                        @endif
+                                        @if (!$item->nama)<div class="nempty">Klik untuk isi</div>@endif
                                     </div>
                                 @empty
                                     <div class="org-empty" id="org-empty-3">Belum ada data</div>
@@ -854,6 +461,20 @@
         </div>
     </div>
 
+    {{-- ══ BOTTOM SHEET (mobile form) ══ --}}
+    <div class="bs-overlay" id="bs-overlay" onclick="handleOverlayClick(event)">
+        <div class="bs-sheet" id="bs-sheet">
+            <div class="bs-handle"></div>
+            <div class="bs-head">
+                <h3>Edit Anggota</h3>
+                <button class="bs-close" onclick="closeForm(true)">×</button>
+            </div>
+            <div class="bs-body" id="bs-body">
+                {{-- form injected here on mobile --}}
+            </div>
+        </div>
+    </div>
+
     <div class="toast" id="toast"></div>
     <input type="file" id="av-file" accept="image/*" style="display:none">
 
@@ -863,16 +484,21 @@
         let newCount = 0;
         let pendingFile = null;
         let pendingSrc = null;
+        const isMobile = () => window.innerWidth <= 768;
 
-        const LV_CLASS = {
-            '1': 'lv1',
-            '2': '',
-            '3': ''
-        };
+        const LV_CLASS = { '1': 'lv1', '2': '', '3': '' };
+
+        // ── TAB SWITCH (mobile) ────────────────────
+        function switchTab(tab) {
+            document.querySelectorAll('.mob-tab').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('panel-list').classList.toggle('mob-active', tab === 'list');
+            document.getElementById('panel-preview').classList.toggle('mob-active', tab === 'preview');
+        }
 
         // ── EDIT ──────────────────────────────────
         function startEdit(id) {
-            if (activeId == id) return;
+            if (activeId == id && !isMobile()) return;
             closeForm(false);
             activeId = id;
             pendingFile = null;
@@ -885,8 +511,7 @@
             } else {
                 fetch(`/admin/struktur-organisasi/${id}`)
                     .then(r => r.json())
-                    .then(d => openForm(id, d.nama || '', d.peran || '', d.image ? `/storage/${d.image}` : null, d
-                        .peran_level))
+                    .then(d => openForm(id, d.nama || '', d.peran || '', d.image ? `/storage/${d.image}` : null, d.peran_level))
                     .catch(() => {
                         const nama = document.getElementById(`mname-${id}`)?.textContent.trim();
                         const peran = document.getElementById(`mrole-${id}`)?.textContent.trim();
@@ -895,20 +520,12 @@
             }
         }
 
-        function openForm(id, nama, peran, imgSrc, level) {
-            const row = document.getElementById(`mrow-${id}`);
-            if (!row) return;
-            document.getElementById(`iform-${id}`)?.remove();
+        function buildFormHTML(id, nama, peran, imgSrc, level) {
+            const avHtml = (pendingSrc || imgSrc)
+                ? `<img src="${pendingSrc||imgSrc}" alt="">`
+                : `<span>${(nama||peran||'?')[0].toUpperCase()}</span>`;
 
-            const avHtml = (pendingSrc || imgSrc) ?
-                `<img src="${pendingSrc||imgSrc}" alt="">` :
-                `<span>${(nama||peran||'?')[0].toUpperCase()}</span>`;
-
-            const f = document.createElement('div');
-            f.className = 'iform';
-            f.id = `iform-${id}`;
-            f.innerHTML = `
-            <div class="iform-ttl">Edit Anggota</div>
+            return `
             <div class="av-row">
                 <div class="av-circ" id="av-pr-${id}" onclick="pickPhoto('${id}')">${avHtml}</div>
                 <div>
@@ -933,13 +550,34 @@
                     Simpan
                 </button>
             </div>`;
-            row.after(f);
-            document.getElementById(`fin-nama-${id}`)?.focus();
+        }
+
+        function openForm(id, nama, peran, imgSrc, level) {
+            const row = document.getElementById(`mrow-${id}`);
+            if (!row) return;
+
+            if (isMobile()) {
+                // Bottom sheet on mobile
+                document.getElementById('bs-body').innerHTML = buildFormHTML(id, nama, peran, imgSrc, level);
+                document.getElementById('bs-overlay').classList.add('open');
+                setTimeout(() => document.getElementById(`fin-nama-${id}`)?.focus(), 80);
+            } else {
+                // Inline form on desktop
+                document.getElementById(`iform-${id}`)?.remove();
+                const f = document.createElement('div');
+                f.className = 'iform';
+                f.id = `iform-${id}`;
+                f.innerHTML = `<div class="iform-ttl">Edit Anggota</div>` + buildFormHTML(id, nama, peran, imgSrc, level);
+                row.after(f);
+                document.getElementById(`fin-nama-${id}`)?.focus();
+            }
         }
 
         function closeForm(rmNew) {
             if (activeId === null) return;
             document.getElementById(`iform-${activeId}`)?.remove();
+            document.getElementById('bs-overlay').classList.remove('open');
+            document.getElementById('bs-body').innerHTML = '';
             if (rmNew) {
                 const row = document.getElementById(`mrow-${activeId}`);
                 const node = document.getElementById(`node-${activeId}`);
@@ -952,14 +590,15 @@
             pendingSrc = null;
         }
 
+        function handleOverlayClick(e) {
+            if (e.target === document.getElementById('bs-overlay')) closeForm(true);
+        }
+
         function setHL(id, on) {
             document.getElementById(`mrow-${id}`)?.classList.toggle('active', on);
             const node = document.getElementById(`node-${id}`);
             if (node) node.classList.toggle('editing', on);
-            if (on) node?.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest'
-            });
+            if (on && !isMobile()) node?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
         // ── LIVE UPDATE ────────────────────────────
@@ -973,10 +612,7 @@
             const na = document.getElementById(`nav-${id}`);
             if (na && !pendingSrc && !na.querySelector('img')) na.textContent = (nama || peran || '?')[0].toUpperCase();
             const mn = document.getElementById(`mname-${id}`);
-            if (mn) {
-                mn.textContent = nama || 'Belum diisi...';
-                mn.classList.toggle('dim', !nama);
-            }
+            if (mn) { mn.textContent = nama || 'Belum diisi...'; mn.classList.toggle('dim', !nama); }
             const mr = document.getElementById(`mrole-${id}`);
             if (mr) mr.textContent = peran;
             countUp();
@@ -991,10 +627,7 @@
             const row = document.getElementById(`mrow-${id}`);
             const isNew = row?.classList.contains('isnew');
 
-            if (btn) {
-                btn.classList.add('loading');
-                btn.innerHTML = 'Menyimpan...';
-            }
+            if (btn) { btn.classList.add('loading'); btn.innerHTML = 'Menyimpan...'; }
 
             const fd = new FormData();
             fd.append('_token', CSRF);
@@ -1002,94 +635,73 @@
             fd.append('peran', peran);
             if (level) fd.append('peran_level', level);
             if (pendingFile) fd.append('image', pendingFile);
+            if (!isNew) fd.append('_method', 'PUT');
 
-            if (!isNew) {
-                fd.append('_method', 'PUT');
-            }
+            fetch(isNew ? `/admin/struktur-organisasi` : `/admin/struktur-organisasi/${id}`, {
+                method: 'POST',
+                headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF },
+                body: fd
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (!data.success) throw new Error();
+                const rid = data.id || id;
 
-            fetch(
-                    isNew ?
-                    `/admin/struktur-organisasi` :
-                    `/admin/struktur-organisasi/${id}`, {
-                        method: 'POST',
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-CSRF-TOKEN': CSRF
-                        },
-                        body: fd
-                    }
-                )
-                .then(r => r.json())
-                .then(data => {
-                    if (!data.success) throw new Error();
-                    const rid = data.id || id;
+                if (isNew && data.id) {
+                    ['mrow','mav','mname','mrole','node','nav','nname','nrole','iform'].forEach(p => {
+                        const el = document.getElementById(`${p}-${id}`);
+                        if (el) el.id = `${p}-${data.id}`;
+                    });
+                    document.getElementById(`mrow-${data.id}`)?.setAttribute('onclick', `startEdit('${data.id}')`);
+                    document.getElementById(`node-${data.id}`)?.setAttribute('onclick', `startEdit('${data.id}')`);
+                    activeId = data.id;
+                }
 
-                    if (isNew && data.id) {
-                        ['mrow', 'mav', 'mname', 'mrole', 'node', 'nav', 'nname', 'nrole', 'iform'].forEach(p => {
-                            const el = document.getElementById(`${p}-${id}`);
-                            if (el) el.id = `${p}-${data.id}`;
-                        });
-                        document.getElementById(`mrow-${data.id}`)?.setAttribute('onclick', `startEdit('${data.id}')`);
-                        document.getElementById(`node-${data.id}`)?.setAttribute('onclick', `startEdit('${data.id}')`);
-                        activeId = data.id;
-                    }
+                const node = document.getElementById(`node-${rid}`);
+                if (node && level) {
+                    const targetRow = document.getElementById(`org-lv-${level}`);
+                    if (targetRow && !targetRow.contains(node)) targetRow.appendChild(node);
+                    node.classList.toggle('lv1', level === '1' || level === 1);
+                }
 
-                    // Kalau level berubah, pindahkan node ke org-row yang benar
-                    const node = document.getElementById(`node-${rid}`);
-                    if (node && level) {
-                        const targetRow = document.getElementById(`org-lv-${level}`);
-                        if (targetRow && !targetRow.contains(node)) targetRow.appendChild(node);
-                        // update class lv1
-                        node.classList.toggle('lv1', level === '1' || level === 1);
-                    }
+                row?.classList.remove('isnew');
+                node?.classList.remove('isnew-c');
 
-                    row?.classList.remove('isnew');
-                    node?.classList.remove('isnew-c');
+                if (pendingSrc) {
+                    [`nav-${rid}`, `mav-${rid}`].forEach(eid => {
+                        const el = document.getElementById(eid);
+                        if (el) el.innerHTML = `<img src="${pendingSrc}" alt="">`;
+                    });
+                }
 
-                    // update avatar
-                    if (pendingSrc) {
-                        [`nav-${rid}`, `mav-${rid}`].forEach(eid => {
-                            const el = document.getElementById(eid);
-                            if (el) el.innerHTML = `<img src="${pendingSrc}" alt="">`;
-                        });
-                    }
+                if (node) { node.classList.add('saved'); setTimeout(() => node.classList.remove('saved'), 900); }
+                if (level) removeEmptyState(level);
 
-                    // flash hijau
-                    if (node) {
-                        node.classList.add('saved');
-                        setTimeout(() => node.classList.remove('saved'), 900);
-                    }
-
-                    // bersihkan empty-state jika sekarang ada isi
-                    if (level) removeEmptyState(level);
-
-                    document.getElementById(`iform-${rid}`)?.remove();
-                    setHL(rid, false);
-                    activeId = null;
-                    pendingFile = null;
-                    pendingSrc = null;
-                    countUp();
-                    toast('✓ ' + (data.message || 'Berhasil disimpan'));
-                })
-                .catch(() => {
-                    if (btn) {
-                        btn.classList.remove('loading');
-                        btn.innerHTML =
-                            '<svg style="width:12px;height:12px" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Simpan';
-                    }
-                    toast('Gagal menyimpan, coba lagi');
-                });
+                document.getElementById(`iform-${rid}`)?.remove();
+                document.getElementById('bs-overlay').classList.remove('open');
+                document.getElementById('bs-body').innerHTML = '';
+                setHL(rid, false);
+                activeId = null; pendingFile = null; pendingSrc = null;
+                countUp();
+                toast('✓ ' + (data.message || 'Berhasil disimpan'));
+            })
+            .catch(() => {
+                if (btn) {
+                    btn.classList.remove('loading');
+                    btn.innerHTML = '<svg style="width:12px;height:12px" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> Simpan';
+                }
+                toast('Gagal menyimpan, coba lagi');
+            });
         }
 
         // ── ADD ────────────────────────────────────
         function addMember(level) {
             closeForm(true);
             const tid = `new-${++newCount}`;
-            const defPeran = ['', 'Ketua', 'Anggota', 'Bidang Baru'][level] || 'Anggota';
+            const defPeran = ['','Ketua','Anggota','Bidang Baru'][level] || 'Anggota';
 
-            // row kiri
             const mlist = document.getElementById(`mlist-${level}`);
-            removeEmptyState(level); // hapus empty state text jika ada
+            removeEmptyState(level);
             const row = document.createElement('div');
             row.className = 'mrow isnew';
             row.id = `mrow-${tid}`;
@@ -1105,7 +717,6 @@
             <span class="nbadge">Baru</span>`;
             mlist.appendChild(row);
 
-            // node preview
             const orgRow = document.getElementById(`org-lv-${level}`);
             removeEmptyState(level);
             const node = document.createElement('div');
@@ -1120,15 +731,11 @@
             <div class="nempty">Isi di panel kiri</div>`;
             orgRow.appendChild(node);
 
-            row.scrollIntoView({
-                behavior: 'smooth',
-                block: 'nearest'
-            });
+            row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             activeId = tid;
             row.classList.add('active');
             node.classList.add('editing');
             openForm(tid, '', defPeran, null, level);
-            setTimeout(() => document.getElementById(`fin-nama-${tid}`)?.focus(), 80);
         }
 
         // ── DELETE ─────────────────────────────────
@@ -1137,33 +744,23 @@
             if (activeId == id) closeForm(false);
 
             fetch(`/admin/struktur-organisasi/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': CSRF,
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (!data.success) throw new Error(data.message || 'Gagal');
-
-                    const row = document.getElementById(`mrow-${id}`);
-                    const node = document.getElementById(`node-${id}`);
-                    const level = row?.dataset.level;
-
-                    row?.remove();
-                    document.getElementById(`iform-${id}`)?.remove();
-                    node?.remove();
-
-                    if (level) checkEmptyState(level);
-                    countUp();
-                    toast('✓ ' + (data.message || 'Anggota berhasil dihapus'));
-                })
-                .catch(error => {
-                    console.error('Delete error:', error);
-                    toast('✗ Gagal menghapus anggota');
-                });
+                method: 'DELETE',
+                headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': CSRF, 'Content-Type': 'application/json' }
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (!data.success) throw new Error(data.message || 'Gagal');
+                const row = document.getElementById(`mrow-${id}`);
+                const node = document.getElementById(`node-${id}`);
+                const level = row?.dataset.level;
+                row?.remove();
+                document.getElementById(`iform-${id}`)?.remove();
+                node?.remove();
+                if (level) checkEmptyState(level);
+                countUp();
+                toast('✓ ' + (data.message || 'Anggota berhasil dihapus'));
+            })
+            .catch(() => toast('✗ Gagal menghapus anggota'));
         }
 
         // ── FOTO ───────────────────────────────────
@@ -1190,8 +787,7 @@
         });
 
         function clearPhoto(id) {
-            pendingFile = null;
-            pendingSrc = null;
+            pendingFile = null; pendingSrc = null;
             const init = (document.getElementById(`fin-nama-${id}`)?.value || '?')[0].toUpperCase();
             [`av-pr-${id}`, `nav-${id}`, `mav-${id}`].forEach(eid => {
                 const el = document.getElementById(eid);
@@ -1206,21 +802,17 @@
         }
 
         function checkEmptyState(level) {
-            // panel kiri
             const mlist = document.getElementById(`mlist-${level}`);
             if (mlist && !mlist.querySelector('.mrow')) {
                 const d = document.createElement('div');
-                d.className = 'empty-state';
-                d.id = `empty-${level}`;
+                d.className = 'empty-state'; d.id = `empty-${level}`;
                 d.textContent = 'Belum ada · klik + Tambah';
                 mlist.appendChild(d);
             }
-            // preview kanan
             const orgRow = document.getElementById(`org-lv-${level}`);
             if (orgRow && !orgRow.querySelector('.ncard')) {
                 const d = document.createElement('div');
-                d.className = 'org-empty';
-                d.id = `org-empty-${level}`;
+                d.className = 'org-empty'; d.id = `org-empty-${level}`;
                 d.textContent = 'Belum ada data';
                 orgRow.appendChild(d);
             }
@@ -1235,17 +827,15 @@
 
         function toast(msg) {
             const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.classList.add('show');
+            t.textContent = msg; t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 2800);
         }
 
         function esc(s) {
-            return (s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
         }
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeForm(true);
-        });
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeForm(true); });
     </script>
 
 </x-app-layout>

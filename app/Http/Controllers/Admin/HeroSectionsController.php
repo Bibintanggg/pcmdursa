@@ -70,14 +70,14 @@ class HeroSectionsController extends Controller
 
     public function edit($id)
     {
-        $hero = HeroSections::findOrFail($id);
+        $banner = HeroSections::findOrFail($id);
 
-        return view('pages.admin.header.edit', compact('hero'));
+        return view('pages.admin.header.edit', compact('banner'));
     }
 
     public function update(Request $request, $id)
     {
-        $hero = HeroSections::findOrFail($id);
+        $banner = HeroSections::findOrFail($id);
 
         $validated = $request->validate([
             'tagline' => 'nullable|string|max:255',
@@ -88,8 +88,8 @@ class HeroSectionsController extends Controller
 
         if ($request->hasFile('image')) {
 
-            if ($hero->image && Storage::disk('public')->exists($hero->image)) {
-                Storage::disk('public')->delete($hero->image);
+            if ($banner->image && Storage::disk('public')->exists($banner->image)) {
+                Storage::disk('public')->delete($banner->image);
             }
 
             $validated['image'] = $request
@@ -97,7 +97,7 @@ class HeroSectionsController extends Controller
                 ->store('banner', 'public');
         }
 
-        $hero->update($validated);
+        $banner->update($validated);
 
         return redirect()
             ->route('admin.banner.index')

@@ -193,7 +193,7 @@
                 </template>
                 <template x-for="(row, i) in paginatedRows" :key="i">
                     <tr class="border-b border-zinc-50 hover:bg-zinc-50/60 dt-row-anim"
-                        :class=": selected.includes(row[rowKey]) ? 'bg-zinc-50' : ''">
+                        :class="selected.includes(row[rowKey]) ? 'bg-zinc-50' : ''">
                         <td class="px-4 py-3"><input type="checkbox" class="dt-checkbox" :value="row[rowKey]"
                                 x-model="selected" /></td>
 
@@ -375,11 +375,6 @@
             },
 
             init(cols, rows, perPage, editUrl, deleteUrl, rowKey) {
-                console.log('=== DATA TABLE INIT ===');
-                console.log('Columns:', cols);
-                console.log('Rows:', rows);
-                console.log('Edit URL:', editUrl);
-                console.log('Delete URL:', deleteUrl);
 
                 this.columns = cols;
                 this.allRows = rows;
@@ -387,8 +382,6 @@
                 this.editUrl = editUrl;
                 this.deleteUrl = deleteUrl;
                 this.rowKey = rowKey;
-
-                console.log('Total rows:', this.allRows.length);
             },
 
             truncate(text, length = 50) {
@@ -502,12 +495,12 @@
                             this.showToast('Data berhasil dihapus');
                             if (this.paginatedRows.length === 0 && this.currentPage > 1) this.currentPage--;
                         } else {
-                            this.showToast('❌ Gagal menghapus data');
+                            this.showToast('Gagal menghapus data');
                         }
                     })
                     .catch(err => {
                         this.deleteModal.show = false;
-                        this.showToast('❌ Terjadi kesalahan server');
+                        this.showToast('Terjadi kesalahan server');
                         console.error(err);
                     });
             },
@@ -534,10 +527,10 @@
                                 r => !ids.includes(r[this.rowKey])
                             );
                             this.selected = [];
-                            this.showToast(`✅ ${ids.length} data berhasil dihapus`);
+                            this.showToast(` ${ids.length} data berhasil dihapus`);
                             if (this.paginatedRows.length === 0 && this.currentPage > 1) this.currentPage--;
                         } else {
-                            this.showToast('❌ Gagal menghapus beberapa data');
+                            this.showToast('Gagal menghapus beberapa data');
                         }
                     })
                     .catch(err => {

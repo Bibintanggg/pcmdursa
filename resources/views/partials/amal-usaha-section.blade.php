@@ -1,6 +1,3 @@
-{{-- ============================================================
-     SECTION: AMAL USAHA  (letakkan di welcome.blade.php)
-     ============================================================ --}}
 <section id="amal-usaha" class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-6">
 
@@ -19,10 +16,8 @@
 
         @if($amalUsahaPerOrg->isNotEmpty())
 
-        {{-- SLIDER WRAPPER --}}
         <div class="relative overflow-hidden rounded-3xl shadow-xl bg-white">
 
-            {{-- SLIDES --}}
             <div id="auSliderTrack" class="flex transition-transform duration-700 ease-in-out">
 
                 @php
@@ -45,7 +40,6 @@
 
                 <div class="min-w-full grid md:grid-cols-2">
 
-                    {{-- LEFT --}}
                     <div class="p-10 flex flex-col justify-between">
                         <div>
                             <span class="{{ $c['badge_bg'] }} {{ $c['badge_text'] }} px-4 py-1 rounded-full text-sm font-semibold w-fit mb-4 inline-block">
@@ -59,7 +53,6 @@
                                 {{ $group['amalUsaha']->count() }} unit amal usaha
                             </p>
 
-                            {{-- LIST AMAL USAHA --}}
                             <ul class="au-list space-y-2 mb-8">
                                 @forelse($group['amalUsaha'] as $au)
                                 <li class="flex items-start gap-3 group/item">
