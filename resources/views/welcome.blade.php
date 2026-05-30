@@ -17,8 +17,9 @@
 
     <style>
         html {
-             scroll-behavior: smooth;
+            scroll-behavior: smooth;
         }
+
         /* smooth carousel transition */
         #sliderSistemV2 .carousel-item {
             transition: transform 0.9s ease-in-out, opacity 0.9s ease-in-out;
@@ -132,7 +133,15 @@
 
     {{-- Ganti blok <script> yang lama di welcome.blade.php dengan ini --}}
     <script>
-        // ── Accordion ──
+        function handleNav(e, sectionId) {
+            if (window.location.pathname === '/') {
+                e.preventDefault();
+                document.getElementById(sectionId)?.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+
         function toggleAcc(id) {
             const content = document.getElementById(id);
             const icon = document.getElementById('icon-' + id);

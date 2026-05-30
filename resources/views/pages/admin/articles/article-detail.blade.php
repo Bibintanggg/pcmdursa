@@ -200,10 +200,6 @@
         });
 
         // Mobile menu toggle
-        document.getElementById('menu-btn').addEventListener('click', function () {
-            var m = document.getElementById('mobile-menu');
-            m.classList.toggle('hidden');
-        });
     </script>
 
 </body>
