@@ -36,6 +36,13 @@ class DatabaseSeeder extends Seeder
             'role' => 'penulis',
         ]);
 
+        User::factory()->create([
+            'name' => 'bendaharuy',
+            'email' => 'bendahara@gmail.com',
+            'password' => bcrypt('password'),
+            'role' => 'bendahara',
+        ]);
+
         // $this->call([
         //     ArticleSeeder::class,
         // ]);
